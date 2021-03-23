@@ -1,0 +1,35 @@
+Welcome to the Expression Evaluator!
+Type exit at any time to stop the evaluator        
+Please type an infix expression without any spaces!
+Enter an expression > 1+2*3+4
+value = 11
+
+Enter an expression > 1 + 2 * 3 + 4
+value = 11
+
+Enter an expression > 1+9/3-4
+value = 4.6666667
+
+Enter an expression > 121.75 + 3.25
+value = 44.675
+
+Enter an expression > 4+3*(1+2.*(6/(3+3.))-1)+2.0
+value = 11.67
+
+Enter an expression > 0.1*0.2
+value = 0.02
+
+Enter an expression > 0.011*.022
+value = 24.2
+
+Enter an expression > 3.1415927^2
+value = 9.223372036854775E11
+
+Enter an expression > 3.14159^1+1
+value = 9.8695877281E8
+
+Enter an expression > 2^(2*(2+3))
+value = 1024
+
+Enter an expression > _3^_3
+value = 27

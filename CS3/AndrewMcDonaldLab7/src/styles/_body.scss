@@ -1,0 +1,67 @@
+@import './variables';
+@import './banner';
+
+@mixin panelSetter($top, $left) {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: $top;
+    left: $left;
+}
+
+button {
+    @extend .button;
+    user-select: none;
+    transition: color ease-in-out 0.1s;
+    border: 0;
+    &:hover {
+        color: $lightGray;
+    }
+}
+
+.leftpanel {
+    @include panelSetter(50%, 50%);
+    text-align: center;
+}
+
+.rightpanel {
+    @include panelSetter(40%, 25%);
+}
+
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}
+
+.disabled {
+    background-color: $lightGray !important;
+    &:hover {
+        color: $white !important;
+        background-color: $lightGray !important;
+    }
+}
+
+.color-chip {
+    width: 64px;
+    height: 64px;
+    margin: 1rem;
+}
+
+#image {
+    transform: scale(0.4);
+}
+
+#add {
+    background-color: #00a5d9;
+    &:active {
+        background-color: #0089b3;
+    }
+}

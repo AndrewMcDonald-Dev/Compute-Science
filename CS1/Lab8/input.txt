@@ -1,0 +1,7 @@
+6
+Smith 156000
+Stevens 207000
+Williams 29000
+Adams 98000
+Romero 110000
+Bernard 76000			

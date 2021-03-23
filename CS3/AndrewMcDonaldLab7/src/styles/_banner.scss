@@ -1,0 +1,45 @@
+@import './variables';
+
+.banner {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    background-color: $orange;
+}
+
+.row {
+    display: table-row;
+    & > div {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+    }
+}
+
+#logo {
+    width: 4rem;
+    height: 4rem;
+    margin: 1rem;
+    float: left;
+}
+
+#bannercenter {
+    text-transform: uppercase;
+    width: 75%;
+}
+
+.button {
+    text-align: center;
+    padding: 0rem 1rem 0rem 1rem;
+    border-radius: 1rem;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 60px;
+    color: $white;
+}
+
+#cart {
+    background-color: $blue;
+    float: right;
+    margin-right: 2rem;
+}

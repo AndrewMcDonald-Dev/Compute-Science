@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charsets="UTF-8" />
+    <meta name="viewport" contetns="width=device-width" , initial-scale="1.0" />
+    <link href="style.css" rel="stylesheet" />
+    <title>Roots Calculator</title>
+  </head>
+
+  <noscript>
+    <div class="noscript">
+      <h1>Turn on Javascript</h1>
+    </div>
+  </noscript>
+
+  <body>
+    <h1>Quadratic Equation Roots Calcualtor</h1>
+
+    <p>
+      This web page finds the roots of a polymnomial equation of the following
+      form: <i>ax<sup>2</sup> + bx + c = 0</i>
+    </p>
+    <p>
+      <i>a, b,</i> and <i>c</i> must be integers between -99 and 99, and
+      <i>a</i> just be non-zero
+    </p>
+
+    <div id="inputs">
+      <label for="numA">a:</label>
+      <input type="number" id="numA" min="-99" max="99" />
+      <label for="numB">b:</label>
+      <input type="number" id="numB" min="-99" max="99" />
+      <label for="numC">c:</label>
+      <input type="number" id="numC" min="-99" max="99" />
+    </div>
+    <br />
+    <button id="cal">Calculate Roots</button>
+    <script type="text/javascript" src="script.js"></script>
+    <p id="out"></p>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles/style.css" />
+        <link
+            rel="shortcut icon"
+            href="../assets/favicon.ico"
+            type="image/x-icon"
+        />
+        <title>SUNY New Paltz Market</title>
+    </head>
+
+    <noscript>
+        <div class="noscript">
+            <h1>Please Turn on Javascript</h1>
+        </div>
+    </noscript>
+
+    <body>
+        <div id="app">
+            <div class="banner">
+                <div class="row">
+                    <div id="bannerleft">
+                        <a href="https://www.newpaltz.edu/"
+                            ><img src="../assets/logo.png" alt="logo" id="logo"
+                        /></a>
+                    </div>
+                    <div id="bannercenter">
+                        <h1 class="center">
+                            <span class="blue">SUNY New Paltz</span> Market
+                        </h1>
+                    </div>
+                    <div id="bannerright">
+                        <p class="button" id="cart">
+                            Cart ({{ amountInCart }})
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="split left">
+                <div class="leftpanel">
+                    <img v-bind:src="image" alt="black shoes" id="image" />
+                </div>
+            </div>
+
+            <div class="split right">
+                <div class="rightpanel">
+                    <h1>{{ productName }}</h1>
+                    <h2>{{ price }}</h2>
+                    <h3 v-show="inStock">In Stock</h3>
+                    <h3 v-show="!inStock">Out of Stock</h3>
+                    <ul>
+                        <li>Canvas Material</li>
+                        <li>Size 9</li>
+                        <li>Gender-Neutral</li>
+                    </ul>
+                    <div
+                        v-for="(variant, index) in variants"
+                        class="color-chip"
+                        :style="{ backgroundColor: variant.color}"
+                        @mouseover="updateProduct(index)"
+                    ></div>
+                    <br />
+                    <button
+                        id="add"
+                        :class="{ disabled: !inStock }"
+                        :disabled="!inStock"
+                        @click="addToCart()"
+                    >
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>

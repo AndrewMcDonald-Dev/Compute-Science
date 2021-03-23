@@ -1,0 +1,183 @@
+.banner {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  background-color: #f58426;
+}
+
+.row {
+  display: table-row;
+}
+
+.row > div {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#logo {
+  width: 4rem;
+  height: 4rem;
+  margin: 1rem;
+  float: left;
+}
+
+#bannercenter {
+  text-transform: uppercase;
+  width: 75%;
+}
+
+.button, button {
+  text-align: center;
+  padding: 0rem 1rem 0rem 1rem;
+  border-radius: 1rem;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 60px;
+  color: #ffffff;
+}
+
+#cart {
+  background-color: #003e7e;
+  float: right;
+  margin-right: 2rem;
+}
+
+.banner {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  background-color: #f58426;
+}
+
+.row {
+  display: table-row;
+}
+
+.row > div {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#logo {
+  width: 4rem;
+  height: 4rem;
+  margin: 1rem;
+  float: left;
+}
+
+#bannercenter {
+  text-transform: uppercase;
+  width: 75%;
+}
+
+.button, button {
+  text-align: center;
+  padding: 0rem 1rem 0rem 1rem;
+  border-radius: 1rem;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 60px;
+  color: #ffffff;
+}
+
+#cart {
+  background-color: #003e7e;
+  float: right;
+  margin-right: 2rem;
+}
+
+button {
+  user-select: none;
+  transition: color ease-in-out 0.1s;
+  border: 0;
+}
+
+button:hover {
+  color: #ccc;
+}
+
+.leftpanel {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  text-align: center;
+}
+
+.rightpanel {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 40%;
+  left: 25%;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+.disabled {
+  background-color: #ccc !important;
+}
+
+.disabled:hover {
+  color: #ffffff !important;
+  background-color: #ccc !important;
+}
+
+.color-chip {
+  width: 64px;
+  height: 64px;
+  margin: 1rem;
+}
+
+#image {
+  transform: scale(0.4);
+}
+
+#add {
+  background-color: #00a5d9;
+}
+
+#add:active {
+  background-color: #0089b3;
+}
+
+body {
+  background-color: #003e7e;
+  margin: 0;
+  color: #ffffff;
+}
+
+.noscript {
+  background-color: #fdb924;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.noscript > * {
+  color: #f26649;
+  display: inline;
+  flex: 1;
+}
+
+.blue {
+  color: #003e7e;
+}
+
+.orange {
+  color: #f58426;
+}

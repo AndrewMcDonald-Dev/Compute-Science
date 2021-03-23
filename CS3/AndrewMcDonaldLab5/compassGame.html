@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Andrew McDonald" />
+    <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript" src="script.js"></script>
+    <title>Compass Game</title>
+  </head>
+
+  <body>
+    <noscript>
+      <h1 class="noscript">Please enable javascript!</h1>
+    </noscript>
+
+    <h1>Compass Game</h1>
+    <p>
+      The direction letters on the "compass" are scrambled. Press the arrows to
+      properly position the direction letters.
+    </p>
+
+    <table>
+      <tr>
+        <td>
+          <button class="arrow diagonal" onclick="swapLeft()">⬌</button>
+        </td>
+        <td id="north">N</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td id="west">W</td>
+        <td>
+          <button class="arrow" onclick="swapMiddle()">⬌</button>
+        </td>
+        <td id="east">E</td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td id="south">S</td>
+        <td>
+          <button class="arrow diagonal" onclick="swapRight()">⬌</button>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      To restart the game, press <i>Restart</i>, enter N, S, E, and W in any
+      order in the boxes below, and then press <i>Update</i>.
+    </p>
+
+    <button onclick="restart()">Restart</button>
+
+    <ul class="input-box">
+      <li>
+        Top:<input type="text" maxlength="1" pattern="[nNwWeEsS]" id="top" />
+      </li>
+      <li>
+        Left:<input type="text" maxlength="1" pattern="[nNwWeEsS]" id="left" />
+      </li>
+      <li>
+        Right:<input
+          type="text"
+          maxlength="1"
+          pattern="[nNwWeEsS]"
+          id="right"
+        />
+      </li>
+      <li>
+        Bottom:<input
+          type="text"
+          maxlength="1"
+          pattern="[nNwWeEsS]"
+          id="bottom"
+        />
+      </li>
+    </ul>
+
+    <button onclick="update()">Update</button>
+  </body>
+</html>

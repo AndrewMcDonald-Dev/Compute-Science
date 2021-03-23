@@ -1,0 +1,89 @@
+Enter a Team: Arsenal
+----------------
+Id: 10002
+Name: Tierney
+Jersey#: 3
+Position: defender
+Team: Arsenal
+Captain: No
+----------------
+----------------
+Id: 10004
+Name: Leno
+Jersey#: 1
+Position: keeper
+Team: Arsenal
+Captain: No
+----------------
+----------------
+Id: 10006
+Name: Pepe
+Jersey#: 19
+Position: attacker
+Team: Arsenal
+Captain: No
+----------------
+----------------
+Id: 10010
+Name: Luiz
+Jersey#: 23
+Position: defender
+Team: Arsenal
+Captain: No
+----------------
+----------------
+Id: 10012
+Name: Guendouzi
+Jersey#: 29
+Position: midfielder
+Team: Arsenal
+Captain: No
+----------------
+----------------
+Id: 10014
+Name: Ceballos
+Jersey#: 8
+Position: midfielder
+Team: Arsenal
+Captain: No
+----------------
+----------------
+Id: 10015
+Name: Ozil
+Jersey#: 10
+Position: attacker
+Team: Arsenal
+Captain: Yes
+----------------
+----------------
+Id: 10018
+Name: Martinelli
+Jersey#: 35
+Position: attacker
+Team: Arsenal
+Captain: No
+----------------
+----------------
+Id: 10023
+Name: Bellerin
+Jersey#: 2
+Position: defender
+Team: Arsenal
+Captain: Yes
+----------------
+----------------
+Id: 10026
+Name: Sokratis
+Jersey#: 5
+Position: defender
+Team: Arsenal
+Captain: No
+----------------
+----------------
+Id: 10031
+Name: Torreira
+Jersey#: 11
+Position: midfielder
+Team: Arsenal
+Captain: No
+----------------

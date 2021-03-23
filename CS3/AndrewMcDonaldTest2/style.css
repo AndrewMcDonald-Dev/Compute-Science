@@ -1,0 +1,28 @@
+.table {
+  display: table;
+}
+
+.row {
+  display: table-row;
+}
+
+.row > * {
+  display: table-cell;
+  margin-bottom: 0.5rem;
+}
+
+.row > label {
+  text-align: right;
+}
+
+button {
+  margin: 1rem;
+}
+
+input:invalid:focus {
+  background-color: #ffcccc;
+}
+
+input:valid:focus {
+  background-color: #ccffcc;
+}

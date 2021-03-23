@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charsets="UTF-8" />
+    <meta name="viewport" contetns="width=device-width" , initial-scale="1.0" />
+    <link href="style.css" rel="stylesheet" />
+    <title>Restaurant Bill Calculator</title>
+  </head>
+
+  <noscript>
+    <div class="noscript">
+      <h1>Turn on Javascript</h1>
+    </div>
+  </noscript>
+
+  <body>
+    <h1>Restaurant Bill Calculator</h1>
+    <form class="table">
+      <div class="row">
+        <label for="tax">Tax percent:</label>
+        <input type="number" id="tax" min="0" max="100" step=".01" />
+        <label for="percent">%</label>
+      </div>
+      <div class="row">
+        <label for="price">Price from the menu:</label>
+        <input type="number" id="price" min="0" max="1000" step=".01" />
+      </div>
+      <div class="row">
+        <label for="tip">Tip percent:</label>
+        <input type="number" id="tip" min="0" max="200" step=".01" />
+        <label for="percent">%</label>
+      </div>
+    </form>
+
+    <button id="cal">Calculate Bill</button>
+    <script type="text/javascript" src="script.js"></script>
+    <br \ />
+    <output id="outP"></output>
+    <br \ />
+    <output id="outTA"></output>
+    <br \ />
+    <output id="outTI"></output>
+    <br \ />
+    <output id="outTO"></output>
+  </body>
+</html>

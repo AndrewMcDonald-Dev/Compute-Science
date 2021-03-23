@@ -1,0 +1,274 @@
+import java.util.Scanner;
+
+
+//class for evaluating arithmetic expressions as double values, which are displayed rounded to 7 places,
+//with decimal points supressed for whole numbers. The unrounded double value is returned.
+public class LR
+{
+  Scanner kb =  new Scanner(System.in);
+
+  //class-wide variables:
+  //Since expressions are evaluated one at a time, all evaluations can use the same two stacks.
+  private static Stack1gen<Character> A = new Stack1gen<Character>(); //stack for operators
+  private static Stack1gen<Double> B = new Stack1gen<Double>(); //stack for operands
+
+  //class-wide methods:
+
+  //method to print a double value that is an integer as an int
+  public static void expressionOutput(double x)
+  {
+    if(x == (double)Math.round(x)) //if the answer is a whole number,
+                                   //display without decimal point
+    {
+       int intAns = (int)x;
+       System.out.println("value = " + intAns + '\n');
+    }
+    else
+    {
+       System.out.println("value = " + x + '\n');
+    }
+  }
+
+
+  /*Expressions are evaluated from right to left, using a stack A of arithmetic
+  operators and a stack B of operands. In this method, a single operation is
+  evaluated by popping the current operator from A, its 2 operands from B, and by then
+  performing the operation and pushing the result onto B as a double value.*/
+  
+  private static void eval()
+  {
+      char op = A.pop(); //current operator
+      double opnd2 = B.pop(); //operands
+      // System.out.println(opnd1);
+      double opnd1 = B.pop();
+      // System.out.println(opnd2);
+      double val = 0.0;
+      switch (op) //evaluate
+      {
+        case '+':
+          val = opnd1 + opnd2;
+          break;
+        case '-':
+          val = opnd1 - opnd2;
+          break;
+        case '*':
+          val = opnd1 * opnd2;
+          break;
+        case '/':
+          val = opnd1/opnd2;
+          break;
+        case '^': //Code for expentiation
+          val = Math.pow(opnd1, opnd2);
+          break;
+      }
+      B.push(val); //push result onto B
+  }
+
+  /* In this method, a parenthesized subexpression is
+  evaluated by evaluating its operations on Stack A top-down
+  until a right parenthesis is encountered on stack A;
+  the right parenthesis is also popped from A*/
+  
+  private static void evalDown()
+  {
+    do
+    {
+      eval();
+    }while((A.getSize()>0) && (A.getTop() != '('));//Replaced: ) with (
+    if((A.getSize()>0) && (A.getTop() == '(')) //Replaced: ) with (
+    {
+      A.pop();
+    }
+  }
+  
+
+  //This method compares the current operator token in the input string to the operator
+  //on top of stack A to determine precedence.
+  private static boolean prec(char token, Stack1gen<Character> StackA)
+  {
+    char topOp = StackA.getTop();
+    if((token == '(') || (topOp == '(')){
+      return true;
+    }
+    if((token == '^') && (topOp != '^')){
+      return true;
+    }else if(topOp == '^'){
+      return false;
+    }
+    if(((token == '*') || (token == '/')) && ((topOp != '*') && (topOp != '/'))){
+      return true;
+    }else{
+      return false; 
+    }
+    
+  }
+
+  //variables for an ExprEvaluator object
+  private String e;
+  private int p; //pointer to characters within the expression string e
+ 
+  //constructor 
+  public LR()
+  {
+    System.out.println("enter an expression");
+    e = kb.nextLine(); //input an arithmetic expression as a line of keyboard input.
+    e = e.replace(" ", ""); //Added: For permitting spaces
+    p = 0;  //Added: For left to right evaluation implementation
+  }
+  
+  //parameterized constructor
+  public LR(String ee)
+  {
+    e = ee;
+    e = e.replace(" ", ""); //Added: For permitting spaces
+    p = 0;  //Added: For left to right evaluation implementation
+  }
+
+  public String getExpression()
+  {
+    return e;
+  }
+
+
+  //If a substring of e whose rightmost character is at position p 
+  //represents a number (possibly with a decimal point, possibly negative), 
+  //return the numerical value of the substring as a double value and
+  //re-position p just to the left of the substring.
+ 
+  private double formNum()
+  {
+    double total = 0.0;
+    int count = 0;
+    int flag = 0;
+    double mult = 1.0;
+    int index = 0;
+    double mult2 = 1.0;
+    char c,d;
+    Stack1gen<Double> flip = new Stack1gen<Double>();
+    do
+    {
+      c = e.charAt(p); //examine the current character in the string (from right to left)
+      if(c == '.')
+      {
+        flag = 1; //set a flag to remember that the character is a decimal point
+      }
+      else
+      {
+      //if the current character is a digit, convert to its
+      //int value and include it in the value corresponding to the string.
+        if((c >= '0') && (c<= '9')) 
+        {
+          total = total + mult * (c-'0');
+          flip.push((double)(Math.round(total/mult)));
+          mult = mult * 10.0;
+          if(flag == 1)
+          {
+            count++; //count the number of digits to the right of a possible decimal point
+          }
+        }
+      }
+      p++; //Prepare to move to the next character to the right. 
+      //This is a private non-static method because it changes the member variable p
+      d = '?';
+      if(p < e.length())
+      {
+        d = e.charAt(p); //the next character to the left
+      }
+    }while((p < e.length()) && (((d<='9')&&(d>='0'))||(d=='-')||(d=='.')));//check for a valid character
+    
+    //Takes the flipped stack and makes the correct total
+    total = 0;
+    index = flip.getSize();
+    for(int i = 0; i < index;i++){
+      total += flip.pop()*mult2;
+      mult2 = mult2*10;
+    }
+
+
+    if(flag==1)
+    {
+     total = total/Math.pow(10.0,count*1.0); //compute the value taking into account
+                                             //the number of decimal places
+    }
+    return total;
+  }
+
+  //This method uses the 2-stack approach to evaluate an expression (from right to left).
+  //The result is rounded to 7 decimal places and displayed as explained in expressionOutput() above.
+  //The original double value (unrounded) is returned to the calling program.
+  //The code could be made more efficient (but more difficult to read) by using if-else-if-else...
+  //as in formNum(); here we (unnecessarily) execute each if statement.
+  public double evaluator() 
+  {
+ 
+    char token; //current token in the input expression
+ 
+    //loop to scan the string left to right
+    do
+    {    
+      token = e.charAt(p);
+      if(token == '(')
+      {
+      A.push(token); //always push a right parenthesis to delimit a subexpression
+
+      if(e.charAt(p+1) == '-'){
+        B.push(-1.0);
+        A.push('*');
+        p++;
+      }
+      p++; //Added: Capability for left to right evaluation     
+
+      }
+        
+      //if the token is a left parenthesis, 
+      //evaluate the corresponding subexpression 
+      if(token == ')' )
+      {
+        evalDown();
+        p++; //move beyond the right parenthesis
+      }
+        
+        
+        //If the token is an arithmetic operator of higher precedence
+        //than the topmost operator on stack A, push the token onto A.  
+      else if((token=='+')||(token=='-')||(token=='*')||(token=='/')||(token=='^')) //Added: token check for exponentiation
+      {          
+          if((B.getSize() < 2) || (A.getSize() == 0) || (prec(token, A) == true))
+          {
+            A.push(token);
+            p++; //Added: Capability for left to right evaluation      
+          }
+          //If the token is an arithmetic operator of lower precedence than that
+          //at the top of the stack, then evaluate the operation at the top of stack A.
+          else
+          {
+            eval();
+          }
+      }
+      
+      //if the token is the rightmost  digit of a number or a decimal point on the right,
+      //form the number as a double and push onto stack B
+      if(((token<='9')&&(token>='0'))||(token=='.'))
+      {   
+        B.push(formNum());
+      }
+    
+    }while(p < e.length());//continue to scan from right to left
+
+
+    //after completely scanning the input string, evaluate any remaining operations
+    while(A.getSize()>0) 
+    {
+      eval();
+    }
+    
+    double x = B.pop();
+
+    //round the result to 7 places and then display
+    expressionOutput((double)Math.round(x*10000000)/10000000.0); 
+
+    return x; //return the original double value
+  } //end of evaluator
+
+
+} //end of class

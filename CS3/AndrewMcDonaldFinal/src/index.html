@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles/style.css" />
+        <title>Root Beer Float Maker</title>
+    </head>
+
+    <noscript>
+        <div class="noscript">
+            <h1>Please turn on Javascript.</h1>
+        </div>
+    </noscript>
+
+    <body>
+        <h1>Root Beer Float Maker</h1>
+
+        <table>
+            <tr>
+                <td>
+                    <fieldset>
+                        <legend>Ice Creams</legend>
+                        <input type="checkbox" id="vanilla" name="vanilla" />
+                        <label for="vanilla">vanilla</label><br />
+                        <input
+                            type="checkbox"
+                            id="chocolate"
+                            name="chocolate"
+                        />
+                        <label for="chocolate">chocolate</label><br />
+                        <input type="checkbox" id="coffee" name="coffee" />
+                        <label for="coffee">coffee</label><br />
+                    </fieldset>
+                </td>
+
+                <td>
+                    <fieldset>
+                        <legend>Root Beers</legend>
+                        <input type="radio" id="Barg's" name="button" />
+                        Barg's
+                        <br />
+                        <input type="radio" id="A&W" name="button" /> A&W
+                        <br />
+                        <input type="radio" id="Dad's" name="button" />
+                        Dad's
+                        <br />
+                        <input type="radio" id="IBC" name="button" /> IBC
+                        <br />
+                    </fieldset>
+                </td>
+
+                <td>
+                    <img src="../assets/rootBeerFloat.jpg" alt="Root Beer" />
+                </td>
+            </tr>
+        </table>
+
+        <div>
+            <button id="ready">I'm ready to make my float!</button>
+
+            <p id="output"></p>
+        </div>
+        <script src="./script.js"></script>
+    </body>
+</html>

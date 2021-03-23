@@ -1,0 +1,26 @@
+img {
+  width: 50%;
+}
+
+tr {
+  display: flex;
+  align-items: top;
+}
+
+td {
+  margin: 0.4rem;
+}
+
+div {
+  position: relative;
+  top: -170px;
+}
+
+#output {
+  background: #7f4d2d;
+  color: white;
+  border: 10px double white;
+  width: 220px;
+  padding: 10px;
+  visibility: hidden;
+}

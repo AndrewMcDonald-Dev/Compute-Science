@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hangman</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="hangman.js"></script>
+    <link href="styles.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="https://fonts.googleapis.com/css?family=Titan+One|ZCOOL+KuaiLe" rel="stylesheet">
+</head>
+
+<body>
+    <div class="game-box">
+        
+        <div class="title-box">
+            <p>Welcome to Hangman</p>
+        </div>
+        
+        <div class="word-box">
+            <p>Brain</p>
+        </div>
+        
+        <div class="input-box">
+            <div class="input-letter-box">
+			<!-- input your first letter and the id="letter1" -->
+                <input type="text" id="letter1">
+            </div>
+
+            <div class="input-letter-box">
+                <!-- input your first letter and the id="letter2" -->
+				<input type="text" id="letter2">
+            </div>
+
+            <div class="input-letter-box">
+                <!-- input your first letter and the id="letter3" -->
+				<input type="text" id="letter3">
+            </div>
+
+            <div class="input-letter-box">
+                <!-- input your first letter and the id="letter4" -->
+				<input type="text" id="letter4">
+            </div>
+
+            <div class="input-letter-box">
+                <!-- input your first letter and the id="letter5" -->
+                <input type="text" id="letter5">
+            </div>
+        </div>
+
+        <div class="submit-box">
+		<!-- Create a submit botton, use the class="btn-submit" -->
+            <input type="button" class="btn-submit" value="Submit" onclick="submit(count,maxCount);">
+        </div>
+
+    </div>
+</body>
+
+</html>

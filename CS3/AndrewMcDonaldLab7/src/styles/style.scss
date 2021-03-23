@@ -1,0 +1,30 @@
+@import './variables';
+@import './banner';
+@import './body';
+
+body {
+    background-color: $blue;
+    margin: 0;
+    color: $white;
+}
+
+.noscript {
+    background-color: #fdb924;
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    & > * {
+        color: #f26649;
+        display: inline;
+        flex: 1;
+    }
+}
+
+.blue {
+    color: $blue;
+}
+
+.orange {
+    color: $orange;
+}
