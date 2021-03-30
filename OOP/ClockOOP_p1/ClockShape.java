@@ -76,10 +76,10 @@ class ClockShape implements Moveable {
         Ellipse2D.Double clock = new Ellipse2D.Double(x, y, width, width);
         Point2D.Double endMinutes = new Point2D.Double(400 + (width * 0.4) * Math.cos(Math.toRadians(mAngle)),
                 300 + (width * 0.4) * Math.sin(Math.toRadians(mAngle)));
-        Point2D.Double endSeconds = new Point2D.Double(400 + (width * 0.3) * Math.cos(Math.toRadians(sAngle)),
-                300 + (width * 0.3) * Math.sin(Math.toRadians(sAngle)));
-        Point2D.Double endHours = new Point2D.Double(400 + (width * 0.35) * Math.cos(Math.toRadians(hAngle)),
-                300 + (width * 0.35) * Math.sin(Math.toRadians(hAngle)));
+        Point2D.Double endSeconds = new Point2D.Double(400 + (width * 0.35) * Math.cos(Math.toRadians(sAngle)),
+                300 + (width * 0.35) * Math.sin(Math.toRadians(sAngle)));
+        Point2D.Double endHours = new Point2D.Double(400 + (width * 0.3) * Math.cos(Math.toRadians(hAngle)),
+                300 + (width * 0.3) * Math.sin(Math.toRadians(hAngle)));
 
                 
             g2.setColor(Color.decode("#33ccff"));
