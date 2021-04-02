@@ -134,7 +134,7 @@ public class Clock2Tester{
                         shape.setMinute(0);
                         shape.setHour(hour + 1); 
                         shape.setPart(0);
-                    }else if(minute % 12 == 0)
+                    }else if(minute / 12 > 0)
                         shape.setHourSmall(minute/12);
                     
                     if (hour > 11) 
