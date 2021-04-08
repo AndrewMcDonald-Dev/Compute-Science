@@ -1,0 +1,148 @@
+Machine-level Assembler Version 6.3    Wed Sep 23 20:43:42 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    8019  input:	ldc msgx
+1  *1    FFF7  	sout
+2  *2    FFFC  	din
+3  *3    102A  	st x
+4  *4    8019  	ldc msgx
+5  *5    FFF7  	sout
+6  *6    FFFC  	din
+7  *7    102B  	st y
+8  *8    002A  comp:	ld x
+9  *9    202B  	add y
+A  *10   102C  	st sum
+B  *11   002A  	ld x
+C  *12   302B  	sub y
+D  *13   102D  	st diff
+E  *14   802E  output:	ldc msgy
+F  *15   FFF7  	sout
+10 *16   002C  	ld sum
+11 *17   FFFD  	dout
+12 *18   800A  	ldc '\n'
+13 *19   FFFB  	aout
+14 *20   8051  	ldc msgz
+15 *21   FFF7  	sout
+16 *22   002D  	ld diff
+17 *23   FFFD  	dout
+18 *24   FFFF  	halt
+19 *25   0045  msgx:	dw "Enter a number: "
+1A *26   006E
+1B *27   0074
+1C *28   0065
+1D *29   0072
+1E *30   0020
+1F *31   0061
+20 *32   0020
+21 *33   006E
+22 *34   0075
+23 *35   006D
+24 *36   0062
+25 *37   0065
+26 *38   0072
+27 *39   003A
+28 *40   0020
+29 *41   0000
+2A *42   0000  x:	dw 0
+2B *43   0000  y:	dw 0
+2C *44   0000  sum:	dw 0
+2D *45   0000  diff:	dw 0
+2E *46   0054  msgy:	dw "The addition of the two inputs is "
+2F *47   0068
+30 *48   0065
+31 *49   0020
+32 *50   0061
+33 *51   0064
+34 *52   0064
+35 *53   0069
+36 *54   0074
+37 *55   0069
+38 *56   006F
+39 *57   006E
+3A *58   0020
+3B *59   006F
+3C *60   0066
+3D *61   0020
+3E *62   0074
+3F *63   0068
+40 *64   0065
+41 *65   0020
+42 *66   0074
+43 *67   0077
+44 *68   006F
+45 *69   0020
+46 *70   0069
+47 *71   006E
+48 *72   0070
+49 *73   0075
+4A *74   0074
+4B *75   0073
+4C *76   0020
+4D *77   0069
+4E *78   0073
+4F *79   0020
+50 *80   0000
+51 *81   0054  msgz:	dw "The subtraction of the two inputs is "
+52 *82   0068
+53 *83   0065
+54 *84   0020
+55 *85   0073
+56 *86   0075
+57 *87   0062
+58 *88   0074
+59 *89   0072
+5A *90   0061
+5B *91   0063
+5C *92   0074
+5D *93   0069
+5E *94   006F
+5F *95   006E
+60 *96   0020
+61 *97   006F
+62 *98   0066
+63 *99   0020
+64 *100  0074
+65 *101  0068
+66 *102  0065
+67 *103  0020
+68 *104  0074
+69 *105  0077
+6A *106  006F
+6B *107  0020
+6C *108  0069
+6D *109  006E
+6E *110  0070
+6F *111  0075
+70 *112  0074
+71 *113  0073
+72 *114  0020
+73 *115  0069
+74 *116  0073
+75 *117  0020
+76 *118  0000
+77 *119  ========= end of addNums.mas ============================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ input                     0          
+ comp                      8          
+ output                    E          
+ msgx                      19          0   4  
+ x                         2A          3   8   B  
+ y                         2B          7   9   C  
+ sum                       2C          A   10 
+ diff                      2D          D   16 
+ msgy                      2E          E  
+ msgz                      51          14 
+
+Input file   = addNums.mas
+Output file  = addNums.mac
+List file    = addNums.lst 
+Number base  = decimal
+Label status = case sensitive

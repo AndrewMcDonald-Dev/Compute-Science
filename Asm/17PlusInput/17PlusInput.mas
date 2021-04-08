@@ -1,0 +1,33 @@
+input:	ldc msgx	;Asks for user number
+	sout
+	ldc '\n'
+	aout		;newline
+	din		;reads in user number
+	st x
+	ldc msgy
+	sout		;says hello twice
+	ldc '\n'
+	aout
+	ldc msgy
+	sout
+	ldc '\n'
+	aout
+add:	ld x		;adds 17 and user input
+	add y
+	st z
+output:	ldc msgz	;Starts construction of answer
+	sout
+	ld x
+	dout
+	ldc msgw
+	sout
+	ld z
+	dout
+	halt
+msgx:	dw "Enter the number you would like to be added to seventeen: "
+x:	dw 0
+msgy:	dw "Hello"
+y:	dw 17
+z:	dw 0
+msgz:	dw "The solution to 17 plus "
+msgw:	dw " is "

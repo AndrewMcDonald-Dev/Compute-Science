@@ -1,0 +1,41 @@
+!o
+start:	ldc msgz
+	sout
+	din
+	sub @1
+	jn end
+
+input:	ldc msgx
+	sout
+	ldc word
+	sin
+	
+loop:	ldc word
+	add index
+	ldi
+	jz display
+	ld index
+	add @1
+	st index
+	ja loop
+
+display:	ldc msgy
+	sout
+	ld index
+	push
+	ld @3
+	mult
+	dout
+	ldc '\n'
+	aout
+	ja start
+
+end:	halt
+
+word:	dw 100 dup 0
+msgx:	dw "Enter String: "
+msgy:	dw "The product is: "
+msgz:	dw "Do you have a problem?(0/1) "
+index:	dw 0
+@1:	dw 1
+@3:	dw 3

@@ -1,0 +1,30 @@
+input:	ld msgx
+	sout
+	sin
+	st word
+	
+loop:	ldc word
+	add index
+	ldi
+	jz display
+	ld index
+	add @1
+	st index
+	ja loop
+
+display:	ldc word
+	add index
+	ldi
+	aout
+	ld index
+	sub @1
+	st index
+	jn end
+	ja display
+
+end:	halt
+
+word:	dw 100 dup 0
+msgx:	dw "Enter String: "
+index:	dw 0
+@1:	dw 1

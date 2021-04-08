@@ -1,0 +1,43 @@
+Machine-level Assembler Version 6.3    Wed Sep 23 18:35:49 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    E005  start:	call on
+1  *1    800A  	ldc '\n'
+2  *2    FFFB  	aout
+3  *3    E008  	call off
+4  *4    FFFF  	halt
+               	
+5  *5    800B  on:	ldc msgx
+6  *6    FFF7  	sout
+7  *7    F000  	ret
+8  *8    800E  off:	ldc msgy
+9  *9    FFF7  	sout
+A  *10   F000  	ret
+B  *11   006F  msgx:	dw "on"
+C  *12   006E
+D  *13   0000
+E  *14   006F  msgy:	dw "off"
+F  *15   0066
+10 *16   0066
+11 *17   0000
+12 *18   ========= end of subroutineTest.mas =====================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ start                     0          
+ on                        5           0  
+ off                       8           3  
+ msgx                      B           5  
+ msgy                      E           8  
+
+Input file   = subroutineTest.mas
+Output file  = subroutineTest.mac
+List file    = subroutineTest.lst 
+Number base  = decimal
+Label status = case sensitive

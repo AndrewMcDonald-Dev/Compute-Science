@@ -1,0 +1,131 @@
+Machine-level Assembler Version 6.3    Wed Sep 16 21:19:59 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    801C  input: 	ldc  msgx
+1  *1    FFF7  	sout
+2  *2    FFFC  	din
+3  *3    1017  	st x
+4  *4    0017  	ld x		;x used as counter
+5  *5    101B  	st count	;intitialize coutner
+6  *6    8000  	ldc 0
+7  *7    1019  	st z		;initialize the partial product sum as 0
+               loop:			;loop adds 7 to itself x times
+8  *8    0019  	ld z			;load previous sum
+9  *9    2018  	add seven	;add seven
+A  *10   1019  	st z		;store new sum
+B  *11   001B  	ld count	;decrement counter by one
+C  *12   301A  	sub one	
+D  *13   101B  	st count
+E  *14   D008  	jnz loop	;if counter is nonzero, repeat loop 
+               
+F  *15   804D  output:	ldc msgz
+10 *16   FFF7  	sout
+11 *17   0019  	ld z
+12 *18   FFFD  	Dout		;display the answer
+13 *19   800A  	ldc '\n'	;load ASCII new line character into AC
+14 *20   FFFB  	aout		;gives new line
+15 *21   FFFB  	aout		;another new line
+16 *22   FFFF  	halt
+17 *23   0000  x:	dw 0
+18 *24   0007  seven:	dw 7
+19 *25   0000  z:	dw 0
+1A *26   0001  one:	dw 1
+               
+1B *27   0000  count:	dw 0
+1C *28   0069  msgx:	dw "input the value you wish to be multiplied by 7: "
+1D *29   006E
+1E *30   0070
+1F *31   0075
+20 *32   0074
+21 *33   0020
+22 *34   0074
+23 *35   0068
+24 *36   0065
+25 *37   0020
+26 *38   0076
+27 *39   0061
+28 *40   006C
+29 *41   0075
+2A *42   0065
+2B *43   0020
+2C *44   0079
+2D *45   006F
+2E *46   0075
+2F *47   0020
+30 *48   0077
+31 *49   0069
+32 *50   0073
+33 *51   0068
+34 *52   0020
+35 *53   0074
+36 *54   006F
+37 *55   0020
+38 *56   0062
+39 *57   0065
+3A *58   0020
+3B *59   006D
+3C *60   0075
+3D *61   006C
+3E *62   0074
+3F *63   0069
+40 *64   0070
+41 *65   006C
+42 *66   0069
+43 *67   0065
+44 *68   0064
+45 *69   0020
+46 *70   0062
+47 *71   0079
+48 *72   0020
+49 *73   0037
+4A *74   003A
+4B *75   0020
+4C *76   0000
+4D *77   0054  msgz:	dw "The product of x*7 = "
+4E *78   0068
+4F *79   0065
+50 *80   0020
+51 *81   0070
+52 *82   0072
+53 *83   006F
+54 *84   0064
+55 *85   0075
+56 *86   0063
+57 *87   0074
+58 *88   0020
+59 *89   006F
+5A *90   0066
+5B *91   0020
+5C *92   0078
+5D *93   002A
+5E *94   0037
+5F *95   0020
+60 *96   003D
+61 *97   0020
+62 *98   0000
+63 *99   ========= end of test.mas ===============================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ input                     0          
+ loop                      8           E  
+ output                    F          
+ x                         17          3   4  
+ seven                     18          9  
+ z                         19          7   8   A   11 
+ one                       1A          C  
+ count                     1B          5   B   D  
+ msgx                      1C          0  
+ msgz                      4D          F  
+
+Input file   = test.mas
+Output file  = test.mac
+List file    = test.lst 
+Number base  = decimal
+Label status = case sensitive

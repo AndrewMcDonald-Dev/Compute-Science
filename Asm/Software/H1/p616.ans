@@ -1,0 +1,19 @@
+; #917e 263 147 116 1189 44311
+;Use p616.has for your microcode
+;Copy s.cfg to p616.cfg and modify as required
+;Assemble microcode with
+;   has p616
+;Copy sprog.mas to p616.mas
+;Add to p616.mas
+;   !p616
+;Assemble p616.mas with
+;   mas p616
+;Run sim with
+;   sim p616
+n
+o
+ln
+g
+enable
+sd
+q

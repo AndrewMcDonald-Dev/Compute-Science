@@ -1,0 +1,14 @@
+!s4
+
+      ld x
+      push
+      ld y
+      or
+      hout
+      pop
+      ld x
+      bitswap
+      hout
+      halt
+x:    dw  abcdh
+y:    dw  0123h

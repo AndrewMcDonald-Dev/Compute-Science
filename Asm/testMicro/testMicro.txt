@@ -1,0 +1,2 @@
+mar = ir; mdr = ac; wr;
+mar = pc; rd;

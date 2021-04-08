@@ -1,0 +1,145 @@
+Machine-level Assembler Version 6.3    Tue Dec 08 17:11:55 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    800A  ldc a 
+1  *1    F300              push
+2  *2    8010              ldc b
+3  *3    F300              push 
+4  *4    8019              ldc c
+5  *5    F300              push
+6  *6    E033              call merge
+7  *7    8019              ldc c
+8  *8    FFF7              sout
+9  *9    FFFF              halt 
+A  *10   0033  a:          dw "34AXy"
+B  *11   0034
+C  *12   0041
+D  *13   0058
+E  *14   0079
+F  *15   0000
+10 *16   0034  b:          dw "4ABuvwxy"
+11 *17   0041
+12 *18   0042
+13 *19   0075
+14 *20   0076
+15 *21   0077
+16 *22   0078
+17 *23   0079
+18 *24   0000
+19 *25   0000  c:          dw 20 dup 0
+2D *45   0000  index1:     dw 0
+2E *46   0000  index2:     dw 0
+2F *47   0000  index3:     dw 0
+30 *48   0000  temp1:      dw 0
+31 *49   0000  temp2:      dw 0
+32 *50   0001  @1:         dw 1
+               
+33 *51   800A  merge:      ldc a
+34 *52   202D              add index1
+35 *53   F100              ldi 
+36 *54   1030              st temp1
+               
+37 *55   8010              ldc b
+38 *56   202E              add index2
+39 *57   F100              ldi 
+3A *58   1031              st temp2
+               
+3B *59   0030              ld temp1
+3C *60   3031              sub temp2
+3D *61   A047              jzop compare2
+               
+3E *62   0030  compare1:   ld temp1
+3F *63   F300              push
+40 *64   8019              ldc c
+41 *65   202F              add index3
+42 *66   F200              sti
+43 *67   002D              ld index1
+44 *68   2032              add @1
+45 *69   102D              st index1
+46 *70   904F              ja continue           
+               
+47 *71   0031  compare2:   ld temp2
+48 *72   F300              push
+49 *73   8019              ldc c
+4A *74   202F              add index3
+4B *75   F200              sti
+4C *76   002E              ld index2
+4D *77   2032              add @1
+4E *78   102E              st index2
+               
+4F *79   002F  continue:   ld index3
+50 *80   2032              add @1
+51 *81   102F              st index3
+               
+52 *82   800A              ldc a
+53 *83   202D              add index1
+54 *84   F100              ldi 
+55 *85   C05B              jz loop
+               
+56 *86   8010              ldc b
+57 *87   202E              add index2
+58 *88   F100              ldi
+59 *89   C05B              jz loop
+               
+5A *90   9033              ja merge
+               
+5B *91   800A  loop:      ldc a
+5C *92   202D              add index1
+5D *93   F100              ldi
+               
+5E *94   C06A              jz final
+               
+5F *95   F300              push
+60 *96   8019              ldc c
+61 *97   202F              add index3
+62 *98   F200              sti
+               
+63 *99   002D              ld index1
+64 *100  2032              add @1
+65 *101  102D              st index1
+               
+66 *102  002F              ld index3
+67 *103  2032              add @1
+68 *104  102F              st index3
+               
+69 *105  905B              ja loop
+               
+6A *106  8010  final:      ldc b
+6B *107  202E              add index2
+6C *108  F100              ldi
+               
+6D *109  F000              ret
+               
+6E *110  ========= end of Q4.mas =================================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ a                         A           0   33  52  5B 
+ b                         10          2   37  56  6A 
+ c                         19          4   7   40  49  60 
+ index1                    2D          34  43  45  53  5C 
+                                       63  65 
+ index2                    2E          38  4C  4E  57  6B 
+ index3                    2F          41  4A  4F  51  61 
+                                       66  68 
+ temp1                     30          36  3B  3E 
+ temp2                     31          3A  3C  47 
+ @1                        32          44  4D  50  64  67 
+ merge                     33          6   5A 
+ compare1                  3E         
+ compare2                  47          3D 
+ continue                  4F          46 
+ loop                      5B          55  59  69 
+ final                     6A          5E 
+
+Input file   = Q4.mas
+Output file  = Q4.mac
+List file    = Q4.lst 
+Number base  = decimal
+Label status = case sensitive

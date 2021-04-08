@@ -1,0 +1,16 @@
+Horizontal Microcode Assembler Version 6.3      Wed Oct 14 19:09:02 2020
+
+  LOC    OBJECT    SOURCE
+hex*dec
+
+WARNING: Cannot open config file testMicro.cfg
+0  *0    2A122800  mar = ir; mdr = ac; wr;
+1  *1    000C3000  mar = pc; rd;
+2  *2    ============= end of testMicro.has ======================
+
+Input file   = testMicro.has
+Output file  = testMicro.hor
+List file    = testMicro.hst 
+Number base  = decimal
+Label status = case sensitive
+Shifter      = one-position

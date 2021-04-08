@@ -1,0 +1,19 @@
+; #d2a8 32 153 63 625 44061
+;Copy s.has to p621.has and modify as required
+;Copy s.cfg to p621.cfg as modify as required
+;Assemble microcode with
+;   has p621
+;Create assembly language program p621.mas
+;Insert !p621 at beginning of assembly language program
+;Assemble with
+;   mas p621
+;Display should look exactly like this:
+;Sum = 1068
+n
+o
+ln
+g
+SD
+enable
+sd
+q

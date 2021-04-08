@@ -1,0 +1,168 @@
+Machine-level Assembler Version 6.3    Mon Nov 30 19:29:30 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+               !o
+0  *0    8023  input:	ldc msgx
+1  *1    FFF7  	sout
+2  *2    FFFC  	din 
+3  *3    1032  	st x
+4  *4    8023  	ldc msgx
+5  *5    FFF7  	sout
+6  *6    FFFC  	din
+7  *7    1033  	st y
+8  *8    8023  	ldc msgx
+9  *9    FFF7  	sout
+A  *10   FFFC  	din
+B  *11   1034  	st z
+               
+C  *12   0032  add:	ld x
+D  *13   2033  	add y
+E  *14   2034  	add z
+F  *15   1035  	st sum
+               
+10 *16   0032  mult:	ld x
+11 *17   F300  	push
+12 *18   0033  	ld y
+13 *19   FF40  	mult
+14 *20   F300  	push
+15 *21   0034  	ld z
+16 *22   FF40  	mult
+17 *23   1036  	st product
+               	
+18 *24   8037  display:	ldc msgy
+19 *25   FFF7  	sout
+1A *26   0035  	ld sum
+1B *27   FFFD  	dout
+1C *28   800A  	ldc '\n'
+1D *29   FFFB  	aout
+1E *30   805B  	ldc msgz
+1F *31   FFF7  	sout
+20 *32   0036  	ld product
+21 *33   FFFD  	dout
+22 *34   FFFF  	halt
+               
+23 *35   0045  msgx:	dw "Enter Number: "
+24 *36   006E
+25 *37   0074
+26 *38   0065
+27 *39   0072
+28 *40   0020
+29 *41   004E
+2A *42   0075
+2B *43   006D
+2C *44   0062
+2D *45   0065
+2E *46   0072
+2F *47   003A
+30 *48   0020
+31 *49   0000
+32 *50   0000  x:	dw 0
+33 *51   0000  y:	dw 0
+34 *52   0000  z:	dw 0
+35 *53   0000  sum:	dw 0
+36 *54   0000  product:	dw 0
+37 *55   0054  msgy:	dw "The sum of the inputed numbers is: "
+38 *56   0068
+39 *57   0065
+3A *58   0020
+3B *59   0073
+3C *60   0075
+3D *61   006D
+3E *62   0020
+3F *63   006F
+40 *64   0066
+41 *65   0020
+42 *66   0074
+43 *67   0068
+44 *68   0065
+45 *69   0020
+46 *70   0069
+47 *71   006E
+48 *72   0070
+49 *73   0075
+4A *74   0074
+4B *75   0065
+4C *76   0064
+4D *77   0020
+4E *78   006E
+4F *79   0075
+50 *80   006D
+51 *81   0062
+52 *82   0065
+53 *83   0072
+54 *84   0073
+55 *85   0020
+56 *86   0069
+57 *87   0073
+58 *88   003A
+59 *89   0020
+5A *90   0000
+5B *91   0054  msgz:	dw "The product of the inputed numbers is: "
+5C *92   0068
+5D *93   0065
+5E *94   0020
+5F *95   0070
+60 *96   0072
+61 *97   006F
+62 *98   0064
+63 *99   0075
+64 *100  0063
+65 *101  0074
+66 *102  0020
+67 *103  006F
+68 *104  0066
+69 *105  0020
+6A *106  0074
+6B *107  0068
+6C *108  0065
+6D *109  0020
+6E *110  0069
+6F *111  006E
+70 *112  0070
+71 *113  0075
+72 *114  0074
+73 *115  0065
+74 *116  0064
+75 *117  0020
+76 *118  006E
+77 *119  0075
+78 *120  006D
+79 *121  0062
+7A *122  0065
+7B *123  0072
+7C *124  0073
+7D *125  0020
+7E *126  0069
+7F *127  0073
+80 *128  003A
+81 *129  0020
+82 *130  0000
+83 *131  ========= end of add.mas ================================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ input                     0          
+ add                       C          
+ mult                      10         
+ display                   18         
+ msgx                      23          0   4   8  
+ x                         32          3   C   10 
+ y                         33          7   D   12 
+ z                         34          B   E   15 
+ sum                       35          F   1A 
+ product                   36          17  20 
+ msgy                      37          18 
+ msgz                      5B          1E 
+
+Input file   = add.mas
+Output file  = add.mac
+List file    = add.lst 
+Config file  = o.cfg 
+Number base  = decimal
+Label status = case sensitive

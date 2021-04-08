@@ -1,0 +1,20 @@
+; #90e0 25 146 165 1560 39576
+;Copy s.has to p625.has and modify as required
+;Copy s.cfg to p625.cfg and modify as required
+;Assemble microcode with
+;   has p625
+;Copy a.mas to p625.mas (don't use anew.mas)
+;Modify p625.mas as required
+;Add !p625 to beginning of p625.mas 
+;Assemble assembly code with
+;   mas p625
+;Invoke sim with
+;   sim p625
+n
+o
+ln
+g
+SD
+enable
+sd
+q

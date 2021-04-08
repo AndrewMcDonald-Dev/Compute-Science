@@ -1,0 +1,25 @@
+	ldc msgx	;get input message
+	sout
+	ldc inbuf	;get address of input buffer
+	sin
+	sout
+	ldc '\n'
+	aout
+loop:	ldc inbuf
+	add length	;index of letter
+	ldi
+	jz done
+	ld length
+	add @1
+	st length
+	jnz loop
+done:	ldc outmsg
+	sout
+	ld length
+	dout
+	halt
+msgx:	dw "Enter string: "
+outmsg: dw "the length is: "
+@1:	dw 1
+length:	dw 0
+inbuf:	dw 81 dup 0	;reserve 81 spots with 0 filling them

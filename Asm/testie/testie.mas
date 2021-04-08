@@ -1,0 +1,22 @@
+loop:		ld apple
+		sub berry
+		dout
+		st orange
+		ja pizza
+		ld apple
+		dout
+		sub orange
+		st berry
+pizza:		ld orange
+		dout
+		jz done
+		ldi
+		dout
+		halt
+done:		ld orange
+		dout
+		halt
+apple:		dw 13
+berry:		dw 13
+orange:		dw 35
+grapes:		dw 'Hello'

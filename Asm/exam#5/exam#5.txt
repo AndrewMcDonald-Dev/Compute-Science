@@ -1,0 +1,38 @@
+        ldc msgx
+        sout
+        din
+        st n
+loop:   ldc msgy
+        sout
+        din
+        push
+        call abs
+        pop
+        add sum
+        st sum
+        ld n
+        sub @1
+        st n
+        jnz loop
+        ja end
+abs:    ldr 1 
+        jzop abend
+neg:    st temp 
+        sub temp   
+        sub temp    
+        str 1
+abend:  ret
+end:    ldc '\n'
+        aout
+        ld sum
+        dout
+        ldc '\n'
+        aout
+        halt
+
+msgx:   dw "How many ints: "
+msgy:   dw "Enter int: "
+n:      dw 0
+@1:     dw 1
+temp:   dw 0
+sum:    dw 0

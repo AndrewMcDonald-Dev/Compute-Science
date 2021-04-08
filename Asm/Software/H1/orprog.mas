@@ -1,0 +1,29 @@
+         !or
+         ld     @10
+         or     @12
+         dout
+         ldc    '\n'
+         aout
+         ld     @10
+         xor    @12
+         dout
+         ldc    '\n'
+         aout
+
+         ld     @20
+         or     @24
+         dout
+         ldc    '\n'
+         aout
+         ld     @20
+         xor    @24
+         dout
+         ldc    '\n'
+         aout
+
+         halt
+@10:     dw    10
+@12:     dw    12
+@20:     dw    20
+@24:     dw    24 
+

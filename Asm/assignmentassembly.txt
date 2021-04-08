@@ -1,0 +1,104 @@
+begin:	ldc prompt	;start
+	sout		
+	ldc input
+	sin		;input
+	ja check	;check string
+
+firstL:	ldc prompt2	;y/n
+	sout		;display msg
+	ain		;take in string
+	sub @111	;check if y/n
+	jn display	;if n jump to display
+	ldc prompt	;enter a string	
+	sout		;output
+	ldc input	;new string
+	sin		;input
+	ldc 0		;load 0
+	st index	;set index to zero for the new string input
+	ja check	;go through new string
+
+check:	ldc input	;load string
+	add index	;index 0, increment to go through string
+	ldi		
+	jz firstL	;when 0 jump to y/n part
+	sub @97		;sub 97 to check if its positive or negative 
+	jn upper	;uppercase	
+	jzop lower	;lowercase
+
+lower:	st indexVal	;store letter val
+	ldc valueTable	;new string table
+	add indexVal	;go to indexVal of the table
+	ldi 	
+	add @1
+	push
+	ldc valueTable	;load table string
+	add indexVal
+	sti
+	ld index	;load the index
+	add @1		;increment index
+	st index	;update index value
+	ja check	;check the next char
+	
+upper:	add @97		;set indexVal equal to 0 b/c we want both upper and lower case to be the same values
+	sub @65	
+	st indexVal	;store the value to input onto table
+	ldc valueTable
+	add indexVal
+	ldi 		
+	add @1
+	push
+	ldc valueTable	;load tablestrng
+	add indexVal
+	sti
+	ld index	;load index
+	add @1		;increment
+	st index	;update index value
+	ja check
+
+display:	ld LetterCap
+	aout
+	add @1
+	st LetterCap
+	ld Space
+	aout
+	ld LetterUncap
+	add @1
+	st LetterUncap
+	ld Semi
+	aout
+	ldc valueTable
+	add ThruTable
+	ldi
+	dout
+	ldc '\n'
+	aout 
+	ld ThruTable
+	add @1
+	st ThruTable
+	ld tableCounter
+	sub @1
+	st tableCounter
+	jz finish
+	ja display
+	
+finish:	halt
+
+
+	
+prompt:	dw "Enter a string"
+prompt2:	dw "Is there more text to enter (y/n)"
+prompt3:	dw "Recurrence of letters is: "
+input:	dw 100 dup 0
+@1:	dw 1
+@111:	dw 111
+@65:	dw 65
+@97:	dw  97
+indexVal:	dw 0
+valueTable:	dw 26 dup 0
+tableCounter:	dw 26
+index:	dw 0
+ThruTable:	dw 0
+LetterUncap:	dw 97
+LetterCap:	dw 65
+Space:	dw " "
+Semi:	dw ": "

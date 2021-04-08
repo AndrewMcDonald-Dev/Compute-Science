@@ -1,0 +1,31 @@
+!b
+	ldc msgx
+	sout
+	din
+	st num
+	
+	ld num
+	push
+	ld num
+	mult
+	st product
+	addc @1
+	sub num
+	sub num
+	jn extra
+
+extra:	ld num
+	flip
+	st num
+	dout
+	addr
+	dout
+	shll @1
+	dout
+
+	halt
+
+msgx:	dw "Enter a number: "
+num:	dw 0
+product	dw 0
+@1:	dw 1

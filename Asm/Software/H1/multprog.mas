@@ -1,0 +1,64 @@
+         !mult
+         ld     @2
+         m      @5
+         dout
+         ldc    '\n'
+         aout
+         ld     @2
+         mult   @5
+         dout
+         ldc    '\n'
+         aout
+
+         ld     @2
+         m      @_5
+         dout
+         ldc    '\n'
+         aout
+         ld     @2
+         mult   @_5
+         dout
+         ldc    '\n'
+         aout
+
+         ld     @_2
+         m      @5
+         dout
+         ldc    '\n'
+         aout
+         ld     @_2
+         mult   @5
+         dout
+         ldc    '\n'
+         aout
+
+         ld     @_2
+         m      @_5
+         dout
+         ldc    '\n'
+         aout
+         ld     @_2
+         mult   @_5
+         dout
+         ldc    '\n'
+         aout
+        
+         ld     @1
+         m      @_1
+         dout
+         ldc    '\n'
+         aout
+         ld     @1
+         mult   @_1
+         dout
+         ldc    '\n'
+         aout
+        
+         halt
+@2:      dw    2
+@5:      dw    5
+@_5:     dw    -5
+@_2:     dw    -2
+@1:      dw    1
+@_1:     dw    -1
+

@@ -1,0 +1,92 @@
+Machine-level Assembler Version 6.3    Fri Oct 02 16:25:35 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    801D          ldc msgx
+1  *1    FFF7          sout
+2  *2    FFFC          din
+3  *3    1039          st n
+4  *4    802D  loop:   ldc msgy
+5  *5    FFF7          sout
+6  *6    FFFC          din
+7  *7    F300          push
+8  *8    E011          call abs
+9  *9    F400          pop
+A  *10   203C          add sum
+B  *11   103C          st sum
+C  *12   0039          ld n
+D  *13   303A          sub @1
+E  *14   1039          st n
+F  *15   D004          jnz loop
+10 *16   9018          ja end
+11 *17   4001  abs:    ldr 1 
+12 *18   A017          jzop return
+13 *19   103B  neg:    st temp 
+14 *20   303B          sub temp   
+15 *21   303B          sub temp    
+16 *22   5001          str 1
+17 *23   F000  return: ret
+18 *24   003C  end:    ld sum
+19 *25   FFFD          dout
+1A *26   800A          ldc '\n'
+1B *27   FFFB          aout
+1C *28   FFFF          halt
+               
+1D *29   0048  msgx:   dw "How many ints: "
+1E *30   006F
+1F *31   0077
+20 *32   0020
+21 *33   006D
+22 *34   0061
+23 *35   006E
+24 *36   0079
+25 *37   0020
+26 *38   0069
+27 *39   006E
+28 *40   0074
+29 *41   0073
+2A *42   003A
+2B *43   0020
+2C *44   0000
+2D *45   0045  msgy:   dw "Enter int: "
+2E *46   006E
+2F *47   0074
+30 *48   0065
+31 *49   0072
+32 *50   0020
+33 *51   0069
+34 *52   006E
+35 *53   0074
+36 *54   003A
+37 *55   0020
+38 *56   0000
+39 *57   0000  n:      dw 0
+3A *58   0001  @1:     dw 1
+3B *59   0000  temp:   dw 0
+3C *60   0000  sum:    dw 0
+3D *61   ========= end of exam#5.mas =============================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ loop                      4           F  
+ abs                       11          8  
+ neg                       13         
+ return                    17          12 
+ end                       18          10 
+ msgx                      1D          0  
+ msgy                      2D          4  
+ n                         39          3   C   E  
+ @1                        3A          D  
+ temp                      3B          13  14  15 
+ sum                       3C          A   B   18 
+
+Input file   = exam#5.mas
+Output file  = exam#5.mac
+List file    = exam#5.lst 
+Number base  = decimal
+Label status = case sensitive

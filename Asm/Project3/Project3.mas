@@ -1,0 +1,244 @@
+!o
+start:  ldc msgx
+        sout
+        din
+        sub @1
+        jz cont
+        ja end
+
+cont:   ld setter
+        sub setter
+        st setter
+        st setter2
+        st temp
+        st index
+        st index2
+        st index3
+        st index4
+        st product
+
+
+input:  ldc msgy
+        sout
+        din
+        jn error2
+        jz error2
+        st size
+        st columnCheck
+        st rowCheck
+        st finale
+
+        ld size
+        sub @10
+        jn num
+        jz num
+        ja error1
+
+num:    ld size
+        push
+        ld size
+        mult
+        st product
+        ja loop1
+
+loop1:  ldc msgz    
+        sout
+        din
+        push
+        ldc numbuf1
+        add index
+        sti
+        ld index
+        add @1
+        st index
+
+        ld index
+        sub product
+        jn loop1
+
+        ld index
+        sub index
+        st index
+        jz loop2
+
+loop2:  ldc msgz
+        sout
+        din
+        push
+        ldc numbuf2
+        add index
+        sti
+        ld index
+        add @1
+        st index
+
+        ld index
+        sub product
+        jn loop2
+
+        ld index
+        sub index
+        st index
+        jz compute1
+
+compute1:   ldc numbuf1
+            add index
+            ldi
+            push
+            ldc numbuf2
+            add index2
+            ldi
+            mult
+            st c
+            ja compute2
+
+compute2:   ld temp
+            add c
+            st temp
+            ld c
+            sub c
+            st c
+            ld index
+            sub size
+            sub setter
+            add @1
+            jz check
+
+            ld index
+            add @1
+            st index
+            ld index2
+            add size
+            st index2
+            ja compute1
+
+check:      ld c
+            sub c
+            st c
+
+            ld temp
+            push
+            ldc outbuf
+            add index3
+            sti
+            ld temp
+            sub temp
+            st temp
+
+            ld index3
+            add @1
+            st index3
+
+            ld columnCheck
+            sub @1
+            st columnCheck
+            jz newRow
+
+            ld index
+            sub index
+            add setter
+            st index
+
+            ld setter2
+            add @1
+            st setter2
+
+            ld index2
+            sub index2
+            add setter2
+            st index2
+
+            ja compute1
+
+
+newRow:     ld rowCheck
+            sub @1
+            st rowCheck
+            jz output
+
+            ld setter
+            add size
+            st setter
+
+            ld index
+            sub index
+            add setter
+            st index
+
+            ld setter2
+            sub setter2
+            st setter2
+
+            ld index2
+            sub index2
+            st index2
+
+            ld columnCheck
+            sub columnCheck
+            add size
+            st columnCheck
+
+            ja compute1
+
+output: ldc outbuf
+        add index4
+        ldi
+        dout
+        ldc space
+        sout
+        sout
+        sout
+        ld finale
+        sub @1
+        st finale
+        jz newLine
+output2:    ld index4
+        add @1
+        st index4
+        ld index4
+        sub product
+        jz start
+        ja output
+
+newLine:    ldc '\n'
+            aout
+            ld finale
+            add size
+            st finale
+            ja output2
+
+
+error1: ldc msgE
+        sout
+        ja end
+
+error2: ldc msgE2
+        sout
+        ja end
+    
+end:    halt
+
+size:   dw 0
+setter: dw 0
+setter2: dw 0
+temp:   dw 0
+index:  dw 0
+index2: dw 0
+index3: dw 0
+index4: dw 0
+@1:     dw 1
+columnCheck: dw 0
+rowCheck: dw 0
+@10:    dw 10
+numbuf1:    dw 100 dup 0
+numbuf2:    dw 100 dup 0
+outbuf:     dw 100 dup 0
+msgx:   dw "Is there another problem?(0/1)"
+msgy:   dw "Enter number of rows and columns: "
+msgz:   dw "Enter number: "
+msgE:   dw "Too big a matrix!"
+msgE2:  dw "Too small a matrix!"
+c:  dw 0
+product:    dw 0
+space:  dw " "
+finale: dw 0

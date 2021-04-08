@@ -1,0 +1,91 @@
+start:		ldc msgy
+		sout
+		ldc inbuf
+		sin
+		ja loop
+
+start:		ldc msgx
+		sout
+		ain
+		sub ynum
+		jnz end1
+		ldc msgy
+		sout
+		ldc inbuf
+		sin
+		ld index
+		sub index
+		st index
+		ja loop
+;=====================================
+loop:		ldc inbuf
+		add index
+		ldi
+		jz start
+		sub @97
+		jn upper
+		ja lower
+;=====================================
+upper:		add @97
+		sub @65
+		st count
+		jz update
+;=====================================
+lower:		st count
+		jz update
+;=====================================
+update:		ldc countbuf
+		add count
+		ldi
+		add @1
+		push
+		ldc countbuf
+		add count
+		sti
+		ld index
+		add @1
+		st index
+		ja loop
+;====================================
+end:		ldc '\n'
+		aout
+		
+end1:		ldc msgz
+		sout
+		ldc countbuf
+		add count2
+		ldi
+		dout
+		ldc msgw
+		sout
+		ld count3
+		add count2
+		aout
+		ld count2
+		add @1
+		st count2
+		ld count4
+		sub @1
+		st count4
+		jz superEnd
+		ja end
+superEnd:	ldc '\n'
+		aout
+		halt
+
+;=======================Variables========================
+msgy:		dw "Enter String: "
+msgx:		dw "Is there more text to enter (y/n)"
+msgz:		dw "There is "
+msgw:		dw " of letter "
+ynum:		dw 121
+inbuf:		dw 100 dup 0
+countbuf:	dw 26 dup 0
+@65:		dw 65
+@97:		dw 97
+@1:		dw 1
+index:		dw 0
+count:		dw 0
+count2:		dw 0
+count3:		dw 65
+count4:		dw 26

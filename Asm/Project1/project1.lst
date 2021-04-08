@@ -1,0 +1,202 @@
+Machine-level Assembler Version 6.3    Thu Oct 08 22:45:49 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    8043  start:		ldc msgy
+1  *1    FFF7  		sout
+2  *2    808B  		ldc inbuf
+3  *3    FFF6  		sin
+4  *4    9012  		ja loop
+               
+5  *5    8052  input:		ldc msgx
+6  *6    FFF7  		sout
+7  *7    FFFA  		ain
+8  *8    308A  		sub ynum
+9  *9    D02D  		jnz end1
+A  *10   8043  		ldc msgy
+B  *11   FFF7  		sout
+C  *12   808B  		ldc inbuf
+D  *13   FFF6  		sin
+E  *14   010C  		ld index
+F  *15   310C  		sub index
+10 *16   110C  		st index
+11 *17   9012  		ja loop
+               ;=====================================
+12 *18   808B  loop:		ldc inbuf
+13 *19   210C  		add index
+14 *20   F100  		ldi
+15 *21   C005  		jz input
+16 *22   310A  		sub @97
+17 *23   B019  		jn upper
+18 *24   901D  		ja lower
+               ;=====================================
+19 *25   210A  upper:		add @97
+1A *26   3109  		sub @65
+1B *27   110D  		st count
+1C *28   C01F  		jz update
+               ;=====================================
+1D *29   110D  lower:		st count
+1E *30   C01F  		jz update
+               ;=====================================
+1F *31   80EF  update:		ldc countbuf
+20 *32   210D  		add count
+21 *33   F100  		ldi
+22 *34   210B  		add @1
+23 *35   F300  		push
+24 *36   80EF  		ldc countbuf
+25 *37   210D  		add count
+26 *38   F200  		sti
+27 *39   010C  		ld index
+28 *40   210B  		add @1
+29 *41   110C  		st index
+2A *42   9012  		ja loop
+               ;====================================
+2B *43   800A  end:		ldc '\n'
+2C *44   FFFB  		aout
+               		
+2D *45   8074  end1:		ldc msgz
+2E *46   FFF7  		sout
+2F *47   80EF  		ldc countbuf
+30 *48   210E  		add count2
+31 *49   F100  		ldi
+32 *50   FFFD  		dout
+33 *51   807E  		ldc msgw
+34 *52   FFF7  		sout
+35 *53   010F  		ld count3
+36 *54   210E  		add count2
+37 *55   FFFB  		aout
+38 *56   010E  		ld count2
+39 *57   210B  		add @1
+3A *58   110E  		st count2
+3B *59   0110  		ld count4
+3C *60   310B  		sub @1
+3D *61   1110  		st count4
+3E *62   C040  		jz superEnd
+3F *63   902B  		ja end
+40 *64   800A  superEnd:	ldc '\n'
+41 *65   FFFB  		aout
+42 *66   FFFF  		halt
+               
+               ;=======================Variables========================
+43 *67   0045  msgy:		dw "Enter String: "
+44 *68   006E
+45 *69   0074
+46 *70   0065
+47 *71   0072
+48 *72   0020
+49 *73   0053
+4A *74   0074
+4B *75   0072
+4C *76   0069
+4D *77   006E
+4E *78   0067
+4F *79   003A
+50 *80   0020
+51 *81   0000
+52 *82   0049  msgx:		dw "Is there more text to enter (y/n)"
+53 *83   0073
+54 *84   0020
+55 *85   0074
+56 *86   0068
+57 *87   0065
+58 *88   0072
+59 *89   0065
+5A *90   0020
+5B *91   006D
+5C *92   006F
+5D *93   0072
+5E *94   0065
+5F *95   0020
+60 *96   0074
+61 *97   0065
+62 *98   0078
+63 *99   0074
+64 *100  0020
+65 *101  0074
+66 *102  006F
+67 *103  0020
+68 *104  0065
+69 *105  006E
+6A *106  0074
+6B *107  0065
+6C *108  0072
+6D *109  0020
+6E *110  0028
+6F *111  0079
+70 *112  002F
+71 *113  006E
+72 *114  0029
+73 *115  0000
+74 *116  0054  msgz:		dw "There is "
+75 *117  0068
+76 *118  0065
+77 *119  0072
+78 *120  0065
+79 *121  0020
+7A *122  0069
+7B *123  0073
+7C *124  0020
+7D *125  0000
+7E *126  0020  msgw:		dw " of letter "
+7F *127  006F
+80 *128  0066
+81 *129  0020
+82 *130  006C
+83 *131  0065
+84 *132  0074
+85 *133  0074
+86 *134  0065
+87 *135  0072
+88 *136  0020
+89 *137  0000
+8A *138  0079  ynum:		dw 121
+8B *139  0000  inbuf:		dw 100 dup 0
+EF *239  0000  countbuf:	dw 26 dup 0
+109*265  0041  @65:		dw 65
+10A*266  0061  @97:		dw 97
+10B*267  0001  @1:		dw 1
+10C*268  0000  index:		dw 0
+10D*269  0000  count:		dw 0
+10E*270  0000  count2:		dw 0
+10F*271  0041  count3:		dw 65
+110*272  001A  count4:		dw 26
+111*273  ========= end of project1.mas ===========================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ start                     0          
+ input                     5           15 
+ loop                      12          4   11  2A 
+ upper                     19          17 
+ lower                     1D          18 
+ update                    1F          1C  1E 
+ end                       2B          3F 
+ end1                      2D          9  
+ superEnd                  40          3E 
+ msgy                      43          0   A  
+ msgx                      52          5  
+ msgz                      74          2D 
+ msgw                      7E          33 
+ ynum                      8A          8  
+ inbuf                     8B          2   C   12 
+ countbuf                  EF          1F  24  2F 
+ @65                       109         1A 
+ @97                       10A         16  19 
+ @1                        10B         22  28  39  3C 
+ index                     10C         E   F   10  13  27 
+                                       29 
+ count                     10D         1B  1D  20  25 
+ count2                    10E         30  36  38  3A 
+ count3                    10F         35 
+ count4                    110         3B  3D 
+
+Input file   = project1.mas
+Output file  = project1.mac
+List file    = project1.lst 
+Number base  = decimal
+Label status = case sensitive

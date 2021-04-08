@@ -1,0 +1,72 @@
+Machine-level Assembler Version 6.3    Mon Nov 30 19:13:23 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    807A  input:	ldc msgx
+1  *1    FFF7  	sout
+2  *2    8016  	ldc word
+3  *3    FFF6  	sin
+               	
+4  *4    8016  loop:	ldc word
+5  *5    2089  	add index
+6  *6    F100  	ldi
+7  *7    C00C  	jz display
+8  *8    0089  	ld index
+9  *9    208A  	add @1
+A  *10   1089  	st index
+B  *11   9004  	ja loop
+               
+C  *12   8016  display:	ldc word
+D  *13   2089  	add index
+E  *14   F100  	ldi
+F  *15   FFFB  	aout
+10 *16   0089  	ld index
+11 *17   308A  	sub @1
+12 *18   1089  	st index
+13 *19   B015  	jn end
+14 *20   900C  	ja display
+               
+15 *21   FFFF  end:	halt
+               
+16 *22   0000  word:	dw 100 dup 0
+7A *122  0045  msgx:	dw "Enter String: "
+7B *123  006E
+7C *124  0074
+7D *125  0065
+7E *126  0072
+7F *127  0020
+80 *128  0053
+81 *129  0074
+82 *130  0072
+83 *131  0069
+84 *132  006E
+85 *133  0067
+86 *134  003A
+87 *135  0020
+88 *136  0000
+89 *137  0000  index:	dw 0
+8A *138  0001  @1:	dw 1
+8B *139  ========= end of reverseString.mas ======================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ input                     0          
+ loop                      4           B  
+ display                   C           7   14 
+ end                       15          13 
+ word                      16          2   4   C  
+ msgx                      7A          0  
+ index                     89          5   8   A   D   10 
+                                       12 
+ @1                        8A          9   11 
+
+Input file   = reverseString.mas
+Output file  = reverseString.mac
+List file    = reverseString.lst 
+Number base  = decimal
+Label status = case sensitive

@@ -1,0 +1,20 @@
+; #b8bc 33 153 70 711 8745
+;Copy s.has to p619.has and modify as required
+;Copy s.cfg to p619.cfg and modify as required
+;Assemble microcode with
+;   has p619
+;Insert !p619 at beginning of assembly language program
+;Assemble with
+;   mas p619
+;Run with
+;   sim p619
+;Display should look exactly like this:
+;Sum = 2138
+n
+o
+ln
+g
+SD
+enable
+sd
+q

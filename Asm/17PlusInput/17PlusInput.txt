@@ -1,0 +1,33 @@
+input:	ldc msgx
+	sout
+	ldc '\n'
+	aout
+	din
+	st x
+	ldc msgy
+	sout
+	ldc '\n'
+	aout
+	ldc msgy
+	sout
+	ldc '\n'
+	aout
+add:	ld x
+	add y
+	st z
+output:	ldc msgz
+	sout
+	ld x
+	dout
+	ldc msgw
+	sout
+	ld z
+	dout
+	halt
+msgx:	dw "Enter the number you would like to be added to seventeen: "
+x:	dw 0
+msgy:	dw "Hello"
+y:	dw 17
+z:	dw 0
+msgz:	dw "The solution to 17 plus "
+msgw:	dw " is "

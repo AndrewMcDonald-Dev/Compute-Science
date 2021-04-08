@@ -1,0 +1,226 @@
+Machine-level Assembler Version 6.3    Thu Oct 08 22:22:00 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    804E  begin:	ldc prompt	;start
+1  *1    FFF7  	sout		
+2  *2    809A  	ldc input
+3  *3    FFF6  	sin		;input
+4  *4    9011  	ja check	;check string
+               
+5  *5    805D  firstL:	ldc prompt2	;y/n
+6  *6    FFF7  	sout		;display msg
+7  *7    FFFA  	ain		;take in string
+8  *8    30FF  	sub @111	;check if y/n
+9  *9    B034  	jn display	;if n jump to display
+A  *10   804E  	ldc prompt	;enter a string	
+B  *11   FFF7  	sout		;output
+C  *12   809A  	ldc input	;new string
+D  *13   FFF6  	sin		;input
+E  *14   8000  	ldc 0		;load 0
+F  *15   111E  	st index	;set index to zero for the new string input
+10 *16   9011  	ja check	;go through new string
+               
+11 *17   809A  check:	ldc input	;load string
+12 *18   211E  	add index	;index 0, increment to go through string
+13 *19   F100  	ldi		
+14 *20   C005  	jz firstL	;when 0 jump to y/n part
+15 *21   3101  	sub @97		;sub 97 to check if its positive or negative 
+16 *22   B025  	jn upper	;uppercase	
+17 *23   A018  	jzop lower	;lowercase
+               
+18 *24   1102  lower:	st indexVal	;store letter val
+19 *25   8103  	ldc valueTable	;new string table
+1A *26   2102  	add indexVal	;go to indexVal of the table
+1B *27   F100  	ldi 	
+1C *28   20FE  	add @1
+1D *29   F300  	push
+1E *30   8103  	ldc valueTable	;load table string
+1F *31   2102  	add indexVal
+20 *32   F200  	sti
+21 *33   011E  	ld index	;load the index
+22 *34   20FE  	add @1		;increment index
+23 *35   111E  	st index	;update index value
+24 *36   9011  	ja check	;check the next char
+               	
+25 *37   2101  upper:	add @97		;set indexVal equal to 0 b/c we want both upper 
+26 *38   3100  	sub @65	
+27 *39   1102  	st indexVal	;store the value to input onto table
+28 *40   8103  	ldc valueTable
+29 *41   2102  	add indexVal
+2A *42   F100  	ldi 		
+2B *43   20FE  	add @1
+2C *44   F300  	push
+2D *45   8103  	ldc valueTable	;load tablestrng
+2E *46   2102  	add indexVal
+2F *47   F200  	sti
+30 *48   011E  	ld index	;load index
+31 *49   20FE  	add @1		;increment
+32 *50   111E  	st index	;update index value
+33 *51   9011  	ja check
+               
+34 *52   0121  display:	ld LetterCap
+35 *53   FFFB  	aout
+36 *54   20FE  	add @1
+37 *55   1121  	st LetterCap
+38 *56   0122  	ld Space
+39 *57   FFFB  	aout
+3A *58   0120  	ld LetterUncap
+3B *59   20FE  	add @1
+3C *60   1120  	st LetterUncap
+3D *61   0124  	ld Semi
+3E *62   FFFB  	aout
+3F *63   8103  	ldc valueTable
+40 *64   211F  	add ThruTable
+41 *65   F100  	ldi
+42 *66   FFFD  	dout
+43 *67   800A  	ldc '\n'
+44 *68   FFFB  	aout 
+45 *69   011F  	ld ThruTable
+46 *70   20FE  	add @1
+47 *71   111F  	st ThruTable
+48 *72   011D  	ld tableCounter
+49 *73   30FE  	sub @1
+4A *74   111D  	st tableCounter
+4B *75   C04D  	jz finish
+4C *76   9034  	ja display
+               	
+4D *77   FFFF  finish:	halt
+               
+               
+               	
+4E *78   0045  prompt:	dw "Enter a string"
+4F *79   006E
+50 *80   0074
+51 *81   0065
+52 *82   0072
+53 *83   0020
+54 *84   0061
+55 *85   0020
+56 *86   0073
+57 *87   0074
+58 *88   0072
+59 *89   0069
+5A *90   006E
+5B *91   0067
+5C *92   0000
+5D *93   0049  prompt2:	dw "Is there more text to enter (y/n)"
+5E *94   0073
+5F *95   0020
+60 *96   0074
+61 *97   0068
+62 *98   0065
+63 *99   0072
+64 *100  0065
+65 *101  0020
+66 *102  006D
+67 *103  006F
+68 *104  0072
+69 *105  0065
+6A *106  0020
+6B *107  0074
+6C *108  0065
+6D *109  0078
+6E *110  0074
+6F *111  0020
+70 *112  0074
+71 *113  006F
+72 *114  0020
+73 *115  0065
+74 *116  006E
+75 *117  0074
+76 *118  0065
+77 *119  0072
+78 *120  0020
+79 *121  0028
+7A *122  0079
+7B *123  002F
+7C *124  006E
+7D *125  0029
+7E *126  0000
+7F *127  0052  prompt3:	dw "Recurrence of letters is: "
+80 *128  0065
+81 *129  0063
+82 *130  0075
+83 *131  0072
+84 *132  0072
+85 *133  0065
+86 *134  006E
+87 *135  0063
+88 *136  0065
+89 *137  0020
+8A *138  006F
+8B *139  0066
+8C *140  0020
+8D *141  006C
+8E *142  0065
+8F *143  0074
+90 *144  0074
+91 *145  0065
+92 *146  0072
+93 *147  0073
+94 *148  0020
+95 *149  0069
+96 *150  0073
+97 *151  003A
+98 *152  0020
+99 *153  0000
+9A *154  0000  input:	dw 100 dup 0
+FE *254  0001  @1:	dw 1
+FF *255  006F  @111:	dw 111
+100*256  0041  @65:	dw 65
+101*257  0061  @97:	dw  97
+102*258  0000  indexVal:	dw 0
+103*259  0000  valueTable:	dw 26 dup 0
+11D*285  001A  tableCounter:	dw 26
+11E*286  0000  index:	dw 0
+11F*287  0000  ThruTable:	dw 0
+120*288  0061  LetterUncap:	dw 97
+121*289  0041  LetterCap:	dw 65
+122*290  0020  Space:	dw " "
+123*291  0000
+124*292  003A  Semi:	dw ": "
+125*293  0020
+126*294  0000
+127*295  ========= end of assignmentassembly.txt =================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ begin                     0          
+ firstL                    5           14 
+ check                     11          4   10  24  33 
+ lower                     18          17 
+ upper                     25          16 
+ display                   34          9   4C 
+ finish                    4D          4B 
+ prompt                    4E          0   A  
+ prompt2                   5D          5  
+ prompt3                   7F         
+ input                     9A          2   C   11 
+ @1                        FE          1C  22  2B  31  36 
+                                       3B  46  49 
+ @111                      FF          8  
+ @65                       100         26 
+ @97                       101         15  25 
+ indexVal                  102         18  1A  1F  27  29 
+                                       2E 
+ valueTable                103         19  1E  28  2D  3F 
+ tableCounter              11D         48  4A 
+ index                     11E         F   12  21  23  30 
+                                       32 
+ ThruTable                 11F         40  45  47 
+ LetterUncap               120         3A  3C 
+ LetterCap                 121         34  37 
+ Space                     122         38 
+ Semi                      124         3D 
+
+Input file   = assignmentassembly.txt
+Output file  = assignmentassembly.mac
+List file    = assignmentassembly.lst 
+Number base  = decimal
+Label status = case sensitive

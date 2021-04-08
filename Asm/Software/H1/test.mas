@@ -1,0 +1,33 @@
+input: 	ldc  msgx
+	sout
+	din
+	st x
+	ld x		;x used as counter
+	st count	;intitialize coutner
+	ldc 0
+	st z		;initialize the partial product sum as 0
+loop:			;loop adds 7 to itself x times
+	ld z			;load previous sum
+	add seven	;add seven
+	st z		;store new sum
+	ld count	;decrement counter by one
+	sub one	
+	st count
+	jnz loop	;if counter is nonzero, repeat loop 
+
+output:	ldc msgz
+	sout
+	ld z
+	Dout		;display the answer
+	ldc '\n'	;load ASCII new line character into AC
+	aout		;gives new line
+	aout		;another new line
+	halt
+x:	dw 0
+seven:	dw 7
+z:	dw 0
+one:	dw 1
+
+count:	dw 0
+msgx:	dw "input the value you wish to be multiplied by 7: "
+msgz:	dw "The product of x*7 = "

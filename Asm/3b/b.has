@@ -1,0 +1,66 @@
+/  Basic Instruction Set Horizontal Microcode    b.has
+
+/ The label indicates the opcode decoded up to that point.
+/ '0' and '1' in a label represent the 0 and 1 bits in an opcode. 
+/ '2' to '8' in a label represent their 4-bit equivalents. For 
+/ example, control reaches the label L011 when the opcode bits
+/ 011 have been decoded. Control reaches L2 when the opcode bits
+/ 0010 have been decoded.        
+/***************************************************************/
+/     Fetch instruction and increment pc register               /
+/***************************************************************/
+fetch:      mar = pc; pc = pc + 1;
+            rd;                   
+            ir = mdr;
+/***************************************************************/
+/           Decode opcode                                       /
+/***************************************************************/
+            dc = ir; if (s) goto L8;     / if 1 assume opcode 8
+L0:         dc = left(dc); if (s) goto L01; 
+L00:        dc = left(dc); if (s) goto L001; 
+L000:       dc = left(dc); if (s) goto L0001; 
+            goto L0000;
+L01:        dc = left(dc); if (s) goto L011; 
+L010:       dc = left(dc); if (s) goto L5; 
+            goto L4;          
+L001:       dc = left(dc); if (s) goto L3; 
+            goto L2;
+L011:       dc = left(dc); if (s) goto L7; 
+            goto L6;
+/****************************************************************/
+/      Microcode for each instruction                            /
+/****************************************************************/
+L0000: /-------------------------- LD ----------------------------
+       mar = ir;                          / get add from inst      
+       rd;                                / read operand
+       ac = mdr; goto fetch;              / load ac with operand
+L0001: / ------------------------- ST ----------------------------
+       mar = ir; mdr = ac;
+       wr; goto fetch;
+L2:    / ------------------------- MULT --------------------------
+       mar = ir;                          / get add from inst      
+       rd;                                / read operand
+       ac = ac * mdr; goto fetch;         / mult ac by operand
+L3:    /-------------------------- ADDC --------------------------
+       f = ir & xmask;                    / get const from x field
+       ac = ac + f; goto fetch;           / add const to ac
+L4:    /-------------------------- ADDR --------------------------
+       f = ir + sp;                       / get abs address
+       mar = f;                           / load mar with ab addr
+       rd;                                / read operand
+       ac = ac + mdr; goto fetch          / add operand to ac
+L5:    /-------------------------- JN ----------------------------
+       0 = ac; if (s) goto jn;            / branch if ac neg
+       goto fetch;                        / branch
+jn:    pc = ir & xmask; goto fetch;       / put new add in pc
+L6:    /-------------------------- SHLL --------------------------
+       f = ir & zmask; if (z) goto fetch; / get z field
+lloop: ac = left(ac);                     / shift ac left   
+       f = f - 1; if (z) goto fetch;      / dec ac and test   
+       goto lloop;                        / branch to lloop
+L7:    /-------------------------- FLIP --------------------------
+       ac = ~ac; goto fetch;              / bitwise compl ac
+L8:    /-------------------------- PUSH --------------------------
+       sp = sp - 1;                       / decrement sp
+       mar = sp; mdr = ac;                / prepare for write    
+       wr; goto fetch;                    / write top of stack   

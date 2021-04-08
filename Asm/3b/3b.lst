@@ -1,0 +1,51 @@
+Machine-level Assembler Version 6.3    Mon Nov 30 20:14:08 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+               !b
+0  *0    FFFC  	din
+1  *1    1012  	st num
+               	
+2  *2    0012  	ld num
+3  *3    2012  	mult num
+4  *4    FFFD  	dout
+5  *5    1013  	st product
+6  *6    3014  	addc @1
+7  *7    FFFD  	dout
+8  *8    5011  	jn end
+               
+9  *9    0012  extra:	ld num
+A  *10   7000  	flip
+B  *11   1012  	st num
+C  *12   FFFD  	dout
+D  *13   4014  	addr @1
+E  *14   FFFD  	dout
+F  *15   6014  	shll @1
+10 *16   FFFD  	dout
+               
+11 *17   FFFF  end:	halt
+               
+12 *18   0000  num:	dw 0
+13 *19   0000  product:	dw 0
+14 *20   0001  @1:	dw 1
+15 *21   ========= end of 3b.mas =================================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ extra                     9          
+ end                       11          8  
+ num                       12          1   2   3   9   B  
+ product                   13          5  
+ @1                        14          6   D   F  
+
+Input file   = 3b.mas
+Output file  = 3b.mac
+List file    = 3b.lst 
+Config file  = b.cfg 
+Number base  = decimal
+Label status = case sensitive

@@ -1,0 +1,96 @@
+ldc a 
+            push
+            ldc b
+            push 
+            ldc c
+            push
+            call merge
+            ldc c
+            sout
+            halt 
+a:          dw "34AXy"
+b:          dw "4ABuvwxy"
+c:          dw 20 dup 0
+index1:     dw 0
+index2:     dw 0
+index3:     dw 0
+temp1:      dw 0
+temp2:      dw 0
+@1:         dw 1
+
+merge:      ldc a
+            add index1
+            ldi 
+            st temp1
+
+            ldc b
+            add index2
+            ldi 
+            st temp2
+
+            ld temp1
+            sub temp2
+            jzop compare2
+
+compare1:   ld temp1
+            push
+            ldc c
+            add index3
+            sti
+            ld index1
+            add @1
+            st index1
+            ja continue           
+
+compare2:   ld temp2
+            push
+            ldc c
+            add index3
+            sti
+            ld index2
+            add @1
+            st index2
+
+continue:   ld index3
+            add @1
+            st index3
+
+            ldc a
+            add index1
+            ldi 
+            jz loop
+
+            ldc b
+            add index2
+            ldi
+            jz loop
+
+            ja merge
+
+loop:      ldc a
+            add index1
+            ldi
+
+            jz final
+
+            push
+            ldc c
+            add index3
+            sti
+
+            ld index1
+            add @1
+            st index1
+
+            ld index3
+            add @1
+            st index3
+
+            ja loop
+
+final:      ldc b
+            add index2
+            ldi
+
+            ret
+

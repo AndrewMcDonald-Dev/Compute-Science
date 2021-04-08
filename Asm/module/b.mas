@@ -1,0 +1,4 @@
+b:	call c
+	ret
+	public b
+	extern c

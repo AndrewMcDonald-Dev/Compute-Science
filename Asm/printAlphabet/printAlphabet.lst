@@ -1,0 +1,43 @@
+Machine-level Assembler Version 6.3    Wed Sep 16 21:49:43 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+               loop:	
+0  *0    000D  	ld z
+1  *1    FFFB  	aout
+2  *2    FFFD  	dout
+3  *3    FFF9  	hout
+4  *4    200E  	add one
+5  *5    100D  	st z
+               
+6  *6    800A  	ldc '\n'
+7  *7    FFFB  	aout
+               
+8  *8    000F  	ld count
+9  *9    300E  	sub one
+A  *10   100F  	st count
+B  *11   D000  	jnz loop
+C  *12   FFFF  	halt
+               
+D  *13   0041  z:	dw 65
+E  *14   0001  one:	dw 1
+F  *15   001A  count:	dw 26
+10 *16   ========= end of printAlphabet.mas ======================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ loop                      0           B  
+ z                         D           0   5  
+ one                       E           4   9  
+ count                     F           8   A  
+
+Input file   = printAlphabet.mas
+Output file  = printAlphabet.mac
+List file    = printAlphabet.lst 
+Number base  = decimal
+Label status = case sensitive

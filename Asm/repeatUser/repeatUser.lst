@@ -1,0 +1,112 @@
+Machine-level Assembler Version 6.3    Wed Sep 23 18:16:10 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    8011  input:	ldc msgx
+1  *1    FFF7  	sout
+2  *2    FFF6  	sin
+3  *3    102A  	st umsg
+4  *4    802B  	ldc msgy
+5  *5    FFF7  	sout
+6  *6    FFFC  	din
+7  *7    1054  	st x
+8  *8    002A  loop:	ld umsg
+9  *9    FFF7  	sout
+A  *10   800A  	ldc '\n'
+B  *11   FFFB  	aout
+C  *12   0054  	ld x
+D  *13   3055  	sub one
+E  *14   1054  	st x
+F  *15   D008  	jnz loop
+10 *16   FFFF  	halt
+11 *17   0057  msgx:	dw "What is your statement: "
+12 *18   0068
+13 *19   0061
+14 *20   0074
+15 *21   0020
+16 *22   0069
+17 *23   0073
+18 *24   0020
+19 *25   0079
+1A *26   006F
+1B *27   0075
+1C *28   0072
+1D *29   0020
+1E *30   0073
+1F *31   0074
+20 *32   0061
+21 *33   0074
+22 *34   0065
+23 *35   006D
+24 *36   0065
+25 *37   006E
+26 *38   0074
+27 *39   003A
+28 *40   0020
+29 *41   0000
+2A *42   0000  umsg:	dw ""
+2B *43   0048  msgy:	dw "How many times do you want it repeated: "
+2C *44   006F
+2D *45   0077
+2E *46   0020
+2F *47   006D
+30 *48   0061
+31 *49   006E
+32 *50   0079
+33 *51   0020
+34 *52   0074
+35 *53   0069
+36 *54   006D
+37 *55   0065
+38 *56   0073
+39 *57   0020
+3A *58   0064
+3B *59   006F
+3C *60   0020
+3D *61   0079
+3E *62   006F
+3F *63   0075
+40 *64   0020
+41 *65   0077
+42 *66   0061
+43 *67   006E
+44 *68   0074
+45 *69   0020
+46 *70   0069
+47 *71   0074
+48 *72   0020
+49 *73   0072
+4A *74   0065
+4B *75   0070
+4C *76   0065
+4D *77   0061
+4E *78   0074
+4F *79   0065
+50 *80   0064
+51 *81   003A
+52 *82   0020
+53 *83   0000
+54 *84   0000  x:	dw 0
+55 *85   0001  one:	dw 1
+56 *86   ========= end of repeatUser.mas =========================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ input                     0          
+ loop                      8           F  
+ msgx                      11          0  
+ umsg                      2A          3   8  
+ msgy                      2B          4  
+ x                         54          7   C   E  
+ one                       55          D  
+
+Input file   = repeatUser.mas
+Output file  = repeatUser.mac
+List file    = repeatUser.lst 
+Number base  = decimal
+Label status = case sensitive

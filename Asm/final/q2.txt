@@ -1,0 +1,16 @@
+ldc s
+ldi
+add two
+push
+ldc s
+sti
+sout
+ld t
+add one
+dout
+st t
+halt
+t:	dw -2
+s:	dw "BAD"
+two:	dw 2
+one:	dw 1

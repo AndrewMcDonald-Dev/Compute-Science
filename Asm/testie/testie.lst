@@ -1,0 +1,52 @@
+Machine-level Assembler Version 6.3    Wed Sep 30 19:51:26 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    0012  loop:		ld apple
+1  *1    3013  		sub berry
+2  *2    FFFD  		dout
+3  *3    1014  		st orange
+4  *4    9009  		ja pizza
+5  *5    0012  		ld apple
+6  *6    FFFD  		dout
+7  *7    3014  		sub orange
+8  *8    1013  		st berry
+9  *9    0014  pizza:		ld orange
+A  *10   FFFD  		dout
+B  *11   C00F  		jz done
+C  *12   F100  		ldi
+D  *13   FFFD  		dout
+E  *14   FFFF  		halt
+F  *15   0014  done:		ld orange
+10 *16   FFFD  		dout
+11 *17   FFFF  		halt
+12 *18   000D  apple:		dw 13
+13 *19   000D  berry:		dw 13
+14 *20   0023  orange:		dw 35
+15 *21   0048  grapes:		dw 'Hello'
+16 *22   0065
+17 *23   006C
+18 *24   006C
+19 *25   006F
+1A *26   ========= end of testie.mas =============================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ loop                      0          
+ pizza                     9           4  
+ done                      F           B  
+ apple                     12          0   5  
+ berry                     13          1   8  
+ orange                    14          3   7   9   F  
+ grapes                    15         
+
+Input file   = testie.mas
+Output file  = testie.mac
+List file    = testie.lst 
+Number base  = decimal
+Label status = case sensitive

@@ -1,0 +1,14 @@
+; #b95e 13 30 10 71 16953
+;Copy b.has p645.has and modify as required
+;Copy b.cfg to p645.cfg and modify as required
+;Copy bprog.mas to p645.mas, change directive to !p645, assemble
+;Run with
+;   sim p645
+n
+o
+ln
+g
+SD
+enable
+sd
+q

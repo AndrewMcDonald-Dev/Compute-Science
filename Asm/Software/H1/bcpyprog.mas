@@ -1,0 +1,14 @@
+         !bcpy
+         ldc    10
+         sect
+         ldc    s
+         push
+         ldc    t
+         bcpy
+         ldc    t
+         sout
+        
+         halt
+s:       dw    "0123456789xxxxxxx"
+t:       dw    80 dup 0
+

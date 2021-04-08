@@ -1,0 +1,432 @@
+Machine-level Assembler Version 6.3    Sun Nov 15 22:31:54 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+               !o
+0  *0    81EE  start:  ldc msgx
+1  *1    FFF7          sout
+2  *2    FFFC          din
+3  *3    30BE          sub @1
+4  *4    C006          jz cont
+5  *5    90B5          ja end
+               
+6  *6    00B7  cont:   ld setter
+7  *7    30B7          sub setter
+8  *8    10B7          st setter
+9  *9    10B8          st setter2
+A  *10   10B9          st temp
+B  *11   10BA          st index
+C  *12   10BB          st index2
+D  *13   10BC          st index3
+E  *14   10BD          st index4
+F  *15   1266          st product
+               
+               
+10 *16   820D  input:  ldc msgy
+11 *17   FFF7          sout
+12 *18   FFFC          din
+13 *19   B0B2          jn error2
+14 *20   C0B2          jz error2
+15 *21   10B6          st size
+16 *22   10BF          st columnCheck
+17 *23   10C0          st rowCheck
+18 *24   1269          st finale
+               
+19 *25   00B6          ld size
+1A *26   30C1          sub @10
+1B *27   B01E          jn num
+1C *28   C01E          jz num
+1D *29   90AF          ja error1
+               
+1E *30   00B6  num:    ld size
+1F *31   F300          push
+20 *32   00B6          ld size
+21 *33   FF40          mult
+22 *34   1266          st product
+23 *35   9024          ja loop1
+               
+24 *36   8230  loop1:  ldc msgz    
+25 *37   FFF7          sout
+26 *38   FFFC          din
+27 *39   F300          push
+28 *40   80C2          ldc numbuf1
+29 *41   20BA          add index
+2A *42   F200          sti
+2B *43   00BA          ld index
+2C *44   20BE          add @1
+2D *45   10BA          st index
+               
+2E *46   00BA          ld index
+2F *47   3266          sub product
+30 *48   B024          jn loop1
+               
+31 *49   00BA          ld index
+32 *50   30BA          sub index
+33 *51   10BA          st index
+34 *52   C035          jz loop2
+               
+35 *53   8230  loop2:  ldc msgz
+36 *54   FFF7          sout
+37 *55   FFFC          din
+38 *56   F300          push
+39 *57   8126          ldc numbuf2
+3A *58   20BA          add index
+3B *59   F200          sti
+3C *60   00BA          ld index
+3D *61   20BE          add @1
+3E *62   10BA          st index
+               
+3F *63   00BA          ld index
+40 *64   3266          sub product
+41 *65   B035          jn loop2
+               
+42 *66   00BA          ld index
+43 *67   30BA          sub index
+44 *68   10BA          st index
+45 *69   C046          jz compute1
+               
+46 *70   80C2  compute1:   ldc numbuf1
+47 *71   20BA              add index
+48 *72   F100              ldi
+49 *73   F300              push
+4A *74   8126              ldc numbuf2
+4B *75   20BB              add index2
+4C *76   F100              ldi
+4D *77   FF40              mult
+4E *78   1265              st c
+4F *79   9050              ja compute2
+               
+50 *80   00B9  compute2:   ld temp
+51 *81   2265              add c
+52 *82   10B9              st temp
+53 *83   0265              ld c
+54 *84   3265              sub c
+55 *85   1265              st c
+56 *86   00BA              ld index
+57 *87   30B6              sub size
+58 *88   30B7              sub setter
+59 *89   20BE              add @1
+5A *90   C062              jz check
+               
+5B *91   00BA              ld index
+5C *92   20BE              add @1
+5D *93   10BA              st index
+5E *94   00BB              ld index2
+5F *95   20B6              add size
+60 *96   10BB              st index2
+61 *97   9046              ja compute1
+               
+62 *98   0265  check:      ld c
+63 *99   3265              sub c
+64 *100  1265              st c
+               
+65 *101  00B9              ld temp
+66 *102  F300              push
+67 *103  818A              ldc outbuf
+68 *104  20BC              add index3
+69 *105  F200              sti
+6A *106  00B9              ld temp
+6B *107  30B9              sub temp
+6C *108  10B9              st temp
+               
+6D *109  00BC              ld index3
+6E *110  20BE              add @1
+6F *111  10BC              st index3
+               
+70 *112  00BF              ld columnCheck
+71 *113  30BE              sub @1
+72 *114  10BF              st columnCheck
+73 *115  C080              jz newRow
+               
+74 *116  00BA              ld index
+75 *117  30BA              sub index
+76 *118  20B7              add setter
+77 *119  10BA              st index
+               
+78 *120  00B8              ld setter2
+79 *121  20BE              add @1
+7A *122  10B8              st setter2
+               
+7B *123  00BB              ld index2
+7C *124  30BB              sub index2
+7D *125  20B8              add setter2
+7E *126  10BB              st index2
+               
+7F *127  9046              ja compute1
+               
+               
+80 *128  00C0  newRow:     ld rowCheck
+81 *129  30BE              sub @1
+82 *130  10C0              st rowCheck
+83 *131  C096              jz output
+               
+84 *132  00B7              ld setter
+85 *133  20B6              add size
+86 *134  10B7              st setter
+               
+87 *135  00BA              ld index
+88 *136  30BA              sub index
+89 *137  20B7              add setter
+8A *138  10BA              st index
+               
+8B *139  00B8              ld setter2
+8C *140  30B8              sub setter2
+8D *141  10B8              st setter2
+               
+8E *142  00BB              ld index2
+8F *143  30BB              sub index2
+90 *144  10BB              st index2
+               
+91 *145  00BF              ld columnCheck
+92 *146  30BF              sub columnCheck
+93 *147  20B6              add size
+94 *148  10BF              st columnCheck
+               
+95 *149  9046              ja compute1
+               
+96 *150  818A  output: ldc outbuf
+97 *151  20BD          add index4
+98 *152  F100          ldi
+99 *153  FFFD          dout
+9A *154  8267          ldc space
+9B *155  FFF7          sout
+9C *156  FFF7          sout
+9D *157  FFF7          sout
+9E *158  0269          ld finale
+9F *159  30BE          sub @1
+A0 *160  1269          st finale
+A1 *161  C0A9          jz newLine
+A2 *162  00BD  output2:    ld index4
+A3 *163  20BE          add @1
+A4 *164  10BD          st index4
+A5 *165  00BD          ld index4
+A6 *166  3266          sub product
+A7 *167  C000          jz start
+A8 *168  9096          ja output
+               
+A9 *169  800A  newLine:    ldc '\n'
+AA *170  FFFB              aout
+AB *171  0269              ld finale
+AC *172  20B6              add size
+AD *173  1269              st finale
+AE *174  90A2              ja output2
+               
+               
+AF *175  823F  error1: ldc msgE
+B0 *176  FFF7          sout
+B1 *177  90B5          ja end
+               
+B2 *178  8251  error2: ldc msgE2
+B3 *179  FFF7          sout
+B4 *180  90B5          ja end
+                   
+B5 *181  FFFF  end:    halt
+               
+B6 *182  0000  size:   dw 0
+B7 *183  0000  setter: dw 0
+B8 *184  0000  setter2: dw 0
+B9 *185  0000  temp:   dw 0
+BA *186  0000  index:  dw 0
+BB *187  0000  index2: dw 0
+BC *188  0000  index3: dw 0
+BD *189  0000  index4: dw 0
+BE *190  0001  @1:     dw 1
+BF *191  0000  columnCheck: dw 0
+C0 *192  0000  rowCheck: dw 0
+C1 *193  000A  @10:    dw 10
+C2 *194  0000  numbuf1:    dw 100 dup 0
+126*294  0000  numbuf2:    dw 100 dup 0
+18A*394  0000  outbuf:     dw 100 dup 0
+1EE*494  0049  msgx:   dw "Is there another problem?(0/1)"
+1EF*495  0073
+1F0*496  0020
+1F1*497  0074
+1F2*498  0068
+1F3*499  0065
+1F4*500  0072
+1F5*501  0065
+1F6*502  0020
+1F7*503  0061
+1F8*504  006E
+1F9*505  006F
+1FA*506  0074
+1FB*507  0068
+1FC*508  0065
+1FD*509  0072
+1FE*510  0020
+1FF*511  0070
+200*512  0072
+201*513  006F
+202*514  0062
+203*515  006C
+204*516  0065
+205*517  006D
+206*518  003F
+207*519  0028
+208*520  0030
+209*521  002F
+20A*522  0031
+20B*523  0029
+20C*524  0000
+20D*525  0045  msgy:   dw "Enter number of rows and columns: "
+20E*526  006E
+20F*527  0074
+210*528  0065
+211*529  0072
+212*530  0020
+213*531  006E
+214*532  0075
+215*533  006D
+216*534  0062
+217*535  0065
+218*536  0072
+219*537  0020
+21A*538  006F
+21B*539  0066
+21C*540  0020
+21D*541  0072
+21E*542  006F
+21F*543  0077
+220*544  0073
+221*545  0020
+222*546  0061
+223*547  006E
+224*548  0064
+225*549  0020
+226*550  0063
+227*551  006F
+228*552  006C
+229*553  0075
+22A*554  006D
+22B*555  006E
+22C*556  0073
+22D*557  003A
+22E*558  0020
+22F*559  0000
+230*560  0045  msgz:   dw "Enter number: "
+231*561  006E
+232*562  0074
+233*563  0065
+234*564  0072
+235*565  0020
+236*566  006E
+237*567  0075
+238*568  006D
+239*569  0062
+23A*570  0065
+23B*571  0072
+23C*572  003A
+23D*573  0020
+23E*574  0000
+23F*575  0054  msgE:   dw "Too big a matrix!"
+240*576  006F
+241*577  006F
+242*578  0020
+243*579  0062
+244*580  0069
+245*581  0067
+246*582  0020
+247*583  0061
+248*584  0020
+249*585  006D
+24A*586  0061
+24B*587  0074
+24C*588  0072
+24D*589  0069
+24E*590  0078
+24F*591  0021
+250*592  0000
+251*593  0054  msgE2:  dw "Too small a matrix!"
+252*594  006F
+253*595  006F
+254*596  0020
+255*597  0073
+256*598  006D
+257*599  0061
+258*600  006C
+259*601  006C
+25A*602  0020
+25B*603  0061
+25C*604  0020
+25D*605  006D
+25E*606  0061
+25F*607  0074
+260*608  0072
+261*609  0069
+262*610  0078
+263*611  0021
+264*612  0000
+265*613  0000  c:  dw 0
+266*614  0000  product:    dw 0
+267*615  0020  space:  dw " "
+268*616  0000
+269*617  0000  finale: dw 0
+26A*618  ========= end of project3.mas ===========================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ start                     0           A7 
+ cont                      6           4  
+ input                     10         
+ num                       1E          1B  1C 
+ loop1                     24          23  30 
+ loop2                     35          34  41 
+ compute1                  46          45  61  7F  95 
+ compute2                  50          4F 
+ check                     62          5A 
+ newRow                    80          73 
+ output                    96          83  A8 
+ output2                   A2          AE 
+ newLine                   A9          A1 
+ error1                    AF          1D 
+ error2                    B2          13  14 
+ end                       B5          5   B1  B4 
+ size                      B6          15  19  1E  20  57 
+                                       5F  85  93  AC 
+ setter                    B7          6   7   8   58  76 
+                                       84  86  89 
+ setter2                   B8          9   78  7A  7D  8B 
+                                       8C  8D 
+ temp                      B9          A   50  52  65  6A 
+                                       6B  6C 
+ index                     BA          B   29  2B  2D  2E 
+                                       31  32  33  3A  3C 
+                                       3E  3F  42  43  44 
+                                       47  56  5B  5D  74 
+                                       75  77  87  88  8A 
+ index2                    BB          C   4B  5E  60  7B 
+                                       7C  7E  8E  8F  90 
+ index3                    BC          D   68  6D  6F 
+ index4                    BD          E   97  A2  A4  A5 
+ @1                        BE          3   2C  3D  59  5C 
+                                       6E  71  79  81  9F 
+                                       A3 
+ columnCheck               BF          16  70  72  91  92 
+                                       94 
+ rowCheck                  C0          17  80  82 
+ @10                       C1          1A 
+ numbuf1                   C2          28  46 
+ numbuf2                   126         39  4A 
+ outbuf                    18A         67  96 
+ msgx                      1EE         0  
+ msgy                      20D         10 
+ msgz                      230         24  35 
+ msgE                      23F         AF 
+ msgE2                     251         B2 
+ c                         265         4E  51  53  54  55 
+                                       62  63  64 
+ product                   266         F   22  2F  40  A6 
+ space                     267         9A 
+ finale                    269         18  9E  A0  AB  AD 
+
+Input file   = project3.mas
+Output file  = project3.mac
+List file    = project3.lst 
+Config file  = o.cfg 
+Number base  = decimal
+Label status = case sensitive

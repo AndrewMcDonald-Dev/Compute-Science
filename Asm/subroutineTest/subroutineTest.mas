@@ -1,0 +1,14 @@
+start:	call on
+	ldc '\n'
+	aout
+	call off
+	halt
+	
+on:	ldc msgx	;loads on and prints
+	sout
+	ret
+off:	ldc msgy	;loads off and prints
+	sout
+	ret
+msgx:	dw "on"
+msgy:	dw "off"

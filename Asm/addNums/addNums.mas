@@ -1,0 +1,32 @@
+input:	ldc msgx
+	sout
+	din
+	st x
+	ldc msgx
+	sout
+	din
+	st y
+comp:	ld x
+	add y
+	st sum
+	ld x
+	sub y
+	st diff
+output:	ldc msgy
+	sout
+	ld sum
+	dout
+	ldc '\n'
+	aout
+	ldc msgz
+	sout
+	ld diff
+	dout
+	halt
+msgx:	dw "Enter a number: "
+x:	dw 0
+y:	dw 0
+sum:	dw 0
+diff:	dw 0
+msgy:	dw "The addition of the two inputs is "
+msgz:	dw "The subtraction of the two inputs is "

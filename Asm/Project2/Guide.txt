@@ -1,0 +1,3 @@
+has s4.has
+mas s4test.mas
+sim s4test

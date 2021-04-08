@@ -1,0 +1,5 @@
+c:	ldc msgx
+	sout
+	ret
+msgx:	dw "in c"
+	public c

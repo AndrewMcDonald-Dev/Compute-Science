@@ -1,0 +1,14 @@
+loop:		ld x
+		add y
+		st x
+		ld count
+		sub @1
+		st count
+		jnz loop
+		add @1
+		st count
+		halt
+x:		dw 4
+y:		dw 2
+count:		dw 5
+@1:		dw 1

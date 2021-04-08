@@ -1,0 +1,109 @@
+Machine-level Assembler Version 6.3    Fri Oct 02 16:07:35 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    801E  	ldc msgx
+1  *1    FFF7  	sout
+2  *2    804B  	ldc inbuf
+3  *3    FFF6  	sin
+4  *4    FFF7  	sout
+5  *5    800A  	ldc '\n'
+6  *6    FFFB  	aout
+7  *7    804B  loop:	ldc inbuf
+8  *8    202D  	add index
+9  *9    F100  	ldi
+A  *10   C019  	jz done
+B  *11   302E  	sub spaceCheck
+C  *12   C015  	jz spaceCheckUpdate
+               return:
+D  *13   804B  	ldc inbuf
+E  *14   202D  	add index
+F  *15   F100  	ldi
+10 *16   C019  	jz done
+11 *17   002D  	ld index
+12 *18   202F  	add @1
+13 *19   102D  	st index
+14 *20   9007  	ja loop
+               
+               spaceCheckUpdate:
+15 *21   0030  	ld count
+16 *22   202F  	add @1
+17 *23   1030  	st count
+18 *24   900D  	ja return
+19 *25   8031  done:	ldc msgy
+1A *26   FFF7  	sout
+1B *27   0030  	ld count
+1C *28   FFFD  	dout
+1D *29   FFFF  	halt
+1E *30   0045  msgx:	dw "Enter String: "
+1F *31   006E
+20 *32   0074
+21 *33   0065
+22 *34   0072
+23 *35   0020
+24 *36   0053
+25 *37   0074
+26 *38   0072
+27 *39   0069
+28 *40   006E
+29 *41   0067
+2A *42   003A
+2B *43   0020
+2C *44   0000
+2D *45   0000  index:	dw 0
+2E *46   0020  spaceCheck:	dw 32
+2F *47   0001  @1:	dw 1
+30 *48   0000  count:	dw 0
+31 *49   0054  msgy:	dw "The Amount of spaces is: "
+32 *50   0068
+33 *51   0065
+34 *52   0020
+35 *53   0041
+36 *54   006D
+37 *55   006F
+38 *56   0075
+39 *57   006E
+3A *58   0074
+3B *59   0020
+3C *60   006F
+3D *61   0066
+3E *62   0020
+3F *63   0073
+40 *64   0070
+41 *65   0061
+42 *66   0063
+43 *67   0065
+44 *68   0073
+45 *69   0020
+46 *70   0069
+47 *71   0073
+48 *72   003A
+49 *73   0020
+4A *74   0000
+4B *75   0000  inbuf:	dw 75 dup 0
+96 *150  ========= end of exam#4.mas =============================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ loop                      7           14 
+ return                    D           18 
+ spaceCheckUpdate          15          C  
+ done                      19          A   10 
+ msgx                      1E          0  
+ index                     2D          8   E   11  13 
+ spaceCheck                2E          B  
+ @1                        2F          12  16 
+ count                     30          15  17  1B 
+ msgy                      31          19 
+ inbuf                     4B          2   7   D  
+
+Input file   = exam#4.mas
+Output file  = exam#4.mac
+List file    = exam#4.lst 
+Number base  = decimal
+Label status = case sensitive

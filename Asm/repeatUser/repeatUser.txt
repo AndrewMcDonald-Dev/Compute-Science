@@ -1,0 +1,20 @@
+input:	ldc msgx
+	sin
+	st umsg
+	ldc msgy
+	din
+	st x
+loop:	ld umsg
+	sout
+	ldc '\n'
+	aout
+	ld x
+	sub one
+	st x
+	jnz loop
+	halt
+msgx:	dw "What is your statement: "
+umsg:	dw ""
+msgy:	dw "How many times do you want it repeated: "
+x:	dw 0
+one:	dw 1

@@ -1,0 +1,559 @@
+Machine-level Assembler Version 6.3    Wed Nov 25 20:56:15 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+               !o
+               
+0  *0    80AF  start:	ldc prompt
+1  *1    FFF7  	sout
+2  *2    FFFC  	din
+3  *3    1127  	st n
+4  *4    125C  	st columncheck
+5  *5    1257  	st size
+               	;st size1
+6  *6    B084  	jn end1
+7  *7    909D  	ja product
+               	
+               
+               
+8  *8    80E0  start1:	ldc prompt2
+               
+9  *9    FFF7  	sout
+               	
+               startA:	                     ;ldc MatrixA
+               
+A  *10   FFFC  	din
+               	
+B  *11   F300  	push
+               
+C  *12   812A  	ldc MatrixA
+               	
+D  *13   2122  	add indexA
+               
+E  *14   F200  	sti
+               		
+F  *15   0122  	ld indexA
+10 *16   2125  	add @1
+11 *17   1122  	st indexA
+               
+               			;ld temptotalsize
+               			;sub @1
+12 *18   311F  	sub temptotalsize
+               
+13 *19   C015  	jz start2
+14 *20   9008  	ja start1
+               
+15 *21   80FC  start2:	ldc prompt3
+               
+16 *22   FFF7  	sout
+               
+               startB:			;ldc MatrixB
+               
+17 *23   FFFC  	din
+               	
+18 *24   F300  	push
+               
+19 *25   818E  	ldc MatrixB
+               	
+1A *26   2123  	add indexB
+               
+1B *27   F200  	sti
+               		
+1C *28   0123  	ld indexB
+1D *29   2125  	add @1
+1E *30   1123  	st indexB
+               
+               				;ld temptotalsize2
+               				;sub @1
+1F *31   311D  	sub temptotalsize2
+               				;jz testdisplay
+20 *32   C022  	jz compute
+21 *33   9015  	ja start2
+               	
+               compute:
+22 *34   812A  	ldc MatrixA
+23 *35   2119  	add PositionA		;pushing ldi onto stack
+24 *36   F100  	ldi
+25 *37   F300  	push
+26 *38   818E  	ldc MatrixB		;setting ac
+27 *39   2118  	add PositionB
+28 *40   F100  	ldi
+29 *41   FF40  	mult			;multiplication part
+2A *42   1256  	st computation		;fix this part, IDK if computation gets saved o
+               
+2B *43   902C  	ja compute2	
+               		
+               
+               				;ld computation push onto MatrixC
+               				;row check aka size 
+               				;have a rowcheck, if row is 0 go back to index 0 for matrixA
+               				;columncheck, check variable=n, if check variable = 0, go ba
+               
+               compute2:
+               
+2C *44   025A  	ld tempC
+2D *45   2256  	add computation					;tempC not resetting for second row
+2E *46   125A  	st tempC
+2F *47   FFFD  	dout
+               	
+               	
+30 *48   8128  	ldc space
+31 *49   FFF7  	sout
+               		
+32 *50   0256  	ld computation
+33 *51   3256  	sub computation
+34 *52   1256  	st computation
+               					;check column
+               	;ld tempC
+               	;push
+               
+               	;ldc MatrixC
+               	;add PositionC			;this part fix
+               	;sti
+               
+               	;ld PositionC
+               	;add @1
+               	;st PositionC
+               
+35 *53   025D  	ld CompleteTotal
+36 *54   3125  	sub @1
+37 *55   125D  	st CompleteTotal
+38 *56   B08B  	jn display			;end 
+               	
+39 *57   025C  	ld columncheck			;columncehck, to see if we are at end of colum
+3A *58   3125  	sub @1
+3B *59   125C  	st columncheck
+               	
+3C *60   C064  	jz MatrixOrigin 
+               	
+3D *61   0119  	ld PositionA			;ld indexA, add one to position 
+3E *62   2125  	add @1
+3F *63   1119  	st PositionA
+               
+40 *64   0118  	ld PositionB
+41 *65   2127  	add n
+42 *66   1118  	st PositionB
+               	
+               checking:
+43 *67   0258  	ld size1			;check if we are at the end of the row
+44 *68   3125  	sub @1
+45 *69   1258  	st size1
+46 *70   C048  	jz reset				
+47 *71   9022  	ja compute
+               
+               			
+48 *72   025B  reset:	ld zero
+49 *73   125A  	st tempC
+               	
+               	
+4A *74   025B  	ld zero
+4B *75   1119  	st PositionA
+               	
+4C *76   0121  	ld tempA
+4D *77   2127  	add n	
+4E *78   1121  	st tempA
+               
+4F *79   0121  	ld tempA		;origin + n
+50 *80   1119  	st PositionA
+               
+               				;ld PositionA
+               				;add @1
+               				;st PositionA
+               	
+               	
+               	
+51 *81   025B  	ld zero			;origin 	
+52 *82   1118  	st PositionB
+               
+               				;ld tempB
+               				;add @1
+               				;st tempB
+               
+               				;st tempB
+53 *83   025B  	ld zero
+54 *84   125C  	st columncheck
+               
+55 *85   025C  	ld columncheck
+56 *86   2127  	add n
+57 *87   125C  	st columncheck
+               
+58 *88   025B  	ld zero
+59 *89   1258  	st size1
+               	
+5A *90   0258  	ld size1
+5B *91   2259  	add size2
+5C *92   1258  	st size1
+               
+5D *93   025B  	ld zero
+5E *94   1120  	st tempB
+               	
+               				;ld PositionC	;origin + 1 
+               				;add @1
+               				;st PositionC
+               
+               				;ld totalsize
+               				;add totalsize1
+               				;st totalsize
+               		
+5F *95   9022  	ja compute	
+               	
+               
+               
+               incrementPositionB:
+               	
+60 *96   0120  	ld tempB
+61 *97   2125  	add @1
+62 *98   1120  	st tempB
+63 *99   9022  	ja compute
+               
+               MatrixOrigin:					;reset B position and reset tempC and +1 Posit
+               
+64 *100  025A  	ld tempC
+65 *101  FFFD  	dout
+66 *102  8128  	ldc space 
+67 *103  FFF7  	sout
+68 *104  025A  	ld tempC
+69 *105  F300  	push
+               
+6A *106  81F2  	ldc MatrixC
+6B *107  211A  	add PositionC				;this part fix
+6C *108  F200  	sti
+               	
+6D *109  025B  	ld zero
+6E *110  1118  	st PositionB
+               
+6F *111  0118  	ld PositionB
+70 *112  2120  	add tempB					;add tempB
+71 *113  1118  	st PositionB
+               	
+72 *114  025B  	ld zero
+73 *115  2121  	add tempA
+74 *116  1119  	st PositionA
+               	
+75 *117  025B  	ld zero					;reset tempC
+76 *118  125A  	st tempC
+               
+77 *119  011A  	ld PositionC
+78 *120  2125  	add @1
+79 *121  111A  	st PositionC
+               
+7A *122  0120  	ld tempB	
+7B *123  2125  	add @1
+7C *124  1120  	st tempB	
+               
+7D *125  025B  	ld zero
+7E *126  125C  	st columncheck
+               
+7F *127  025C  	ld columncheck
+80 *128  2127  	add n
+81 *129  125C  	st columncheck
+               
+               
+82 *130  9043  	ja checking
+               	
+               
+               	
+               
+               
+               
+               
+83 *131  9000  end:	ja start
+               
+               end1:
+               
+               
+84 *132  FFFF  	halt
+               
+               
+               newline:	
+85 *133  0257  	ld size
+86 *134  2127  	add n
+87 *135  1257  	st size
+88 *136  800A  	ldc '\n' 
+89 *137  FFFB  	aout
+8A *138  9098  	ja display2
+               display:	
+8B *139  81F2  	ldc MatrixC
+8C *140  2126  	add C
+8D *141  F100  	ldi
+8E *142  FFFD  	dout
+               
+8F *143  8128  	ldc space
+90 *144  FFF7  	sout
+               
+91 *145  0126  	ld C
+92 *146  2125  	add @1
+93 *147  1126  	st C
+               
+94 *148  0257  	ld size
+95 *149  3125  	sub @1
+96 *150  1257  	st size
+97 *151  C085  	jz newline
+               	
+               display2:	
+98 *152  011E  	ld temptotalsize3	
+99 *153  3125  	sub @1
+9A *154  111E  	st temptotalsize3
+9B *155  C083  	jz end
+               
+9C *156  908B  	ja display
+               	
+               
+               
+               
+               
+               product:	
+9D *157  0127  	ld n
+9E *158  F300  	push	
+9F *159  0127  	ld n
+A0 *160  FF40  	mult
+A1 *161  111B  	st totalsize
+A2 *162  111C  	st totalsize1
+A3 *163  125E  	st checkRow
+A4 *164  1258  	st size1
+A5 *165  1259  	st size2
+A6 *166  111F  	st temptotalsize	;for inputs for matrixA
+A7 *167  111D  	st temptotalsize2	;for inputs for matrixB
+A8 *168  111E  	st temptotalsize3	;for matrixC
+A9 *169  011B  	ld totalsize
+AA *170  F300  	push	
+AB *171  0127  	ld n
+AC *172  FF40  	mult
+AD *173  125D  	st CompleteTotal
+               
+AE *174  9008  	ja start1
+               	
+               
+               
+               
+               
+               ;testdisplay:	
+               ;	ldc MatrixB
+               ;	add testIndex
+               ;	ldi 
+               ;	dout
+               ;	ldc '\n'
+               ;	aout
+               ;	ld testIndex
+               ;	add @1
+               ;	st testIndex
+               ;	sub totalsize	
+               ;	jz end
+               ;	ja testdisplay
+               
+               
+               
+               
+               
+               
+               
+AF *175  0069  prompt:		dw "input matrix of upto size 10, input -1 if done: " 
+B0 *176  006E
+B1 *177  0070
+B2 *178  0075
+B3 *179  0074
+B4 *180  0020
+B5 *181  006D
+B6 *182  0061
+B7 *183  0074
+B8 *184  0072
+B9 *185  0069
+BA *186  0078
+BB *187  0020
+BC *188  006F
+BD *189  0066
+BE *190  0020
+BF *191  0075
+C0 *192  0070
+C1 *193  0074
+C2 *194  006F
+C3 *195  0020
+C4 *196  0073
+C5 *197  0069
+C6 *198  007A
+C7 *199  0065
+C8 *200  0020
+C9 *201  0031
+CA *202  0030
+CB *203  002C
+CC *204  0020
+CD *205  0069
+CE *206  006E
+CF *207  0070
+D0 *208  0075
+D1 *209  0074
+D2 *210  0020
+D3 *211  002D
+D4 *212  0031
+D5 *213  0020
+D6 *214  0069
+D7 *215  0066
+D8 *216  0020
+D9 *217  0064
+DA *218  006F
+DB *219  006E
+DC *220  0065
+DD *221  003A
+DE *222  0020
+DF *223  0000
+E0 *224  0069  prompt2:	dw "input values for A matrix: " 
+E1 *225  006E
+E2 *226  0070
+E3 *227  0075
+E4 *228  0074
+E5 *229  0020
+E6 *230  0076
+E7 *231  0061
+E8 *232  006C
+E9 *233  0075
+EA *234  0065
+EB *235  0073
+EC *236  0020
+ED *237  0066
+EE *238  006F
+EF *239  0072
+F0 *240  0020
+F1 *241  0041
+F2 *242  0020
+F3 *243  006D
+F4 *244  0061
+F5 *245  0074
+F6 *246  0072
+F7 *247  0069
+F8 *248  0078
+F9 *249  003A
+FA *250  0020
+FB *251  0000
+FC *252  0069  prompt3:	dw "input values for B matrix: " 
+FD *253  006E
+FE *254  0070
+FF *255  0075
+100*256  0074
+101*257  0020
+102*258  0076
+103*259  0061
+104*260  006C
+105*261  0075
+106*262  0065
+107*263  0073
+108*264  0020
+109*265  0066
+10A*266  006F
+10B*267  0072
+10C*268  0020
+10D*269  0042
+10E*270  0020
+10F*271  006D
+110*272  0061
+111*273  0074
+112*274  0072
+113*275  0069
+114*276  0078
+115*277  003A
+116*278  0020
+117*279  0000
+118*280  0000  PositionB:	dw 0
+119*281  0000  PositionA:	dw 0
+11A*282  0000  PositionC:	dw 0
+11B*283  0000  totalsize:	dw 0
+11C*284  0000  totalsize1:	dw 0
+11D*285  0000  temptotalsize2:	dw 0
+11E*286  0000  temptotalsize3:	dw 0
+11F*287  0000  temptotalsize:	dw 0
+120*288  0001  tempB:		dw 1
+121*289  0000  tempA:		dw 0
+122*290  0000  indexA:		dw 0
+123*291  0000  indexB:		dw 0
+124*292  0000  testIndex:	dw 0
+125*293  0001  @1:		dw 1
+126*294  0000  C:		dw 0
+127*295  0000  n:		dw 0			;matrix length
+128*296  0020  space:		dw " " 
+129*297  0000
+12A*298  0000  MatrixA:	dw 100 dup 0
+18E*398  0000  MatrixB:	dw 100 dup 0
+1F2*498  0000  MatrixC:	dw 100 dup 0
+256*598  0000  computation:	dw 0
+257*599  0000  size:		dw 0
+258*600  0000  size1:		dw 0
+259*601  0000  size2:		dw 0
+25A*602  0000  tempC:		dw 0
+25B*603  0000  zero:		dw 0
+25C*604  0000  columncheck:	dw 0	
+25D*605  0000  CompleteTotal:	dw 0
+25E*606  0000  checkRow:	dw 0
+25F*607  ========= end of mat.mas ================================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ start                     0           83 
+ start1                    8           14  AE 
+ startA                    A          
+ start2                    15          13  21 
+ startB                    17         
+ compute                   22          20  47  5F  63 
+ compute2                  2C          2B 
+ checking                  43          82 
+ reset                     48          46 
+ incrementPositionB        60         
+ MatrixOrigin              64          3C 
+ end                       83          9B 
+ end1                      84          6  
+ newline                   85          97 
+ display                   8B          38  9C 
+ display2                  98          8A 
+ product                   9D          7  
+ prompt                    AF          0  
+ prompt2                   E0          8  
+ prompt3                   FC          15 
+ PositionB                 118         27  40  42  52  6E 
+                                       6F  71 
+ PositionA                 119         23  3D  3F  4B  50 
+                                       74 
+ PositionC                 11A         6B  77  79 
+ totalsize                 11B         A1  A9 
+ totalsize1                11C         A2 
+ temptotalsize2            11D         1F  A7 
+ temptotalsize3            11E         98  9A  A8 
+ temptotalsize             11F         12  A6 
+ tempB                     120         5E  60  62  70  7A 
+                                       7C 
+ tempA                     121         4C  4E  4F  73 
+ indexA                    122         D   F   11 
+ indexB                    123         1A  1C  1E 
+ testIndex                 124        
+ @1                        125         10  1D  36  3A  3E 
+                                       44  61  78  7B  92 
+                                       95  99 
+ C                         126         8C  91  93 
+ n                         127         3   41  4D  56  80 
+                                       86  9D  9F  AB 
+ space                     128         30  66  8F 
+ MatrixA                   12A         C   22 
+ MatrixB                   18E         19  26 
+ MatrixC                   1F2         6A  8B 
+ computation               256         2A  2D  32  33  34 
+ size                      257         5   85  87  94  96 
+ size1                     258         43  45  59  5A  5C 
+                                       A4 
+ size2                     259         5B  A5 
+ tempC                     25A         2C  2E  49  64  68 
+                                       76 
+ zero                      25B         48  4A  51  53  58 
+                                       5D  6D  72  75  7D 
+ columncheck               25C         4   39  3B  54  55 
+                                       57  7E  7F  81 
+ CompleteTotal             25D         35  37  AD 
+ checkRow                  25E         A3 
+
+Input file   = mat.mas
+Output file  = mat.mac
+List file    = mat.lst 
+Config file  = o.cfg 
+Number base  = decimal
+Label status = case sensitive

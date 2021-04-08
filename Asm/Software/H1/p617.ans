@@ -1,0 +1,18 @@
+; #1372 14 70 10 173 61809
+;Use p617.has for your microcode
+;Copy b.cfg to p617.cfg and modify as required
+;Assemble microcode with
+;   has p617
+;Insert !p617 at beginning of assembly language program
+;Assemble with
+;   mas p617
+;Run with
+;   sim p617
+n
+o
+ln
+g
+SD
+enable
+sd
+q

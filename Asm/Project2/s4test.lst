@@ -1,0 +1,36 @@
+Machine-level Assembler Version 6.3    Wed Oct 28 21:05:08 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+               !s4
+               
+0  *0    000A        ld x
+1  *1    F300        push
+2  *2    000B        ld y
+3  *3    F800        or
+4  *4    FFF9        hout
+5  *5    F400        pop
+6  *6    000A        ld x
+7  *7    F900        bitswap
+8  *8    FFF9        hout
+9  *9    FFFF        halt
+A  *10   ABCD  x:    dw  abcdh
+B  *11   0123  y:    dw  0123h
+C  *12   ========= end of s4test.mas =============================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ x                         A           0   6  
+ y                         B           2  
+
+Input file   = s4test.mas
+Output file  = s4test.mac
+List file    = s4test.lst 
+Config file  = s4.cfg 
+Number base  = decimal
+Label status = case sensitive

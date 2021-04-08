@@ -1,0 +1,34 @@
+	ldc msgx
+	sout
+	ldc inbuf
+	sin
+	sout
+	ldc '\n'
+	aout
+loop:	ldc inbuf
+	add index
+	ldi
+	jz done
+	sub spaceCheck
+	jz spaceCheckUpdate
+	ld index
+	add @1
+	st index
+	ja loop
+spaceCheckUpdate:
+	ld count
+	add @1
+	st count
+	ja loop
+done:	ldc msgy
+	sout
+	ld count
+	dout
+	halt
+msgx:	dw "Enter String: "
+index:	dw 0
+spaceCheck:	dw 32
+@1:	dw 1
+count:	dw 0
+msgy:	dw "The Amount of spaces is: "
+inbuf:	dw 100 dup 0

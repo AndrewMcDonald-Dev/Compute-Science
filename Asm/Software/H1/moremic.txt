@@ -1,0 +1,70 @@
+More Microprogramming Assignments
+
+For each of the problems below, implement just the instructions
+listed in microcode.  Test with the indicated test program.
+Each test program has an associated answer file that allows sim
+to verify the correctness of your microcode.  The answer file and 
+test program for each problem is in the software package.
+
+Reference: Chapter 12 of the textbook
+
+1)    ld                            (as in standard instruction set)
+      ldc                           (as in standard instruction set)
+      m   x      ac = ac * mem[x];  (use shift-add algorithm in 
+                                     microcode)
+      mult x     ac = ac * mem[x];  (use hardware multiplier)
+
+      test program in software package: multprog.mas
+      microcode files to create: mult.has, mult.cfg
+
+2)    ld                            (as in standard instruction set)
+      ldc                           (as in standard instruction set)
+      div x      ac = ac / mem[x];
+      rem x      ac = ac % mem[x];
+
+      test program in software package: divprog.mas
+      microcode files to create: div.has, div.cfg
+
+3)    ld                            (as in standard instruction set)
+      ldc                           (as in standard instruction set)
+      or         ac = ac | mem[x];
+      xor        ac = ac ^ mem[x];
+
+      test program in software package: orprog.mas
+      microcode files to create: or.has, or.cfg
+
+4)    ld                            (as in standard instruction set)
+      ldc                           (as in standard instruction set)
+      shra z     ac = ac >> z;      (z is rightmost 4 bits of inst)
+
+      test program in software package: shraprog.mas
+      microcode files to create: shra.has, shra.cfg
+
+5)    ld                            (as in standard instruction set)
+      ldc                           (as in standard instruction set)
+      scmp x     if (mem[x] <  ac) ac = -1;  (signed compare)
+                 if (mem[x] == ac) ac = 0;
+                 if (mem[x] >  ac) ac = 1;
+
+      test program in software package: scmpprog.mas
+      microcode files to create: scmp.has, scmp.cfg
+
+6)    ld                            (as in standard instruction set)
+      ldc                           (as in standard instruction set)
+      ucmp x     if (mem[x] <  ac) ac = -1;  (unsigned compare)
+                 if (mem[x] == ac) ac = 0;
+                 if (mem[x] >  ac) ac = 1;
+
+      test program in software package: ucmpprog.mas
+      microcode files to create: ucmp.has, ucmp.cfg
+
+7)    ldc                           (as in standard instruction set)
+      push                          (as in standard instruction set)
+      sect      ct = ac;            (see Chapter 12)
+      bcpy      temp = mem[sp++];
+                while (ct--)        (see Chapter 12)
+                  mem[ac++] = mem[temp++];
+
+      test program in software package: bcpyprog.mas
+      microcode files to create: bcpy.has, bcpy.cfg
+

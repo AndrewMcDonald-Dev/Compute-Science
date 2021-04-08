@@ -1,0 +1,48 @@
+         !shra
+         ld     @32767
+         shra   1
+         dout
+         ldc    '\n'
+         aout
+         ld     @32767
+         shra   2
+         dout
+         ldc    '\n'
+         aout
+         ld     @32767
+         shra   15
+         dout
+         ldc    '\n'
+         aout
+
+         ld     @_5
+         shra   1
+         dout
+         ldc    '\n'
+         aout
+         ld     @_5
+         shra   2
+         dout
+         ldc    '\n'
+         aout
+         ld     @_5
+         shra   3
+         dout
+         ldc    '\n'
+         aout
+         ld     @_5
+         shra   15
+         dout
+         ldc    '\n'
+         aout
+
+         halt
+@32767:  dw    32767
+@_32768: dw    -32768
+@1:      dw    1
+@_1:     dw    -1
+@5:      dw    5
+@_5:     dw    -5
+@3:      dw    3
+@_3:     dw    -3
+

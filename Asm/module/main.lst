@@ -1,0 +1,26 @@
+Machine-level Assembler Version 6.3    Wed Nov 04 19:56:29 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    E000  main:	call b
+1  *1    FFFF  done:	halt
+               	extern b
+               	end main
+2  *2    ========= end of main.mas ===============================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ main                      0           2  
+ done                      1          
+ b                         ext         2   0  
+
+Input file   = main.mas
+Output file  = main.mob
+List file    = main.lst 
+Number base  = decimal
+Label status = case sensitive

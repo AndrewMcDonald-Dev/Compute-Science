@@ -1,0 +1,15 @@
+; #917e 263 92 116 1129 48913
+; Use the file p68.has for your microcode.
+; Copy s.cfg to p68.cfg
+; Copy sprog.mas to p68.mas.
+; Insert !p68 at beginning of p68.mas.
+; Invoke sim with
+;     sim p68
+n 
+o
+ln
+g
+SD
+enable
+sd
+q

@@ -1,0 +1,17 @@
+; #cfd3
+;multiply 3 by 10
+;Copy s.has to p646.has and modify as required
+;Copy s.cfg to p646.cfg and modify as required
+;Create the assembly language program in p646.mas
+;Add !p646 to the beginning of p646.mas
+;The display should look exactly like this:
+;Product = 30 (good)
+;Product = 30 (ugly)
+n
+o
+ln
+g
+SD
+enable
+sd
+q

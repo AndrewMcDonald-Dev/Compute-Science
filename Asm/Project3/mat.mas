@@ -1,0 +1,378 @@
+!o
+
+start:	ldc prompt
+	sout
+	din
+	st n
+	st columncheck
+	st size
+	;st size1
+	jn end1
+	ja product
+	
+
+
+start1:	ldc prompt2
+
+	sout
+	
+startA:	                     ;ldc MatrixA
+
+	din
+	
+	push
+
+	ldc MatrixA
+	
+	add indexA
+
+	sti
+		
+	ld indexA
+	add @1
+	st indexA
+
+			;ld temptotalsize
+			;sub @1
+	sub temptotalsize
+
+	jz start2
+	ja start1
+
+start2:	ldc prompt3
+
+	sout
+
+startB:			;ldc MatrixB
+
+	din
+	
+	push
+
+	ldc MatrixB
+	
+	add indexB
+
+	sti
+		
+	ld indexB
+	add @1
+	st indexB
+
+				;ld temptotalsize2
+				;sub @1
+	sub temptotalsize2
+				;jz testdisplay
+	jz compute
+	ja start2
+	
+compute:
+	ldc MatrixA
+	add PositionA		;pushing ldi onto stack
+	ldi
+	push
+	ldc MatrixB		;setting ac
+	add PositionB
+	ldi
+	mult			;multiplication part
+	st computation		;fix this part, IDK if computation gets saved onto MatrixC check it
+
+	ja compute2	
+		
+
+				;ld computation push onto MatrixC
+				;row check aka size 
+				;have a rowcheck, if row is 0 go back to index 0 for matrixA and + 1 index for matrixB, if not add one to position matrixA
+				;columncheck, check variable=n, if check variable = 0, go back to original index and repeat multiplication for matrixA
+
+compute2:
+
+	ld tempC
+	add computation					;tempC not resetting for second row
+	st tempC
+	dout
+	
+	
+	ldc space
+	sout
+		
+	ld computation
+	sub computation
+	st computation
+					;check column
+	;ld tempC
+	;push
+
+	;ldc MatrixC
+	;add PositionC			;this part fix
+	;sti
+
+	;ld PositionC
+	;add @1
+	;st PositionC
+
+	ld CompleteTotal
+	sub @1
+	st CompleteTotal
+	jn display			;end 
+	
+	ld columncheck			;columncehck, to see if we are at end of column
+	sub @1
+	st columncheck
+	
+	jz MatrixOrigin 
+	
+	ld PositionA			;ld indexA, add one to position 
+	add @1
+	st PositionA
+
+	ld PositionB
+	add n
+	st PositionB
+	
+checking:
+	ld size1			;check if we are at the end of the row
+	sub @1
+	st size1
+	jz reset				
+	ja compute
+
+			
+reset:	ld zero
+	st tempC
+	
+	
+	ld zero
+	st PositionA
+	
+	ld tempA
+	add n	
+	st tempA
+
+	ld tempA		;origin + n
+	st PositionA
+
+				;ld PositionA
+				;add @1
+				;st PositionA
+	
+	
+	
+	ld zero			;origin 	
+	st PositionB
+
+				;ld tempB
+				;add @1
+				;st tempB
+
+				;st tempB
+	ld zero
+	st columncheck
+
+	ld columncheck
+	add n
+	st columncheck
+
+	ld zero
+	st size1
+	
+	ld size1
+	add size2
+	st size1
+
+	ld zero
+	st tempB
+	
+				;ld PositionC	;origin + 1 
+				;add @1
+				;st PositionC
+
+				;ld totalsize
+				;add totalsize1
+				;st totalsize
+		
+	ja compute	
+	
+
+
+incrementPositionB:
+	
+	ld tempB
+	add @1
+	st tempB
+	ja compute
+
+MatrixOrigin:					;reset B position and reset tempC and +1 PositionC
+
+	ld tempC
+	dout
+	ldc space 
+	sout
+	ld tempC
+	push
+
+	ldc MatrixC
+	add PositionC				;this part fix
+	sti
+	
+	ld zero
+	st PositionB
+
+	ld PositionB
+	add tempB					;add tempB
+	st PositionB
+	
+	ld zero
+	add tempA
+	st PositionA
+	
+	ld zero					;reset tempC
+	st tempC
+
+	ld PositionC
+	add @1
+	st PositionC
+
+	ld tempB	
+	add @1
+	st tempB	
+
+	ld zero
+	st columncheck
+
+	ld columncheck
+	add n
+	st columncheck
+
+
+	ja checking
+	
+
+	
+
+
+
+
+end:	ja start
+
+end1:
+
+
+	halt
+
+
+newline:	
+	ld size
+	add n
+	st size
+	ldc '\n' 
+	aout
+	ja display2
+	
+display:	
+	ldc MatrixC
+	add C
+	ldi
+	dout
+
+	ldc space
+	sout
+
+	ld C
+	add @1
+	st C
+
+	ld size
+	sub @1
+	st size
+	jz newline
+	
+display2:	
+	ld temptotalsize3	
+	sub @1
+	st temptotalsize3
+	jz end
+
+	ja display
+	
+
+
+
+
+product:	
+	ld n
+	push	
+	ld n
+	mult
+	st totalsize
+	st totalsize1
+	st checkRow
+	st size1
+	st size2
+	st temptotalsize	;for inputs for matrixA
+	st temptotalsize2	;for inputs for matrixB
+	st temptotalsize3	;for matrixC
+	ld totalsize
+	push	
+	ld n
+	mult
+	st CompleteTotal
+
+	ja start1
+	
+
+
+
+
+;testdisplay:	
+;	ldc MatrixB
+;	add testIndex
+;	ldi 
+;	dout
+;	ldc '\n'
+;	aout
+;	ld testIndex
+;	add @1
+;	st testIndex
+;	sub totalsize	
+;	jz end
+;	ja testdisplay
+
+
+
+
+
+
+
+prompt:		dw "input matrix of upto size 10, input -1 if done: " 
+prompt2:	dw "input values for A matrix: " 
+prompt3:	dw "input values for B matrix: " 
+PositionB:	dw 0
+PositionA:	dw 0
+PositionC:	dw 0
+totalsize:	dw 0
+totalsize1:	dw 0
+temptotalsize2:	dw 0
+temptotalsize3:	dw 0
+temptotalsize:	dw 0
+tempB:		dw 1
+tempA:		dw 0
+indexA:		dw 0
+indexB:		dw 0
+testIndex:	dw 0
+@1:		dw 1
+C:		dw 0
+n:		dw 0			;matrix length
+space:		dw " " 
+MatrixA:	dw 100 dup 0
+MatrixB:	dw 100 dup 0
+MatrixC:	dw 100 dup 0
+computation:	dw 0
+size:		dw 0
+size1:		dw 0
+size2:		dw 0
+tempC:		dw 0
+zero:		dw 0
+columncheck:	dw 0	
+CompleteTotal:	dw 0
+checkRow:	dw 0

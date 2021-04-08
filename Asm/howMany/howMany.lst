@@ -1,0 +1,86 @@
+Machine-level Assembler Version 6.3    Wed Sep 30 21:06:34 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    801C  	ldc msgx
+1  *1    FFF7  	sout
+2  *2    802D  	ldc inbuf
+3  *3    FFF6  	sin
+               
+4  *4    802D  loop:	ldc inbuf
+5  *5    207E  	add count
+6  *6    F100  	ldi
+7  *7    3082  	sub e
+8  *8    C011  	jz addOne
+               
+9  *9    802D  return:	ldc inbuf
+A  *10   207E  	add count
+B  *11   F100  	ldi
+C  *12   C015  	jz end
+D  *13   007E  	ld count
+E  *14   2080  	add @1
+F  *15   107E  	st count
+10 *16   9004  	ja loop
+               
+11 *17   007F  addOne:	ld ecount
+12 *18   2080  	add @1
+13 *19   107F  	st ecount
+14 *20   9009  	ja return
+               
+15 *21   800A  end:	ldc '\n'
+16 *22   FFFB  	aout
+17 *23   007F  	ld ecount
+18 *24   FFFD  	dout
+19 *25   800A  	ldc '\n'
+1A *26   FFFB  	aout
+1B *27   FFFF  	halt
+               
+1C *28   0045  msgx:	dw "Enter a string: "
+1D *29   006E
+1E *30   0074
+1F *31   0065
+20 *32   0072
+21 *33   0020
+22 *34   0061
+23 *35   0020
+24 *36   0073
+25 *37   0074
+26 *38   0072
+27 *39   0069
+28 *40   006E
+29 *41   0067
+2A *42   003A
+2B *43   0020
+2C *44   0000
+2D *45   0005  inbuf:	dw 81 dup 5
+7E *126  0000  count:	dw 0
+7F *127  0000  ecount:	dw 0
+80 *128  0001  @1:	dw 1
+81 *129  0000  char:	dw 0
+82 *130  0065  e:	dw 101
+83 *131  ========= end of howMany.mas ============================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ loop                      4           10 
+ return                    9           14 
+ addOne                    11          8  
+ end                       15          C  
+ msgx                      1C          0  
+ inbuf                     2D          2   4   9  
+ count                     7E          5   A   D   F  
+ ecount                    7F          11  13  17 
+ @1                        80          E   12 
+ char                      81         
+ e                         82          7  
+
+Input file   = howMany.mas
+Output file  = howMany.mac
+List file    = howMany.lst 
+Number base  = decimal
+Label status = case sensitive

@@ -1,0 +1,131 @@
+Machine-level Assembler Version 6.3    Mon Nov 30 19:48:31 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+               !o
+0  *0    80A0  start:	ldc msgz
+1  *1    FFF7  	sout
+2  *2    FFFC  	din
+3  *3    30BE  	sub @1
+4  *4    B01B  	jn end
+               
+5  *5    8080  input:	ldc msgx
+6  *6    FFF7  	sout
+7  *7    801C  	ldc word
+8  *8    FFF6  	sin
+               	
+9  *9    801C  loop:	ldc word
+A  *10   20BD  	add index
+B  *11   F100  	ldi
+C  *12   C011  	jz display
+D  *13   00BD  	ld index
+E  *14   20BE  	add @1
+F  *15   10BD  	st index
+10 *16   9009  	ja loop
+               
+11 *17   808F  display:	ldc msgy
+12 *18   FFF7  	sout
+13 *19   00BD  	ld index
+14 *20   F300  	push
+15 *21   00BF  	ld @3
+16 *22   FF40  	mult
+17 *23   FFFD  	dout
+18 *24   800A  	ldc '\n'
+19 *25   FFFB  	aout
+1A *26   9000  	ja start
+               
+1B *27   FFFF  end:	halt
+               
+1C *28   0000  word:	dw 100 dup 0
+80 *128  0045  msgx:	dw "Enter String: "
+81 *129  006E
+82 *130  0074
+83 *131  0065
+84 *132  0072
+85 *133  0020
+86 *134  0053
+87 *135  0074
+88 *136  0072
+89 *137  0069
+8A *138  006E
+8B *139  0067
+8C *140  003A
+8D *141  0020
+8E *142  0000
+8F *143  0054  msgy:	dw "The product is: "
+90 *144  0068
+91 *145  0065
+92 *146  0020
+93 *147  0070
+94 *148  0072
+95 *149  006F
+96 *150  0064
+97 *151  0075
+98 *152  0063
+99 *153  0074
+9A *154  0020
+9B *155  0069
+9C *156  0073
+9D *157  003A
+9E *158  0020
+9F *159  0000
+A0 *160  0044  msgz:	dw "Do you have a problem?(0/1) "
+A1 *161  006F
+A2 *162  0020
+A3 *163  0079
+A4 *164  006F
+A5 *165  0075
+A6 *166  0020
+A7 *167  0068
+A8 *168  0061
+A9 *169  0076
+AA *170  0065
+AB *171  0020
+AC *172  0061
+AD *173  0020
+AE *174  0070
+AF *175  0072
+B0 *176  006F
+B1 *177  0062
+B2 *178  006C
+B3 *179  0065
+B4 *180  006D
+B5 *181  003F
+B6 *182  0028
+B7 *183  0030
+B8 *184  002F
+B9 *185  0031
+BA *186  0029
+BB *187  0020
+BC *188  0000
+BD *189  0000  index:	dw 0
+BE *190  0001  @1:	dw 1
+BF *191  0003  @3:	dw 3
+C0 *192  ========= end of MultiplyLength.mas =====================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ start                     0           1A 
+ input                     5          
+ loop                      9           10 
+ display                   11          C  
+ end                       1B          4  
+ word                      1C          7   9  
+ msgx                      80          5  
+ msgy                      8F          11 
+ msgz                      A0          0  
+ index                     BD          A   D   F   13 
+ @1                        BE          3   E  
+ @3                        BF          15 
+
+Input file   = MultiplyLength.mas
+Output file  = MultiplyLength.mac
+List file    = MultiplyLength.lst 
+Config file  = o.cfg 
+Number base  = decimal
+Label status = case sensitive

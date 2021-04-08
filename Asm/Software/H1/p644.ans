@@ -1,0 +1,17 @@
+; #a34e 263 147 232 2394 57999
+;Copy s.has to p644.has and modify as required
+;Copy s.cfg to p644.cfg and modify as required
+;Copy sprog.mas to p644.mas, change directive to !p644 and assemble
+;Invoke sim with
+;  sim p644
+n
+o
+ln
+g
+sb
+o
+g
+SD
+enable
+sd
+q

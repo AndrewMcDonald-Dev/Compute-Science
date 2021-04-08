@@ -1,0 +1,26 @@
+!b
+	din
+	st num
+	
+	ld num
+	mult num
+	dout
+	st product
+	addc @1
+	dout
+	jn end
+
+extra:	ld num
+	flip
+	st num
+	dout
+	addr @1
+	dout
+	shll @1
+	dout
+
+end:	halt
+
+num:	dw 0
+product:	dw 0
+@1:	dw 1

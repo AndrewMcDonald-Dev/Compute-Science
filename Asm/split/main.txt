@@ -1,0 +1,9 @@
+main:	call sub
+		st total
+		halt
+x:		dw 17
+Y:		dw 3
+total:  dw 0
+        public Y
+        public x
+        end main

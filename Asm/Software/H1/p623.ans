@@ -1,0 +1,13 @@
+; #e71d 13 160 11 84 18718
+;Copy s.has to p623.has and modify as required
+;Copy s.cfg to p623.cfg and modify as required
+;Create assembly language program p623.mas
+;Insert !p623 at beginning of assembly language program
+n
+o
+ln
+g
+SD
+enable
+sd
+q

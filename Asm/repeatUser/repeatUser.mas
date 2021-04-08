@@ -1,0 +1,22 @@
+input:	ldc msgx
+	sout		;ask for string
+	sin
+	st umsg		;takes user string
+	ldc msgy
+	sout		;ask for amount of times
+	din
+	st x		;takes amount of repeats
+loop:	ld umsg		;loops amount of user input
+	sout		
+	ldc '\n'
+	aout		;creates newline
+	ld x
+	sub one
+	st x
+	jnz loop
+	halt
+msgx:	dw "What is your statement: "
+umsg:	dw ""
+msgy:	dw "How many times do you want it repeated: "
+x:	dw 0
+one:	dw 1

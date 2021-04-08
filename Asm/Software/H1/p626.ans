@@ -1,0 +1,19 @@
+; #edbd 40 149 63 627 23536
+;Copy s.has to p626.has and modify as required
+;Copy s.cfg to p626.cfg and modify as required
+;Use p626.mas (no decm) and p626d.mas (with decm) for your assembly code
+;Put !p626 in p626.mas and p626d.mas
+;Run p626 with
+;   sim p626
+;Run p626d with
+;   sim p626d
+;Display should be exactly like
+;Sum = 31
+n
+o
+ln
+g
+SD
+enable
+sd
+q

@@ -1,0 +1,80 @@
+Horizontal Microcode Assembler Version 6.3      Mon Nov 30 20:07:14 2020
+
+  LOC    OBJECT    SOURCE
+hex*dec
+
+                   /  Basic Instruction Set Horizontal Microcode    b.has
+                   
+                   / The label indicates the opcode decoded up to that point.
+                   / '0' and '1' in a label represent the 0 and 1 bits in an op
+                   / '2' to '8' in a label represent their 4-bit equivalents. F
+                   / example, control reaches the label L011 when the opcode bi
+                   / 011 have been decoded. Control reaches L2 when the opcode 
+                   / 0010 have been decoded.        
+                   /***********************************************************
+                   /     Fetch instruction and increment pc register           
+                   /***********************************************************
+0  *0    304D2000  fetch:      mar = pc; pc = pc + 1;
+1  *1    00001000              rd;                   
+2  *2    49400000              ir = mdr;
+                   /***********************************************************
+                   /           Decode opcode                                   
+                   /***********************************************************
+3  *3    52400225              dc = ir; if (s) goto L8;     / if 1 assume opcod
+4  *4    52818208  L0:         dc = left(dc); if (s) goto L01; 
+5  *5    5281820B  L00:        dc = left(dc); if (s) goto L001; 
+6  *6    52818212  L000:       dc = left(dc); if (s) goto L0001; 
+7  *7    0000060F              goto L0000;
+8  *8    5281820D  L01:        dc = left(dc); if (s) goto L011; 
+9  *9    5281821D  L010:       dc = left(dc); if (s) goto L5; 
+A  *10   00000619              goto L4;          
+B  *11   52818217  L001:       dc = left(dc); if (s) goto L3; 
+C  *12   00000614              goto L2;
+D  *13   52818224  L011:       dc = left(dc); if (s) goto L7; 
+E  *14   00000620              goto L6;
+                   /***********************************************************
+                   /      Microcode for each instruction                       
+                   /***********************************************************
+                   L0000: /-------------------------- LD ----------------------
+F  *15   00122000         mar = ir;                          / get add from ins
+10 *16   00001000         rd;                                / read operand
+11 *17   41400600         ac = mdr; goto fetch;              / load ac with ope
+                   L0001: / ------------------------- ST ----------------------
+12 *18   2A122000         mar = ir; mdr = ac;
+13 *19   00000E00         wr; goto fetch;
+                   L2:    / ------------------------- MULT --------------------
+14 *20   00122000         mar = ir;                          / get add from ins
+15 *21   00001000         rd;                                / read operand
+16 *22   420AC600         ac = ac * mdr; goto fetch;         / mult ac by opera
+                   L3:    /-------------------------- ADDC --------------------
+17 *23   7A448000         f = ir & xmask;                    / get const from x
+18 *24   421F0600         ac = ac + f; goto fetch;           / add const to ac
+                   L4:    /-------------------------- ADDR --------------------
+19 *25   7A4F0000         f = ir + sp;                       / get abs address
+1A *26   001E2000         mar = f;                           / load mar with ab
+1B *27   00001000         rd;                                / read operand
+1C *28   420B0600         ac = ac + mdr; goto fetch          / add operand to a
+                   L5:    /-------------------------- JN ----------------------
+1D *29   0200021F         0 = ac; if (s) goto jn;            / branch if ac neg
+1E *30   00000600         goto fetch;                        / branch
+1F *31   32448600  jn:    pc = ir & xmask; goto fetch;       / put new add in p
+                   L6:    /-------------------------- SHLL --------------------
+20 *32   7A488400         f = ir & zmask; if (z) goto fetch; / get z field
+21 *33   42018000  lloop: ac = left(ac);                     / shift ac left   
+22 *34   7BC34400         f = f - 1; if (z) goto fetch;      / dec ac and test 
+23 *35   00000621         goto lloop;                        / branch to lloop
+                   L7:    /-------------------------- FLIP --------------------
+24 *36   42004600         ac = ~ac; goto fetch;              / bitwise compl ac
+                   L8:    /-------------------------- PUSH --------------------
+25 *37   39C34000         sp = sp - 1;                       / decrement sp
+26 *38   2A0E2000         mar = sp; mdr = ac;                / prepare for writ
+27 *39   00000E00         wr; goto fetch;                    / write top of sta
+28 *40   ============= end of b.has ==============================
+
+Input file   = b.has
+Output file  = b.hor
+List file    = b.hst 
+Config file  = b.cfg 
+Number base  = decimal
+Label status = case sensitive
+Shifter      = one-position

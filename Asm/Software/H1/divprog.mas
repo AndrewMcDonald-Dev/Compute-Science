@@ -1,0 +1,133 @@
+         !div
+         ld     @7
+         div    @2
+         dout
+         ldc    '\n'
+         aout
+         ld     @7
+         rem    @2
+         dout
+         ldc    '\n'
+         aout
+
+         ld     @_7
+         div    @2
+         dout
+         ldc    '\n'
+         aout
+         ld     @_7
+         rem    @2
+         dout
+         ldc    '\n'
+         aout
+        
+         ld     @7
+         div    @_2
+         dout
+         ldc    '\n'
+         aout
+         ld     @7
+         rem    @_2
+         dout
+         ldc    '\n'
+         aout
+        
+         ld     @_7
+         div    @_2
+         dout
+         ldc    '\n'
+         aout
+         ld     @_7
+         rem    @_2
+         dout
+         ldc    '\n'
+         aout
+        
+         ld     @2
+         div    @7
+         dout
+         ldc    '\n'
+         aout
+         ld     @2
+         rem    @7
+         dout
+         ldc    '\n'
+         aout
+
+         ld     @7
+         div    @7
+         dout
+         ldc    '\n'
+         aout
+         ld     @7
+         rem    @7
+         dout
+         ldc    '\n'
+         aout
+
+        
+         ld     @_2
+         div    @_7
+         dout
+         ldc    '\n'
+         aout
+         ld     @_2
+         rem    @_7
+         dout
+         ldc    '\n'
+         aout
+        
+         ld     @8
+         div    @2
+         dout
+         ldc    '\n'
+         aout
+         ld     @8
+         rem    @2
+         dout
+         ldc    '\n'
+         aout
+        
+         ld     @8
+         div    @_2
+         dout
+         ldc    '\n'
+         aout
+         ld     @8
+         rem    @_2
+         dout
+         ldc    '\n'
+         aout
+
+         ld     @_8
+         div    @2
+         dout
+         ldc    '\n'
+         aout
+         ld     @_8
+         rem    @2
+         dout
+         ldc    '\n'
+         aout
+
+         ld     @_8
+         div    @_2
+         dout
+         ldc    '\n'
+         aout
+         ld     @_8
+         rem    @_2
+         dout
+         ldc    '\n'
+         aout
+        
+         halt
+@2:      dw    2
+@7:      dw    7
+@_7:     dw    -7
+@_2:     dw    -2
+@1:      dw    1
+@_1:     dw    -1
+@8:      dw    8
+@_8:     dw    -8
+

@@ -1,0 +1,46 @@
+!o
+input:	ldc msgx
+	sout
+	din 
+	st x
+	ldc msgx
+	sout
+	din
+	st y
+	ldc msgx
+	sout
+	din
+	st z
+
+add:	ld x
+	add y
+	add z
+	st sum
+
+mult:	ld x
+	push
+	ld y
+	mult
+	push
+	ld z
+	mult
+	st product
+	
+display:	ldc msgy
+	sout
+	ld sum
+	dout
+	ldc msgz
+	sout
+	ld product
+	dout
+	halt
+
+msgx:	dw "Enter Number: "
+x:	dw 0
+y:	dw 0
+z:	dw 0
+sum:	dw 0
+product:	dw 0
+msgy:	dw "The sum of the inputed numbers is: "
+msgz:	dw "The product of the inputed numbers is: "

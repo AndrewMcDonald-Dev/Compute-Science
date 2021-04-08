@@ -1,0 +1,4 @@
+main:	call b
+done:	halt
+	extern b
+	end main

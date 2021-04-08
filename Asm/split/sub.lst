@@ -1,0 +1,32 @@
+Machine-level Assembler Version 6.3    Wed Nov 04 20:02:33 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    0000  sub:	ld x
+1  *1    2005  	add y
+2  *2    3000  	sub Y
+3  *3    1000  	st x
+4  *4    F000  	ret 
+5  *5    0022  y:	dw 34
+                       extern x
+                       extern Y
+               	public sub
+6  *6    ========= end of sub.mas ================================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ sub                       0           6  
+ y                         5           1  
+ x                         ext         6   0   3  
+ Y                         ext         6   2  
+
+Input file   = sub.mas
+Output file  = sub.mob
+List file    = sub.lst 
+Number base  = decimal
+Label status = case sensitive

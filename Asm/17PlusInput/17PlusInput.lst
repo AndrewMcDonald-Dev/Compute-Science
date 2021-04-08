@@ -1,0 +1,153 @@
+Machine-level Assembler Version 6.3    Wed Sep 23 18:21:08 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    801A  input:	ldc msgx	;Asks for user number
+1  *1    FFF7  	sout
+2  *2    800A  	ldc '\n'
+3  *3    FFFB  	aout		;newline
+4  *4    FFFC  	din		;reads in user number
+5  *5    1055  	st x
+6  *6    8056  	ldc msgy
+7  *7    FFF7  	sout		;says hello twice
+8  *8    800A  	ldc '\n'
+9  *9    FFFB  	aout
+A  *10   8056  	ldc msgy
+B  *11   FFF7  	sout
+C  *12   800A  	ldc '\n'
+D  *13   FFFB  	aout
+E  *14   0055  add:	ld x		;adds 17 and user input
+F  *15   205C  	add y
+10 *16   105D  	st z
+11 *17   805E  output:	ldc msgz	;Starts construction of answer
+12 *18   FFF7  	sout
+13 *19   0055  	ld x
+14 *20   FFFD  	dout
+15 *21   8077  	ldc msgw
+16 *22   FFF7  	sout
+17 *23   005D  	ld z
+18 *24   FFFD  	dout
+19 *25   FFFF  	halt
+1A *26   0045  msgx:	dw "Enter the number you would like to be added to sevente
+1B *27   006E
+1C *28   0074
+1D *29   0065
+1E *30   0072
+1F *31   0020
+20 *32   0074
+21 *33   0068
+22 *34   0065
+23 *35   0020
+24 *36   006E
+25 *37   0075
+26 *38   006D
+27 *39   0062
+28 *40   0065
+29 *41   0072
+2A *42   0020
+2B *43   0079
+2C *44   006F
+2D *45   0075
+2E *46   0020
+2F *47   0077
+30 *48   006F
+31 *49   0075
+32 *50   006C
+33 *51   0064
+34 *52   0020
+35 *53   006C
+36 *54   0069
+37 *55   006B
+38 *56   0065
+39 *57   0020
+3A *58   0074
+3B *59   006F
+3C *60   0020
+3D *61   0062
+3E *62   0065
+3F *63   0020
+40 *64   0061
+41 *65   0064
+42 *66   0064
+43 *67   0065
+44 *68   0064
+45 *69   0020
+46 *70   0074
+47 *71   006F
+48 *72   0020
+49 *73   0073
+4A *74   0065
+4B *75   0076
+4C *76   0065
+4D *77   006E
+4E *78   0074
+4F *79   0065
+50 *80   0065
+51 *81   006E
+52 *82   003A
+53 *83   0020
+54 *84   0000
+55 *85   0000  x:	dw 0
+56 *86   0048  msgy:	dw "Hello"
+57 *87   0065
+58 *88   006C
+59 *89   006C
+5A *90   006F
+5B *91   0000
+5C *92   0011  y:	dw 17
+5D *93   0000  z:	dw 0
+5E *94   0054  msgz:	dw "The solution to 17 plus "
+5F *95   0068
+60 *96   0065
+61 *97   0020
+62 *98   0073
+63 *99   006F
+64 *100  006C
+65 *101  0075
+66 *102  0074
+67 *103  0069
+68 *104  006F
+69 *105  006E
+6A *106  0020
+6B *107  0074
+6C *108  006F
+6D *109  0020
+6E *110  0031
+6F *111  0037
+70 *112  0020
+71 *113  0070
+72 *114  006C
+73 *115  0075
+74 *116  0073
+75 *117  0020
+76 *118  0000
+77 *119  0020  msgw:	dw " is "
+78 *120  0069
+79 *121  0073
+7A *122  0020
+7B *123  0000
+7C *124  ========= end of 17PlusInput.mas ========================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ input                     0          
+ add                       E          
+ output                    11         
+ msgx                      1A          0  
+ x                         55          5   E   13 
+ msgy                      56          6   A  
+ y                         5C          F  
+ z                         5D          10  17 
+ msgz                      5E          11 
+ msgw                      77          15 
+
+Input file   = 17PlusInput.mas
+Output file  = 17PlusInput.mac
+List file    = 17PlusInput.lst 
+Number base  = decimal
+Label status = case sensitive

@@ -1,0 +1,34 @@
+	ldc msgx
+	sout
+	ldc inbuf
+	sin
+loop:	ldc inbuf
+	add count
+	ldi
+	sub e
+	jz addOne
+return:	ldc inbuf
+	ld count
+	ldi
+	jz end
+	ld count
+	add @1
+	st count
+addOne:	ld ecount
+	add @1
+	st ecount
+	ja return
+end:	ldc '\n'
+	aout
+	ld ecount
+	dout
+	ldc '\n'
+	aout
+	halt
+msgx:	dw "Enter a string: "
+inbuf:	dw 81 dup 0
+count:	dw 0
+ecount:	dw 0
+@1:	dw 1
+char:	dw 0
+e:	dw 101

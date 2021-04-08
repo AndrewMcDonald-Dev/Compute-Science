@@ -1,0 +1,19 @@
+; #b95e 13 31 10 69 21835
+; Use the file p67.has for your microcode.
+; Copy b.cfg to p67.cfg
+; Assemble microcode with
+;    has p67
+; Copy bprog.mas p67.mas
+; Add !p67 to p67.mas
+; Assembly with
+;    mas p67
+; Invoke sim with
+;    sim p67
+n   
+o
+ln
+g
+SD
+enable
+sd
+q

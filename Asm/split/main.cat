@@ -1,0 +1,15 @@
+cat file main.cat
+0  *0    E000  main:	call sub
+1  *1    1005  	st total
+2  *2    FFFF  	halt
+3  *3    0011  x:	dw 17
+4  *4    0003  Y:	dw 3
+5  *5    0000  total:  dw 0
+6  *6    ========= end of main.mas ===============================
+6  *6    0000  sub:	ld x
+7  *7    2005  	add y
+8  *8    3000  	sub Y
+9  *9    1000  	st x
+A  *10   F000  	ret 
+B  *11   0022  y:	dw 34
+C  *12   ========= end of sub.mas ================================

@@ -1,0 +1,20 @@
+loop:	
+	ld z
+	aout
+	dout
+	hout
+	add one
+	st z
+
+	ldc '\n'
+	aout
+
+	ld count
+	sub one
+	st count
+	jnz loop
+	halt
+
+z:	dw 65
+one:	dw 1
+count:	dw 26

@@ -1,0 +1,41 @@
+Machine-level Assembler Version 6.3    Tue Dec 08 11:23:34 2020
+
+  LOC    OBJ   SOURCE
+hex*dec
+
+0  *0    800C  ldc s
+1  *1    F100  ldi
+2  *2    2010  add two
+3  *3    F300  push
+4  *4    800C  ldc s
+5  *5    F200  sti
+6  *6    FFF7  sout
+7  *7    000B  ld t
+8  *8    2011  add one
+9  *9    FFFD  dout
+A  *10   100B  st t
+B  *11   FFFE  t:	dw -2
+C  *12   0042  s:	dw "BAD"
+D  *13   0041
+E  *14   0044
+F  *15   0000
+10 *16   0002  two:	dw 2
+11 *17   0001  one:	dw 1
+12 *18   ========= end of q2.mas =================================
+
+
+         Symbol/Cross-Reference Table
+
+Symbol                   Address     References
+                          (hex)       (hex)
+
+ t                         B           7   A  
+ s                         C           0   4  
+ two                       10          2  
+ one                       11          8  
+
+Input file   = q2.mas
+Output file  = q2.mac
+List file    = q2.lst 
+Number base  = decimal
+Label status = case sensitive

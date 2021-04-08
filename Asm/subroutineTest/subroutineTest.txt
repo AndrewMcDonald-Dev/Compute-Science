@@ -1,0 +1,12 @@
+start:	call on
+	call off
+	halt
+	
+on:	ldc msgx
+	sout
+	ret
+off:	ldc msgy
+	sout
+	ret
+msgx:	dw "on"
+msgy:	dw "off"

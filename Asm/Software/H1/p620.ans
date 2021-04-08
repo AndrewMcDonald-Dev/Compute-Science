@@ -1,0 +1,18 @@
+; #c1ed 78 152 29 204 17512
+;Copy s.has to p620.has and modify as required
+;Copy s.cfg to p620.cfg and modify as required
+;Insert !p620 at beginning of assembly language program
+;See sim.txt for more information of 2-word instructions
+;Display should look exactly like this:
+;2 * 3 = 6
+;-4 * 5 = -20
+;6 * -7 = -42
+;-8 * -9 = 72
+n
+o
+ln
+g
+SD
+enable
+sd
+q
