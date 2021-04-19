@@ -3,7 +3,7 @@ import java.util.*;
 import java.awt.Color;
 import java.awt.geom.*;
 
-public class CircularTracksShape implements Moveable {
+public class CT2Shape implements Moveable {
   private int width;
 
   int n;
@@ -30,7 +30,7 @@ public class CircularTracksShape implements Moveable {
       Color.decode("#ADB4FF"), Color.decode("#ADFFB0"), Color.decode("#FFA998"), Color.decode("#E9FA6D") };
 
   // constructor
-  public CircularTracksShape(int x0, int y0, int w) {
+  public CT2Shape(int x0, int y0, int w) {
     width = w;
     n = width / 40; // number of tracks, each 40 pixels wide
     // trackLimits
@@ -69,16 +69,16 @@ public class CircularTracksShape implements Moveable {
     for (int i = 0; i <= n - 1; i = i + 2) {
       x[i] = (int) ((290 + Math.cos(Math.toRadians(.3 * angles[i] * ((angles.length - i)  + 1))) * radius[i]));
       y[i] = (int) ((290 + Math.sin(Math.toRadians(.3 * angles[i] * ((angles.length - i) + 1))) * radius[i]));
-      // x2[i] = (int) ((290 + Math.cos(Math.toRadians(.3 * (angles[i]) * ((angles.length - i) + 1)) + angleOffset(radius[i])) * radius[i]));
-      // y2[i] = (int) ((290 + Math.sin(Math.toRadians(.3 * (angles[i]) * ((angles.length - i) + 1)) + angleOffset(radius[i])) * radius[i]));
+      x2[i] = (int) ((290 + Math.cos(Math.toRadians(.3 * (angles[i]) * ((angles.length - i) + 1)) + angleOffset(radius[i])) * radius[i]));
+      y2[i] = (int) ((290 + Math.sin(Math.toRadians(.3 * (angles[i]) * ((angles.length - i) + 1)) + angleOffset(radius[i])) * radius[i]));
     } // for
 
     // position counter-clockwise trains
     for (int i = 1; i <= n - 1; i = i + 2) {
       x[i] = (int) (290 + Math.cos(Math.toRadians(-(angles[i]) * ((angles.length - i) + 1) *.3)) * radius[i]);
       y[i] = (int) (290 + Math.sin(Math.toRadians(-(angles[i]) * ((angles.length - i) + 1) *.3)) * radius[i]);
-      // x2[i] = (int) (290 + Math.cos(Math.toRadians(-(angles[i]) * ((angles.length - i) + 1) *.3) + angleOffset(radius[i])) * radius[i]);
-      // y2[i] = (int) (290 + Math.sin(Math.toRadians(-(angles[i]) * ((angles.length - i) + 1) *.3) + angleOffset(radius[i])) * radius[i]);
+      x2[i] = (int) (290 + Math.cos(Math.toRadians(-(angles[i]) * ((angles.length - i) + 1) *.3) + angleOffset(radius[i])) * radius[i]);
+      y2[i] = (int) (290 + Math.sin(Math.toRadians(-(angles[i]) * ((angles.length - i) + 1) *.3) + angleOffset(radius[i])) * radius[i]);
     } // for
   }
 
@@ -97,9 +97,9 @@ public class CircularTracksShape implements Moveable {
       Color c = new Color(Math.abs(gen.nextInt()) % 255, Math.abs(gen.nextInt()) % 255, Math.abs(gen.nextInt()) % 255);
       g2.setColor(c);
       Ellipse2D.Double ball = new Ellipse2D.Double(x[i], y[i], 20, 20);
-      // Ellipse2D.Double ball2 = new Ellipse2D.Double(x2[i], y2[i], 20, 20);
-      // g2.fill(ball2);
-      // g2.draw(ball2);
+      Ellipse2D.Double ball2 = new Ellipse2D.Double(x2[i], y2[i], 20, 20);
+      g2.fill(ball2);
+      g2.draw(ball2);
       g2.fill(ball);
       g2.draw(ball);
     }

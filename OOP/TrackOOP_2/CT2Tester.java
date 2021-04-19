@@ -2,11 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class CircularTracksAnimationTester {
+public class CT2Tester {
   public static void main(String[] args) {
     JFrame frame = new JFrame();
     frame.getContentPane().setBackground(Color.ORANGE);
-    final Moveable shape = new CircularTracksShape(0, 0, 600);
+    final Moveable shape = new CT2Shape(0, 0, 600);
 
     ShapeIcon icon = new ShapeIcon(shape, 600, 600);
 
