@@ -1,0 +1,9 @@
+c                                                  r  
+bcc                                                r  
+bccc                                               r  
+bbbccccccc                                         r  
+^                                                  a  
+bc                                                 a  
+bbcc                                               a  
+bccb                                               a  
+ccccccb                                            a  

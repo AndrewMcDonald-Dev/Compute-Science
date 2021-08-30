@@ -1,0 +1,17 @@
+// paired5.pda   
+// This PDA accepts {a**nb**n : n >= 0}
+// Using Webber's model; triples of PDA derived directly from grammar 
+// S -> aSb | ^
+// Not simulated properly by p program because this PDA is 
+// nondeterministic.  The p program does not explore all possible
+// choices (it simply using the first applicable triple listed).  
+// Thus, there are strings that should be accepted but are rejected  
+// because the sequence of choices leading to acceptance are never 
+// tried by the p program.
+
+S                stack initialization string           
+
+^ S aSb          from S -> aSb 
+^ S ^            from S -> ^
+a a ^            match a's in input with a's on stack
+b b ^            match b's in input with b's on stack

@@ -1,0 +1,19 @@
+// paired3.pda   
+// This PDA accepts {a**nb**n : n >= 0} 
+// Webber's model: uses triples; no states; PDA starts with S 
+// already on stack; can push strings; TopOfStack component of 
+// triple can never be ^; accepts by empty stack.  
+// Format of triple: 
+//      CurrentInput TopOfStack PushString 
+// Although nondeterministic, this PDA still works with the p
+// program because whenever there is a choice of triples in this pda, 
+// the correct choice just happens to be the first applicable
+// triple listed.  But this is what the p program does
+// whenever there is a choice--it always uses the first 
+// applicable triple listed.
+
+S                stack initialization string           
+
+a S Sa           push a's
+^ S ^            switch to matching mode
+b a ^            match b's in input with a's on stack

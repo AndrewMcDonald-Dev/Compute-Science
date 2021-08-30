@@ -1,0 +1,17 @@
+// paired1.pda   
+// This PDA accepts {a**nb**n : n >= 0}
+// Hopcroft model: has states; PDA starts with some symbol already on
+// stack; can push strings; TopOfStack component of quintuple is never ^;
+// accepts by final state.
+// Format of quintuple:
+//      CurrentState CurrentInput TopOfStack NextState PushString
+
+1 $              Start state and stack initialization string
+{1,4}            List of final states
+
+1 a $ 2 a$       push a on top of $
+2 a a 2 aa       push a on top of another a
+2 b a 3 ^        match b in input with a on top of the stack
+
+3 b a 3 ^        now match remaining b's in the input with a's on stack
+3 ^ $ 4 ^        when stack goes empty, go into final state 4

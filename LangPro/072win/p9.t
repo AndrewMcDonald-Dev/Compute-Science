@@ -1,0 +1,10 @@
+c                                                    a
+ac                                                   a
+bc                                                   a
+aaaac                                                a
+bbbbc                                                a
+^                                                    r
+abc                                                  r
+aca                                                  r
+bca                                                  r
+bcb                                                  r

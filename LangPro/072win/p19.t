@@ -1,0 +1,14 @@
+d                                                             a
+bcdefg                                                        a
+bcbcdefgefg                                                   a
+bcbcbcdefgefgefg                                              a
+^                                                             r
+bcd                                                           r
+defg                                                          r
+bcbcdefg                                                      r
+bcdef                                                         r
+bcdeffg                                                       r
+efgdbc                                                        r
+bbcdefg                                                       r
+bccdefg                                                       r
+ad                                                            r

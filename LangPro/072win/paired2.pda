@@ -1,0 +1,20 @@
+// paired2.pda   
+// This PDA accepts {a**nb**n : n >= 0}
+// Sipser's model: has states; stack is empty initially; at most
+// one symbol can be pushed at a time; TopOfStack component of a 
+// quintuple can be ^; accepts by final state.
+// Format of quintuple:
+//      CurrentState Current Input TopOfStack NextState PushString
+
+0
+{1,6}            set of final states
+
+0 ^ ^ 1 $        initialize stack with $
+1 a $ 2 $        push a$ (state 2 pushes the a)
+2 ^ ^ 3 a   
+3 a a 4 a        push aa (state 4 pushes the 2nd a)
+4 ^ ^ 3 a
+3 b a 5 ^        match b in input with a on the s stack
+
+5 b a 5 ^        now match b's in the input with a's on the stack
+5 ^ $ 6 ^        go into to final state 6 when stack goes empty

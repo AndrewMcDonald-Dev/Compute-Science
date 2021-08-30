@@ -1,0 +1,11 @@
+// paired4.pda   
+// This PDA accepts {a**nb**n : n >= 0}
+// Using Webber's model; triples of PDA derived directly from grammar 
+// S -> aSb | ^
+// Although PDA is nondeterministic, still works with p program.
+
+S                stack initialization string           
+
+a S Sb           from the production S -> aSb
+^ S ^            from the production S -> ^
+b b ^            match b on stack with b in input

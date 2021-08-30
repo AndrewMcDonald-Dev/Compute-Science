@@ -1,0 +1,585 @@
+           Deterministic PDA Simulator Version 7.2
+
+ +-------------------------------------------------------------+
+ | This software is provided to you on an "as is" basis for    |
+ | instructional purposes only, without any warranties,        |
+ | expressed or implied.  Neither the author nor the publisher |
+ | shall be liable in any event for incidental, consequential, |
+ | special, or punitive damages in connection with, or arising |
+ | out of the distribution, performance, or use of this        |
+ | software.                                                   |
+ +-------------------------------------------------------------+
+
+
+Running the p program (use plnx on Linux, use pmac on Macintosh)
+----------------------------------------------------------------
+
+To run the p program, enter
+
+
+p  definitionFilename tapeFilename
+
+
+The extension ".pda" is assumed for the definition file name if one 
+is not given.  tapeFileName is optional.  If tapeFilename is not 
+specified, the tape file name is assumed to be the same as the 
+definition file name but with the extension is ".t".  If the 
+extensions for the definition and tape files are not given, they 
+default to ".pda" and ".t", respectively.        
+
+
+Name file p.ppp
+---------------
+
+When the p program is run for the first time, it prompts for the 
+user's name:
+
+Enter familyname firstname middleinitial (if any)  
+
+After the user enters this information, the p program saves it in 
+a file named p.ppp.  It then inserts this name information in all 
+the files it subsequently creates.  If the name entered is not 
+correct, the p.ppp file can be directly edited with any text 
+editor.  Alternatively, the p.ppp file can be deleted.  Then when 
+the p program is run again, it will prompt for and read in new 
+name information.  
+
+
+
+Definition file
+---------------
+                                      
+The first line of the definition file that is not a //-comment 
+should contain the start state of the PDA, followed optionally by 
+a stack initialization string (if the stack initialization string 
+is omitted, the stack is empty initially for each tape run).  The 
+start state can be any integer.  A comment preceded by at least 
+one blank can appear on the same line as the start state but only 
+if a stack initialization string is specified (otherwise the 
+first word of the comment would be taken as the stack 
+initialization string).  
+
+A comment can appear anywhere to the right of a definition
+file entry, separated from the entry by at least one blank.
+Such comments do not have to start with //.  
+Lines containing only a comment must start with //.  
+Blank lines can appear anywhere.
+
+The stack initialization string, if specified, is pushed in 
+right-to-left order before each tape run.  For example, if "xyz" 
+is the initialization string, then first z, then y, and finally x 
+are pushed.  Thus, x ends up on top of the stack. 
+
+The final states (also know as accepting states) are listed on 
+the line following the start-state line.  A final state can be 
+any integer.  Succesive final states should be separated by a 
+comma. The list should be enclosed in braces.  For example, {1,4} 
+indicates 1 and 4 are final states.  Empty braces (i.e., {}) 
+indicate there are no final states. 
+
+If the keyword "emptystack" appears as a comment or anywhere in a 
+comment and at least one final state is specified, the p program 
+will accept by final state and empty stack.  If final states are 
+specifed but "emptystack" does not appear, the p program will 
+accept by final state.  If no final states are specified but 
+"emptystack" appears, then the p program will accept by empty 
+stack.  If neither final states nor "emptystack" are specified, 
+then the p program will accept by the final state criterion (and 
+because there are no final states, all strings will be rejected).  
+
+
+Examples: 
+
+If final-states line line is 
+
+     {0,1,2,3} 
+
+acceptance is by final state, where 0, 1, 2, and 3 are final 
+states.  
+
+If the final-states line is
+
+     {0,1,2,3}  emptystack
+
+acceptance is by final state and empty stack.  If the final-
+states line is 
+
+     {} emptystack
+
+acceptance is by empty stack.  
+
+The quintuples (or triples) for the PDA should start after the 
+final-states line.  One quintuple (or triple) should be specified 
+per line.  Completely blank lines as well as //-comment lines can 
+appear before or after a line containing a quintuple (or triple). 
+
+The components of a quintuple should be specified in the 
+following order: 
+
+CurrentState CurrentInput TopOfStack NextState PushString
+
+One or more spaces should separate each component of a quintuple. 
+CurrentState and NextState can be any integer. 
+
+CurrentInput and TopOfStack can be any non-blank character. Use 
+'_' to represent the blank character.  Use '~' as a wildcard 
+character.
+
+Use '#' for the CurrentInput to represent the end of the input 
+input.  
+
+To specify an ordinary '~' or '#', precede them with a 
+backslash.
+
+CurrentInput, TopOfStack, and/or PushString can be '^', where '^' 
+designates the null string.  
+
+PushString can be any string.  Use '^' to represent the null 
+string.
+
+States of the PDA other than the start state and the final 
+states are implicitly specified by the quintuples or triples in 
+the definition file.  Similarly, the input and stack alphabets are 
+implicitly specified.
+
+In the following definition file (paired1.pda), the stack is 
+initialized with stack initialization string "$": 
+
+// paired1.pda   
+// This PDA accepts {a**nb**n : n >= 0}
+// Hopcroft model: has states; PDA starts with some symbol already on
+// stack; can push strings; TopOfStack component of quintuple is never ^;
+// accepts by final state.
+// Format of quintuple:
+//      CurrentState CurrentInput TopOfStack NextState PushString
+
+1 $              Start state and stack initialization string
+{1,4}            List of final states
+
+1 a $ 2 a$       push a on top of $
+2 a a 2 aa       push a on top of another a
+2 b a 3 ^        match b in input with a on top of the stack
+
+3 b a 3 ^        now match remaining b's in the input with a's on stack
+3 ^ $ 4 ^        when stack goes empty, go into final state 4
+
+However, in the next definition file (paired2.pda), the stack is 
+initially empty.  State 0 is used to initialize the stack with 
+'$'.  This PDA corresponds to the Sipser's model which allows 
+only a single symbol or '^' to be pushed.  Thus, to push a string 
+requires a succession of states, each pushing one symbol from the 
+string. 
+
+// paired2.pda   
+// This PDA accepts {a**nb**n : n >= 0}
+// Sipser's model: start state used to initialize the stack with $;
+// at most one symbol can be pushed at a time; TopOfStack component 
+// of a quintuple can be ^.
+// Format of quintuple:
+//      CurrentState Current Input TopOfStack NextState PushString
+
+0
+{1,6}            set of final states
+
+0 ^ ^ 1 $        initialize stack with $
+1 a $ 2 $        push a$ (state 2 pushes the a)
+2 ^ ^ 3 a   
+3 a a 4 a        push aa (state 4 pushes the 2nd a)
+4 ^ ^ 3 a
+3 b a 5 ^        match b in input with a on the s stack
+
+5 b a 5 ^        now match b's in the input with a's on the stack
+5 ^ $ 6 ^        go into to final state 6 when stack goes empty
+
+
+
+Using triples instead of quintuples
+-----------------------------------
+
+Triples of the form
+
+     CurrentInput TopOfStack PushString
+
+can be used in place of quintuples.  If triples are used, the 
+first line of the definition file should contain the stack 
+initialization string.  The triples should follow the line that 
+contains the stack initialization string.  Acceptance is 
+automatically by empty stack (the "emptystack" keyword does not 
+have to be specified).   
+
+A comment can appear to the right of a triple with the following 
+exception: the first triple must not have a comment that starts 
+with an integer (otherwise the p program would assume quintuples 
+are specified rather than triples). 
+
+
+Sample definition file (paired3.pda) in which triples are used:
+
+// paired3.pda   
+// This PDA accepts {a**nb**n : n >= 0} 
+// Webber's model: uses triples; no states; PDA starts with S already on 
+// stack; can push strings; TopOfStack component of triple can 
+// never be ^; accepts by empty stack.  
+// Format of triple: 
+//      CurrentInput TopOfStack PushString 
+// Although nondeterministic, this PDA still works with the p
+// program because whenever there is a choice of triples in this PDA, 
+// the correct choice just happens to be the first applicable
+// triple listed.  But this is what the p program does
+// whenever there is a choice--it always uses the first 
+// applicable triple listed.
+
+S                stack initialization string           
+
+a S Sa           push a's
+^ S ^            switch to matching mode
+b a ^            match b's in input with a's on stack
+
+
+p supports some non-standard features
+-------------------------------------
+
+Your instructor may want you to use a particular variation of the 
+PDA model, and, in particular, NOT use the non-standard features 
+discussed in this section because they are not features in any of 
+the commonly used PDA models.  However, these non-standard 
+features allow the p program to model the stack parser programs 
+in Chapter 7 and 8 of "Compiler Construction Using Java, JavaCC, 
+and Yacc."  If you want to model those programs, you will need 
+these non-standard features. 
+
+Use '#' for the CurrentInput to represent the end of the input.
+
+If CurrentInput in a quintuple or triple is a multicharacter 
+sequence sequence in which the second character is '<', then
+the PDA will not advance in the input when the quintuple is used.
+For example, the quintuple
+
+     1 a< X 2 bbb
+
+can be used only when the current state of the PDA is 1, the 
+current input is 'a', and the top of the stack is X.  When this 
+quintuple is used, the PDA pops the X, goes into state 2, and 
+pushes bbb, but it does NOT advance in the input. 
+
+You can also specify the quintuple above with
+
+     1 a<noadvance 2 bbb
+
+with "noadvance" or any other phrase of your choosing following 
+'<'.  Only the first two characters ("a<" in this example) in the 
+second component are examined.  Don't embed any blanks in the 
+second component.  That is, don't do this: 
+
+     1 a<no advance 2 bbb  
+
+
+Wildcard character '~'
+----------------------
+
+'~' used as the second component of a quintuple or the first 
+component of a triple is a wildcard.  It matches any symbol 
+except for the input symbols that appear in other applicable 
+quintuples.  For example, suppose a PDA has only two quintuples 
+whose first component is 3: 
+
+3 ~ a 4 y
+3 b a 5 z
+
+The first quintuple is used if the current state of the PDA is 3, 
+the top of the stack is 'a', and the current input is any symbol 
+except 'b' (if the current input is 'b', then the second 
+quintuple above would be used). 
+
+Unlike '^', '~' as the second component of a quintuple causes an 
+advance in the input. 
+
+'~' used as the third component of a quintuple or the second 
+component of a triple matches any stack symbol and causes a pop.  
+Its effect is like '^', except it causes a pop whereas '^' does 
+not.  For example, the following quintuple can be a used if the 
+current state of the PDA is 1 and the current input it 'a' 
+regardless of the symbol on top of the stack: 
+
+1 a ~ 2 b
+
+It advances in the input, pops the stack, switches to state 2, 
+and pushes 'b'.  
+
+To specify an ordinary '~', precede it with a backslash. 
+
+
+Input tape file
+---------------
+
+The input tape file should consist of one or more lines.  Each 
+line represents one input tape.  An input tape can consist of any 
+sequence of non-blank characters.  Use '_' the represent the 
+blank character.  A null string is represented by a single '^'.
+
+The p program treats each line in the tape file as a separate 
+input tape and makes one run for each line. If either the letter 
+'a' or the letter 'r' preceded by at least one blank appears on 
+the right of a tape, the result of the run--ACCEPT or REJECT--is 
+checked.  If the letter 'a' is specified, the result should be 
+ACCEPT; if the letter 'r' is specified, the result should be 
+REJECT.  If the result differs from that specified on the tape, 
+the error message "Wrong" appears at the end of the trace for 
+that tape, and the error message "Errors detected" appears at the 
+bottom of the trace for the entire run.  If no errors are 
+detected during an entire run, the message "Correct" appears at 
+the bottom of the trace for the entire run. 
+
+A comment can appear on a line to the right of the input string 
+and the a/r expected result, but it must be preceded with at 
+least one blank.  A comment here does not have to start with //.  
+However, if the a/r expected result is not specified, a comment 
+should not start with the letter 'a' or 'r'. Completely blank lines
+can appear anywhere in the tape file ignored.  Lines that contain
+only a comment should NOT be included in the tape file 
+(they would be treated as input tapes).
+
+If a run on any tape is canceled with the c command or if the 
+simulation is terminated with the q command, "Errors detected" 
+appears at the bottom of the trace for the entire run. 
+ 
+
+
+Sample input tape file (paired1.t): 
+
+^                                   a    ^ represents null string
+ab                                  a
+aaaaabbbbb                          a
+abab                                r    comments are allowed here
+abb                                 r
+aab                                 r
+a                                   r
+b                                   r
+
+
+Trace
+-----
+
+The trace generated by the p program is written to BOTH the 
+display screen and a file with the same name as the definition 
+file but with the extension ".<familyname>.pog", where 
+<familyname> is the family name the user enters when running the 
+p program for the first time.  If, however, the user enters 
+his/her family name prefixed with a hyphen, then the family name 
+is not incorporated in the trace file name (but the user's name 
+still appears in the trace file). 
+
+The trace consists of "snapshots" of the current configuration of 
+the machine in the format 
+
+     Stack<CurrentState>RemainingInput
+
+If more than one quintuple or triple can be applied to a given 
+machine configuration, the first listed first in the definition 
+file is used.  The simulation ends whenever a configuration to 
+which no quintuple applies occurs or when an accept configuration 
+occurs.  
+
+The p program pauses after each input tape is run.  Entering any 
+key except g, G, q, or Q causes the p program to run the next 
+tape.  Entering g or G at a pause between tapes causes the 
+p program to run the remaining tapes without pauses.  Entering q 
+or Q causes the p program to terminate.  The p program also 
+pauses periodically when running an input tape which requires 
+more moves than can be shown on the display screen at one time.  
+At such a pause, entering c cancels further simulation on the 
+current tape.  Entering any other key continues the simulation on 
+the current tape. 
+
+
+Using the p program for a nondeterministic PDA
+----------------------------------------------
+
+The p program always uses the first applicable quintuple (or 
+triple) in the list of quintuples (or triples) in the definition 
+file.  Thus, whenever there is a choice, the p program follows 
+only the first choice.  If, for a string that is in the languague 
+defined by the PDA, the correct choice (i.e., the choice that 
+leads to acceptance) is not listed first, the p program will 
+reject the string.  Thus, a "reject" from the p program does not 
+necessarily mean a string is not in the language defined by the 
+PDA.  However, for some nondeterministic PDAs, whenever there is 
+a choice, the first quintuple (or triple) listed is always the 
+correct choice.  For these PDAs, the p program issues a "reject" 
+only for those strings not in the language defined by the PDA.  
+For example, consider the language {a**nb**n : n >= 0}.  The 
+definition file for a nondeterministic PDA that defines this 
+language is 
+
+S
+a S Sb
+^ S ^
+b b ^
+
+Whenever the current input is an 'a' and S is on top of the stack, 
+both the first and second triples are applicable.  However, the 
+correct choice is the first triple, which is the one that the p 
+program will use (because it's first on the list). When the PDA 
+has advanced in the input to the first 'b', then the second triple 
+is the correct choice.  But when 'b' is the current input and S is 
+on top of the stack, the second triple is the only choice.  So 
+the second triple is used by the p program precisely when it 
+should be used.  
+
+
+Sample definition and tape files
+--------------------------------
+
+The PDA simulator package includes three pairs of sample 
+definition/input tape files: 
+
+Definition file   Input Tape file        Description
+
+paired1.pda      paired1.t       Accepts {a**nb**n | n >= 0} by final state
+                                 Uses Hopcroft's model.
+
+paired2.pda      paired2.t       Same as paired1.pda but using a stack
+                                 initialization string. Uses 
+                                 Sipser's model.
+
+paired3.pda      paired3.t       Same as paired1.pda but pda is specified 
+                                 with triples rather than quintuples.
+                                 Uses Webber's model.
+
+paired4.pda      paired4.t       Same as paired3.pda but 
+                                 triples are derived directly 
+                                 from productions of 
+                                 corresponding grammar. 
+
+paired5.pda      paired5.t       Same as paired4.pda but 
+                                 triples are derived from 
+                                 productions in a different way.
+                                 Because it is nondeterministic,
+                                 the p program does not simulate 
+                                 it properly.
+
+paired6.pda      paired6.t       Same as paired5.pda but 
+                                 nonstandard features # and <
+                                 are used to make the pda 
+                                 deterministic so the p program 
+                                 simulates it properly.
+    
+The simulator package also includes tape files for the problems 
+given in pda.txt.
+
+Here is the pog file that the p program generates for paired1.pda and 
+paired1.t:
+
+PDA Simulator Version 7.2                  Wed Mar 27 13:23:51 2013
+
+Your name:       DosReis Anthony J
+pog file:        paired1.dosreis.pog
+Tape file:       paired1.t
+Definition file: paired1.pda
+
+// paired1.pda   
+// This PDA accepts {a**nb**n : n >= 0}
+// Hopcroft model: has states; PDA starts with some symbol already on
+// stack; can push strings; TopOfStack component of quintuple is never ^;
+// accepts by final state.
+// Format of quintuple:
+//      CurrentState CurrentInput TopOfStack NextState PushString
+
+1 $              Start state and stack initialization string
+{1,4}            List of final states
+
+1 a $ 2 a$       push a on top of $
+2 a a 2 aa       push a on top of another a
+2 b a 3 ^        match b in input with a on top of the stack
+
+3 b a 3 ^        now match remaining b's in the input with a's on stack
+3 ^ $ 4 ^        when stack goes empty, go into final state 4
+
+Accept criteria: final state
+Stk init string: $
+Number of states: 4
+Number of quintuples: 5
+
+----------------- TAPE  1 -------------------------------
+^                                   a    ^ represents null string
+---------------------------------------------------------
+$<1>
+       ACCEPT by final state
+       0 quintuple(s) executed
+
+----------------- TAPE  2 -------------------------------
+ab                                  a
+---------------------------------------------------------
+$<1>ab
+$a<2>b
+$<3>
+<4>
+       ACCEPT by final state
+       3 quintuple(s) executed
+
+----------------- TAPE  3 -------------------------------
+aaaaabbbbb                          a
+---------------------------------------------------------
+$<1>aaaaabbbbb
+$a<2>aaaabbbbb
+$aa<2>aaabbbbb
+$aaa<2>aabbbbb
+$aaaa<2>abbbbb
+$aaaaa<2>bbbbb
+$aaaa<3>bbbb
+$aaa<3>bbb
+$aa<3>bb
+$a<3>b
+$<3>
+<4>
+       ACCEPT by final state
+       11 quintuple(s) executed
+
+----------------- TAPE  4 -------------------------------
+abab                                r    comments are allowed here
+---------------------------------------------------------
+$<1>abab
+$a<2>bab
+$<3>ab
+<4>ab
+       REJECT by final state
+       3 quintuple(s) executed
+
+----------------- TAPE  5 -------------------------------
+abb                                 r
+---------------------------------------------------------
+$<1>abb
+$a<2>bb
+$<3>b
+<4>b
+       REJECT by final state
+       3 quintuple(s) executed
+
+----------------- TAPE  6 -------------------------------
+aab                                 r
+---------------------------------------------------------
+$<1>aab
+$a<2>ab
+$aa<2>b
+$a<3>
+       REJECT by final state
+       3 quintuple(s) executed
+
+----------------- TAPE  7 -------------------------------
+a                                   r
+---------------------------------------------------------
+$<1>a
+$a<2>
+       REJECT by final state
+       1 quintuple(s) executed
+
+----------------- TAPE  8 -------------------------------
+b                                   r
+---------------------------------------------------------
+$<1>b
+       REJECT by final state
+       0 quintuple(s) executed
+
+V7.2 paired1.dosreis.pog: s4/q5/sis1/mqe11/fs
+ccbb Report for DosReis Anthony J: Correct
+9c45 Wed Mar 27 13:23:51 2013
