@@ -1,0 +1,5 @@
+dataIn = open("data.txt", "r")
+dataOut = open("data-copy.txt", "w+")
+dataOut.write(dataIn.read())
+dataIn.close()
+dataOut.close()
