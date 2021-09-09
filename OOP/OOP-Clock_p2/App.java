@@ -18,7 +18,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        int WIDTH = 10;
+        int WIDTH = 1000;
         int HEIGHT = 600;
 
         JFrame frame = new JFrame();
