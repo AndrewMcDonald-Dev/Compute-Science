@@ -1,0 +1,317 @@
+FA Simulator Version 3.1                   Tue Sep 07 18:36:57 2021
+
+Your name:       McDonald Andrew R.
+fog file:        f12.mcdonald.fog
+Tape file:       f12.t
+Definition file: f12.fa
+
+1
+{10,9,14,13,20,17,18,30,29,23,25,21,16,24,29,30,31,32}
+
+1 a 2
+1 b 1
+2 a 3
+2 b 6
+3 a 4
+3 b 7
+4 a 5
+4 b 8
+5 a 10
+5 b 9
+6 a 11
+6 b 12
+7 a 26
+7 b 27
+8 a 18
+8 b 32
+9 a 18
+9 b 17
+10 a 10
+10 b 9
+11 a 15
+11 b 28
+12 a 33
+12 b 19
+13 a 4
+13 b 7
+14 a 13
+14 b 16
+15 a 21
+15 b 8
+16 a 22
+16 b 12
+17 a 14
+17 b 23
+18 a 29
+18 b 30
+19 a 20
+19 b 25
+20 a 3
+20 b 6
+21 a 5
+21 b 8
+22 a 15
+22 b 28
+23 a 20
+23 b 25
+24 a 26
+24 b 27
+25 a 2
+25 b 1
+26 a 29
+26 b 30
+27 a 14
+27 b 23
+28 a 31
+28 b 32
+29 a 21
+29 b 24
+30 a 31
+30 b 32
+31 a 33
+31 b 28
+32 a 33
+32 b 19
+33 a 13
+33 b 16
+
+Number of states: 33
+Number of triples: 66
+
+----------------- TAPE  1 -------------------------------
+babababa                                                a
+---------------------------------------------------------
+[ 1>babababa
+b[ 1>abababa
+ba[ 2>bababa
+bab[ 6>ababa
+baba[11>baba
+babab[28>aba
+bababa[31>ba
+bababab[28>a
+babababa[31>
+       ACCEPT
+
+----------------- TAPE  2 -------------------------------
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+---------------------------------------------------------
+[ 1>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+a[ 2>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aa[ 3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaa[ 4>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaa[ 5>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaa
+a[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>aa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>a
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa[10>
+       ACCEPT
+
+----------------- TAPE  3 -------------------------------
+a
+---------------------------------------------------------
+[ 1>a
+a[ 2>
+       REJECT
+
+----------------- TAPE  4 -------------------------------
+aaaaaa                                                  a
+---------------------------------------------------------
+[ 1>aaaaaa
+a[ 2>aaaaa
+aa[ 3>aaaa
+aaa[ 4>aaa
+aaaa[ 5>aa
+aaaaa[10>a
+aaaaaa[10>
+       ACCEPT
+
+----------------- TAPE  5 -------------------------------
+aaaaaaa                                                 a
+---------------------------------------------------------
+[ 1>aaaaaaa
+a[ 2>aaaaaa
+aa[ 3>aaaaa
+aaa[ 4>aaaa
+aaaa[ 5>aaa
+aaaaa[10>aa
+aaaaaa[10>a
+aaaaaaa[10>
+       ACCEPT
+
+----------------- TAPE  6 -------------------------------
+baaaaa                                                  a
+---------------------------------------------------------
+[ 1>baaaaa
+b[ 1>aaaaa
+ba[ 2>aaaa
+baa[ 3>aaa
+baaa[ 4>aa
+baaaa[ 5>a
+baaaaa[10>
+       ACCEPT
+
+----------------- TAPE  7 -------------------------------
+bbaaaaa                                                 a
+---------------------------------------------------------
+[ 1>bbaaaaa
+b[ 1>baaaaa
+bb[ 1>aaaaa
+bba[ 2>aaaa
+bbaa[ 3>aaa
+bbaaa[ 4>aa
+bbaaaa[ 5>a
+bbaaaaa[10>
+       ACCEPT
+
+----------------- TAPE  8 -------------------------------
+ababa                                                   a
+---------------------------------------------------------
+[ 1>ababa
+a[ 2>baba
+ab[ 6>aba
+aba[11>ba
+abab[28>a
+ababa[31>
+       ACCEPT
+
+----------------- TAPE  9 -------------------------------
+bababa                                                  a
+---------------------------------------------------------
+[ 1>bababa
+b[ 1>ababa
+ba[ 2>baba
+bab[ 6>aba
+baba[11>ba
+babab[28>a
+bababa[31>
+       ACCEPT
+
+----------------- TAPE 10 -------------------------------
+baaaa                                                   r
+---------------------------------------------------------
+[ 1>baaaa
+b[ 1>aaaa
+ba[ 2>aaa
+baa[ 3>aa
+baaa[ 4>a
+baaaa[ 5>
+       REJECT
+
+----------------- TAPE 11 -------------------------------
+bbbbbbb                                                 r
+---------------------------------------------------------
+[ 1>bbbbbbb
+b[ 1>bbbbbb
+bb[ 1>bbbbb
+bbb[ 1>bbbb
+bbbb[ 1>bbb
+bbbbb[ 1>bb
+bbbbbb[ 1>b
+bbbbbbb[ 1>
+       REJECT
+
+----------------- TAPE 12 -------------------------------
+aaaa                                                    r
+---------------------------------------------------------
+[ 1>aaaa
+a[ 2>aaa
+aa[ 3>aa
+aaa[ 4>a
+aaaa[ 5>
+       REJECT
+
+----------------- TAPE 13 -------------------------------
+^                                                       r
+---------------------------------------------------------
+[ 1>
+       REJECT
+
+V3.1 f12.mcdonald.fog: s33/t66
+c92b Report for McDonald Andrew R.: Correct
+aca1 Tue Sep 07 18:36:57 2021
