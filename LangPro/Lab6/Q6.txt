@@ -1,0 +1,1 @@
+The raise in simplestmt is unecessary because when the parser reaches the function it is comfirmed that the token.category is always NAME or PRINT it can not be anything else. This means under no condition that raise flag will be executed.
