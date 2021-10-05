@@ -1,0 +1,1 @@
+The reason it treats the first operand popped as the right one is because the file is read left to right so the operand on the top of the stack is the one on the right.

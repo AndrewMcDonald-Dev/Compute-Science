@@ -1,0 +1,5 @@
+<S> -> <S>'a'  {a}
+<S> -> 'a'     {a}
+
+This grammar is not good for predictive decsent parsing because the predict sets for but production are the same and thus cant guess which productions.
+

@@ -1,0 +1,8 @@
+// <S> -> <S><S> | 'a'
+
+I will show this is ambigious with the final result 'aaaa'
+
+S => SS => aS => aSS => aSSS => aaSS => aaaS => aaaa
+S => SS => SSS => SSSS => aSSS => aaSS => aaaS => aaaa
+
+This is two different ways of reaching the same state therefore it is ambigious.

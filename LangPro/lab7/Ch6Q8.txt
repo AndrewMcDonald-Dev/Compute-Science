@@ -1,0 +1,4 @@
+(1)  Will t1.py produce the same list of token? 
+    Yes because whitespace is ignored
+(2)  Can indents/dedents be romevoded without affecting the program's oepration?
+    No because getting rid of the blank characters would not allow the function declarations to be parsed.

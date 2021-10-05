@@ -1,0 +1,7 @@
+Pure interpreters are inefficient with processing loops because 
+Pure interpreters are inefficient with processing loops because 
+Pure interpreters are inefficient with processing loops because 
+Pure interpreters are inefficient with processing loops because 
+Pure interpreters are inefficient with processing loops because 
+Pure interpreters are inefficient with processing loops because it can not store data it compiles as it reads the input. 
+So to compile a loop it would have to recompile for every iteration of the loop.

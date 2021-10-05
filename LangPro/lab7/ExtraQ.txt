@@ -1,0 +1,9 @@
+S
+{B,C}
+
+S a S
+S b S
+S a A
+A a S
+A b B
+B b C
