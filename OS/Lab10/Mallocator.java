@@ -6,10 +6,12 @@ public class Mallocator {
     ArrayList<Process> proc;
 
     public static void main(String[] args) {
-        Mallocator m = new Mallocator();
-        m.bestFit(m.mem, m.proc);
-        m.worstFit(m.mem, m.proc);
-        m.firstFit(m.mem, m.proc);
+        Mallocator m1 = new Mallocator();
+        Mallocator m2 = new Mallocator();
+        Mallocator m3 = new Mallocator();
+        m1.bestFit(m1.mem, m1.proc);
+        m2.worstFit(m2.mem, m2.proc);
+        m3.firstFit(m3.mem, m3.proc);
     }
     public Mallocator(){
         try {
@@ -53,7 +55,7 @@ public class Mallocator {
         }
     }
 
-    public class Process {
+    public class Process implements Comparable<Process>{
         int ID;
         int size;
         int start;
@@ -63,25 +65,33 @@ public class Mallocator {
             this.ID = ID;
             this.size = size;
         }
+
+        public int compareTo(Process proc){
+            return this.start - proc.start;
+        }
     }
 
     public void bestFit(ArrayList<Memory> memory, ArrayList<Process> processes){
-        ArrayList<String> out = new ArrayList<>();
+        for (int i = 0; i < processes.size(); i++){
+            int bestIndex = -1;
+            for (int j = 0; j < memory.size(); j++){
+                if(memory.get(j).size >= processes.get(i).size){
+                    if(bestIndex == -1)
+                        bestIndex = j;
+                    else if (memory.get(bestIndex).size > memory.get(j).size)
+                        bestIndex = j;
+                }
+            }
+            if(bestIndex != -1){
+                int start = memory.get(bestIndex).startMem;
+                int end = start + processes.get(i).size;
+                processes.get(i).start = start;
+                processes.get(i).end = end;
+                memory.get(bestIndex).size -= processes.get(i).size;
 
-        out.add("100" + " " + "310" + " " + "2");
-        out.add("600" + " " + "790" + " " + "1");
-        out.add("1500" + " " + "1705" + " " + "3");
-        out.add("-0");
-
-        try {
-            FileWriter outWriter = new FileWriter(new File("BFoutput.data"));
-            for(String line : out)
-                outWriter.write(line + "\n");
-            outWriter.close();
-        }catch (Exception e){
-            System.out.println("An error bas occured");
-            e.printStackTrace();
+            }
         }
+        printResult(processes, "BFoutput.data");
     }
 
     public void worstFit(ArrayList<Memory> memory, ArrayList<Process> processes){
@@ -103,30 +113,7 @@ public class Mallocator {
         }
     }
 
-    private void printResult(ArrayList<Process> processes, String location){
-        ArrayList<String> out = new ArrayList<>();
-        ArrayList<String> alt = new ArrayList<>();
-        for(int i = 0; i < processes.size(); i++){
-            Process p = processes.get(i);
-            if(p.start != 0 || p.end != 0)
-                out.add(p.start + " " + p.end + " " + p.ID);
-            else 
-                alt.add(String.valueOf(p.ID));
-        }
-
-        try {
-            FileWriter outWriter = new FileWriter(new File(location));
-            for(String line : out)
-                outWriter.write(line + "\n");
-            for(String id : alt)
-                outWriter.write("-" + id + " ");
-            outWriter.close();
-        }catch (Exception e){
-            System.out.println("An error bas occured");
-            e.printStackTrace();
-        }
-    }
-
+    
     public void firstFit(ArrayList<Memory> memory, ArrayList<Process> processes){
         for(int i = 0; i < processes.size(); i++){
             for(int j = 0; j < memory.size(); j++){
@@ -141,5 +128,32 @@ public class Mallocator {
             }
         }
         printResult(processes, "FFoutput.data");
+    }
+
+    private void printResult(ArrayList<Process> processes, String location){
+        Collections.sort(processes);
+        ArrayList<String> out = new ArrayList<>();
+        ArrayList<String> alt = new ArrayList<>();
+        for(int i = 0; i < processes.size(); i++){
+            Process p = processes.get(i);
+            if(p.start != 0 || p.end != 0)
+                out.add(p.start + " " + p.end + " " + p.ID);
+            else 
+                alt.add(String.valueOf(p.ID));
+        }
+        try {
+            FileWriter outWriter = new FileWriter(new File(location));
+            for(String line : out)
+                outWriter.write(line + "\n");
+            outWriter.write("-");
+            if(alt.size() == 0)
+                outWriter.write("0");
+            for(String id : alt)
+                outWriter.write(id + " ");
+            outWriter.close();
+        }catch (Exception e){
+            System.out.println("An error bas occured");
+            e.printStackTrace();
+        }
     }
 }
