@@ -15,7 +15,7 @@ public class Mallocator {
     }
     public Mallocator(){
         try {
-            File minput = new File("Minput.data");
+            File minput = new File("Minput1.data");
             Scanner mReader = new Scanner(minput);
             mem = new ArrayList<Memory>(Integer.parseInt(mReader.nextLine()));
             while (mReader.hasNextLine()){
@@ -27,7 +27,7 @@ public class Mallocator {
             mReader.close();
 
 
-            File pinput = new File("Pinput.data");
+            File pinput = new File("Pinput1.data");
             Scanner pReader = new Scanner(pinput);
             proc = new ArrayList<Process>(Integer.parseInt(pReader.nextLine()));
             while (pReader.hasNextLine()){
@@ -88,10 +88,10 @@ public class Mallocator {
                 processes.get(i).start = start;
                 processes.get(i).end = end;
                 memory.get(bestIndex).size -= processes.get(i).size;
-
+                memory.get(bestIndex).startMem += processes.get(i).size;
             }
         }
-        printResult(processes, "BFoutput.data");
+        printResult(processes, "BFoutput1.data");
     }
 
     public void worstFit(ArrayList<Memory> memory, ArrayList<Process> processes){
@@ -103,7 +103,7 @@ public class Mallocator {
         out.add("-0");
 
         try {
-            FileWriter outWriter = new FileWriter(new File("WFoutput.data"));
+            FileWriter outWriter = new FileWriter(new File("WFoutput1.data"));
             for(String line : out)
                 outWriter.write(line + "\n");
             outWriter.close();
@@ -123,11 +123,12 @@ public class Mallocator {
                     processes.get(i).start = start;
                     processes.get(i).end = end;
                     memory.get(j).size -= processes.get(i).size;
+                    memory.get(j).startMem += processes.get(i).size;
                     break;
                 }
             }
         }
-        printResult(processes, "FFoutput.data");
+        printResult(processes, "FFoutput1.data");
     }
 
     private void printResult(ArrayList<Process> processes, String location){

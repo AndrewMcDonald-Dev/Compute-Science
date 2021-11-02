@@ -1,4 +1,4 @@
-Fri Oct 29 18:55:12 2021                   Andrew McDonald
+Fri Oct 29 19:07:32 2021                   Andrew McDonald
 Interpreter = h1.py
 Input file  = ../wicrpi2/h1.in
 ------------------------------------------- Program output
