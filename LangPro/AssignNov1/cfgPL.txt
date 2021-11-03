@@ -1,0 +1,3 @@
+{a^n b^m c^n d^m | n,m >= 0}
+
+The general form of the CFG is u(v^n)w(x^n)y for all n >= 0. The given equation is not a context-free grammar because it is not possible for the equation to fit into this general form as the form needed for equation would be something like a(b^n)c(d^m)e(f^n)g(h^m)i. This form can not be derived from any context-free language as the n and m are crossed.

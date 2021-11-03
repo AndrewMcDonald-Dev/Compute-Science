@@ -1,0 +1,234 @@
+Turing Machine Simulator Version 3.1       Tue Nov 02 20:51:52 2021
+
+Your name:       McDonald Andrew R
+tog file:        t4.mcdonald.tog
+Tape file:       t4.t
+Definition file: t4.tm
+
+1
+{6}
+
+1 a X r 2
+1 Y Y r 5
+1 _ _ l 6
+
+2 a a r 2
+2 Y Y r 2
+2 b Y r 3
+
+3 b b r 3
+3 Z Z r 3
+3 c Z l 4
+
+4 b b l 4
+4 a a l 4
+4 Z Z l 4
+4 Y Y l 4
+4 X X r 1
+
+5 Y Y r 5
+5 Z Z r 5
+5 _ _ l 6
+
+Number of states: 6
+Number of quintuples: 17
+
+--------------- TAPE  1 ---------------------------------
+^           a
+---------------------------------------------------------
+     [1> 
+    [6>  
+       ACCEPT       1 quintuple(s) executed
+
+--------------- TAPE  2 ---------------------------------
+abc         a
+---------------------------------------------------------
+     [1>abc
+     X[2>bc
+     XY[3>c
+     X[4>YZ
+     [4>XYZ
+     X[1>YZ
+     XY[5>Z
+     XYZ[5> 
+     XY[6>Z 
+       ACCEPT       8 quintuple(s) executed
+
+--------------- TAPE  3 ---------------------------------
+aabbcc      a
+---------------------------------------------------------
+     [1>aabbcc
+     X[2>abbcc
+     Xa[2>bbcc
+     XaY[3>bcc
+     XaYb[3>cc
+     XaY[4>bZc
+     Xa[4>YbZc
+     X[4>aYbZc
+     [4>XaYbZc
+     X[1>aYbZc
+     XX[2>YbZc
+     XXY[2>bZc
+     XXYY[3>Zc
+     XXYYZ[3>c
+     XXYY[4>ZZ
+     XXY[4>YZZ
+     XX[4>YYZZ
+     X[4>XYYZZ
+     XX[1>YYZZ
+     XXY[5>YZZ
+     XXYY[5>ZZ
+     XXYYZ[5>Z
+     XXYYZZ[5> 
+     XXYYZ[6>Z 
+       ACCEPT       23 quintuple(s) executed
+
+--------------- TAPE  4 ---------------------------------
+aaabbbccc   a
+---------------------------------------------------------
+     [1>aaabbbccc
+     X[2>aabbbccc
+     Xa[2>abbbccc
+     Xaa[2>bbbccc
+     XaaY[3>bbccc
+     XaaYb[3>bccc
+     XaaYbb[3>ccc
+     XaaYb[4>bZcc
+     XaaY[4>bbZcc
+     Xaa[4>YbbZcc
+     Xa[4>aYbbZcc
+     X[4>aaYbbZcc
+     [4>XaaYbbZcc
+     X[1>aaYbbZcc
+     XX[2>aYbbZcc
+     XXa[2>YbbZcc
+     XXaY[2>bbZcc
+     XXaYY[3>bZcc
+     XXaYYb[3>Zcc
+     XXaYYbZ[3>cc
+     XXaYYb[4>ZZc
+     XXaYY[4>bZZc
+     XXaY[4>YbZZc
+     XXa[4>YYbZZc
+     XX[4>aYYbZZc
+     X[4>XaYYbZZc
+     XX[1>aYYbZZc
+     XXX[2>YYbZZc
+     XXXY[2>YbZZc
+     XXXYY[2>bZZc
+     XXXYYY[3>ZZc
+     XXXYYYZ[3>Zc
+     XXXYYYZZ[3>c
+     XXXYYYZ[4>ZZ
+     XXXYYY[4>ZZZ
+     XXXYY[4>YZZZ
+     XXXY[4>YYZZZ
+     XXX[4>YYYZZZ
+     XX[4>XYYYZZZ
+     XXX[1>YYYZZZ
+     XXXY[5>YYZZZ
+     XXXYY[5>YZZZ
+     XXXYYY[5>ZZZ
+     XXXYYYZ[5>ZZ
+     XXXYYYZZ[5>Z
+     XXXYYYZZZ[5> 
+     XXXYYYZZ[6>Z 
+       ACCEPT       46 quintuple(s) executed
+
+--------------- TAPE  5 ---------------------------------
+abca        r
+---------------------------------------------------------
+     [1>abca
+     X[2>bca
+     XY[3>ca
+     X[4>YZa
+     [4>XYZa
+     X[1>YZa
+     XY[5>Za
+     XYZ[5>a
+       REJECT       7 quintuple(s) executed
+
+--------------- TAPE  6 ---------------------------------
+aabbc       r
+---------------------------------------------------------
+     [1>aabbc
+     X[2>abbc
+     Xa[2>bbc
+     XaY[3>bc
+     XaYb[3>c
+     XaY[4>bZ
+     Xa[4>YbZ
+     X[4>aYbZ
+     [4>XaYbZ
+     X[1>aYbZ
+     XX[2>YbZ
+     XXY[2>bZ
+     XXYY[3>Z
+     XXYYZ[3> 
+       REJECT       13 quintuple(s) executed
+
+--------------- TAPE  7 ---------------------------------
+abbcc       r
+---------------------------------------------------------
+     [1>abbcc
+     X[2>bbcc
+     XY[3>bcc
+     XYb[3>cc
+     XY[4>bZc
+     X[4>YbZc
+     [4>XYbZc
+     X[1>YbZc
+     XY[5>bZc
+       REJECT       8 quintuple(s) executed
+
+--------------- TAPE  8 ---------------------------------
+aabcc       r
+---------------------------------------------------------
+     [1>aabcc
+     X[2>abcc
+     Xa[2>bcc
+     XaY[3>cc
+     Xa[4>YZc
+     X[4>aYZc
+     [4>XaYZc
+     X[1>aYZc
+     XX[2>YZc
+     XXY[2>Zc
+       REJECT       9 quintuple(s) executed
+
+--------------- TAPE  9 ---------------------------------
+aaccbb      r
+---------------------------------------------------------
+     [1>aaccbb
+     X[2>accbb
+     Xa[2>ccbb
+       REJECT       2 quintuple(s) executed
+
+--------------- TAPE 10 ---------------------------------
+bbccaa      r
+---------------------------------------------------------
+     [1>bbccaa
+       REJECT       0 quintuple(s) executed
+
+--------------- TAPE 11 ---------------------------------
+bc          r
+---------------------------------------------------------
+     [1>bc
+       REJECT       0 quintuple(s) executed
+
+--------------- TAPE 12 ---------------------------------
+abcabc      r
+---------------------------------------------------------
+     [1>abcabc
+     X[2>bcabc
+     XY[3>cabc
+     X[4>YZabc
+     [4>XYZabc
+     X[1>YZabc
+     XY[5>Zabc
+     XYZ[5>abc
+       REJECT       7 quintuple(s) executed
+
+V3.1 t4.mcdonald.tog: s6/q17/mqe46
+0865 Report for McDonald Andrew R: Correct
+b030 Tue Nov 02 20:51:52 2021

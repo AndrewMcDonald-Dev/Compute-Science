@@ -1,0 +1,12 @@
+^           a
+abc         a
+aabbcc      a
+aaabbbccc   a
+abca        r
+aabbc       r
+abbcc       r
+aabcc       r
+aaccbb      r
+bbccaa      r
+bc          r
+abcabc      r
