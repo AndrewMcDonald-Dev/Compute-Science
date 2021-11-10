@@ -1,0 +1,760 @@
+1. p2.py grade output is at the bottom
+
+----------------------------------------------------------------------------------------------------------
+2. bb2.mcdonald.tog
+----------------------------------------------------------------------------------------------------------
+
+Turing Machine Simulator Version 3.1       Tue Nov 02 19:43:26 2021
+
+Your name:       McDonald Andrew R
+tog file:        bb2.mcdonald.tog
+Tape file:       bb2.t
+Definition file: bb2.tm
+
+1
+{3}
+
+1 _ 1 r 2
+1 1 1 l 2
+2 _ 1 l 1
+2 1 1 r 3
+
+Number of states: 3
+Number of quintuples: 4
+
+--------------- TAPE  1 ---------------------------------
+^        4
+---------------------------------------------------------
+     [1> 
+     1[2> 
+     [1>11
+    [2> 11
+   [1> 111
+   1[2>111
+   11[3>11
+       ACCEPT
+       6 quintuple(s) executed
+       1's left on tape: 4
+       1's expected:     4
+
+V3.1 bb2.mcdonald.tog: s3/q4/mqe6/mc4
+d3e6 Report for McDonald Andrew R: Correct
+
+----------------------------------------------------------------------------------------------------------
+3. t4.tm
+----------------------------------------------------------------------------------------------------------
+
+
+Turing Machine Simulator Version 3.1       Tue Nov 02 20:51:52 2021
+
+Your name:       McDonald Andrew R
+tog file:        t4.mcdonald.tog
+Tape file:       t4.t
+Definition file: t4.tm
+
+1
+{6}
+
+1 a X r 2
+1 Y Y r 5
+1 _ _ l 6
+
+2 a a r 2
+2 Y Y r 2
+2 b Y r 3
+
+3 b b r 3
+3 Z Z r 3
+3 c Z l 4
+
+4 b b l 4
+4 a a l 4
+4 Z Z l 4
+4 Y Y l 4
+4 X X r 1
+
+5 Y Y r 5
+5 Z Z r 5
+5 _ _ l 6
+
+Number of states: 6
+Number of quintuples: 17
+
+--------------- TAPE  1 ---------------------------------
+^           a
+---------------------------------------------------------
+     [1> 
+    [6>  
+       ACCEPT       1 quintuple(s) executed
+
+--------------- TAPE  2 ---------------------------------
+abc         a
+---------------------------------------------------------
+     [1>abc
+     X[2>bc
+     XY[3>c
+     X[4>YZ
+     [4>XYZ
+     X[1>YZ
+     XY[5>Z
+     XYZ[5> 
+     XY[6>Z 
+       ACCEPT       8 quintuple(s) executed
+
+--------------- TAPE  3 ---------------------------------
+aabbcc      a
+---------------------------------------------------------
+     [1>aabbcc
+     X[2>abbcc
+     Xa[2>bbcc
+     XaY[3>bcc
+     XaYb[3>cc
+     XaY[4>bZc
+     Xa[4>YbZc
+     X[4>aYbZc
+     [4>XaYbZc
+     X[1>aYbZc
+     XX[2>YbZc
+     XXY[2>bZc
+     XXYY[3>Zc
+     XXYYZ[3>c
+     XXYY[4>ZZ
+     XXY[4>YZZ
+     XX[4>YYZZ
+     X[4>XYYZZ
+     XX[1>YYZZ
+     XXY[5>YZZ
+     XXYY[5>ZZ
+     XXYYZ[5>Z
+     XXYYZZ[5> 
+     XXYYZ[6>Z 
+       ACCEPT       23 quintuple(s) executed
+
+--------------- TAPE  4 ---------------------------------
+aaabbbccc   a
+---------------------------------------------------------
+     [1>aaabbbccc
+     X[2>aabbbccc
+     Xa[2>abbbccc
+     Xaa[2>bbbccc
+     XaaY[3>bbccc
+     XaaYb[3>bccc
+     XaaYbb[3>ccc
+     XaaYb[4>bZcc
+     XaaY[4>bbZcc
+     Xaa[4>YbbZcc
+     Xa[4>aYbbZcc
+     X[4>aaYbbZcc
+     [4>XaaYbbZcc
+     X[1>aaYbbZcc
+     XX[2>aYbbZcc
+     XXa[2>YbbZcc
+     XXaY[2>bbZcc
+     XXaYY[3>bZcc
+     XXaYYb[3>Zcc
+     XXaYYbZ[3>cc
+     XXaYYb[4>ZZc
+     XXaYY[4>bZZc
+     XXaY[4>YbZZc
+     XXa[4>YYbZZc
+     XX[4>aYYbZZc
+     X[4>XaYYbZZc
+     XX[1>aYYbZZc
+     XXX[2>YYbZZc
+     XXXY[2>YbZZc
+     XXXYY[2>bZZc
+     XXXYYY[3>ZZc
+     XXXYYYZ[3>Zc
+     XXXYYYZZ[3>c
+     XXXYYYZ[4>ZZ
+     XXXYYY[4>ZZZ
+     XXXYY[4>YZZZ
+     XXXY[4>YYZZZ
+     XXX[4>YYYZZZ
+     XX[4>XYYYZZZ
+     XXX[1>YYYZZZ
+     XXXY[5>YYZZZ
+     XXXYY[5>YZZZ
+     XXXYYY[5>ZZZ
+     XXXYYYZ[5>ZZ
+     XXXYYYZZ[5>Z
+     XXXYYYZZZ[5> 
+     XXXYYYZZ[6>Z 
+       ACCEPT       46 quintuple(s) executed
+
+--------------- TAPE  5 ---------------------------------
+abca        r
+---------------------------------------------------------
+     [1>abca
+     X[2>bca
+     XY[3>ca
+     X[4>YZa
+     [4>XYZa
+     X[1>YZa
+     XY[5>Za
+     XYZ[5>a
+       REJECT       7 quintuple(s) executed
+
+--------------- TAPE  6 ---------------------------------
+aabbc       r
+---------------------------------------------------------
+     [1>aabbc
+     X[2>abbc
+     Xa[2>bbc
+     XaY[3>bc
+     XaYb[3>c
+     XaY[4>bZ
+     Xa[4>YbZ
+     X[4>aYbZ
+     [4>XaYbZ
+     X[1>aYbZ
+     XX[2>YbZ
+     XXY[2>bZ
+     XXYY[3>Z
+     XXYYZ[3> 
+       REJECT       13 quintuple(s) executed
+
+--------------- TAPE  7 ---------------------------------
+abbcc       r
+---------------------------------------------------------
+     [1>abbcc
+     X[2>bbcc
+     XY[3>bcc
+     XYb[3>cc
+     XY[4>bZc
+     X[4>YbZc
+     [4>XYbZc
+     X[1>YbZc
+     XY[5>bZc
+       REJECT       8 quintuple(s) executed
+
+--------------- TAPE  8 ---------------------------------
+aabcc       r
+---------------------------------------------------------
+     [1>aabcc
+     X[2>abcc
+     Xa[2>bcc
+     XaY[3>cc
+     Xa[4>YZc
+     X[4>aYZc
+     [4>XaYZc
+     X[1>aYZc
+     XX[2>YZc
+     XXY[2>Zc
+       REJECT       9 quintuple(s) executed
+
+--------------- TAPE  9 ---------------------------------
+aaccbb      r
+---------------------------------------------------------
+     [1>aaccbb
+     X[2>accbb
+     Xa[2>ccbb
+       REJECT       2 quintuple(s) executed
+
+--------------- TAPE 10 ---------------------------------
+bbccaa      r
+---------------------------------------------------------
+     [1>bbccaa
+       REJECT       0 quintuple(s) executed
+
+--------------- TAPE 11 ---------------------------------
+bc          r
+---------------------------------------------------------
+     [1>bc
+       REJECT       0 quintuple(s) executed
+
+--------------- TAPE 12 ---------------------------------
+abcabc      r
+---------------------------------------------------------
+     [1>abcabc
+     X[2>bcabc
+     XY[3>cabc
+     X[4>YZabc
+     [4>XYZabc
+     X[1>YZabc
+     XY[5>Zabc
+     XYZ[5>abc
+       REJECT       7 quintuple(s) executed
+
+V3.1 t4.mcdonald.tog: s6/q17/mqe46
+0865 Report for McDonald Andrew R: Correct
+b030 Tue Nov 02 20:51:52 2021
+
+
+----------------------------------------------------------------------------------------------------------
+4. CFG Pumping Lemma proof
+----------------------------------------------------------------------------------------------------------
+The general form of the CFG is u(v^n)w(x^n)y for all n >= 0. 
+The given equation is not a context-free grammar because it is not possible for the equation to fit into this 
+general form as the form needed for equation would be something like a(b^n)c(d^m)e(f^n)g(h^m)i. 
+This form can not be derived from any context-free language as the n and m are crossed.
+
+
+----------------------------------------------------------------------------------------------------------
+p2.py grade output
+----------------------------------------------------------------------------------------------------------
+Tue Nov  9 21:58:41 2021                   Andrew McDonald
+Parser      = p2.py
+Input file  = ../wicrpi2/p2.in
+------------------------------------------- Program output
+------------------------------------------- p2.py
+# p2.py parser
+import sys
+import time   # sys needed to access cmd line args and sys.exit()
+
+
+class Token:
+    def __init__(self, line, column, category, lexeme):
+        self.line = line         # source program line number of the token
+        self.column = column     # source program column in which token starts
+        self.category = category  # category of the token
+        self.lexeme = lexeme     # token in string form
+
+
+# global variables
+trace = False      # controls token trace
+grade = True      # set to True to create output to be graded
+source = ''        # receives entire source program
+sourceindex = 0    # index into source
+line = 0           # current line number
+column = 0         # current column number
+tokenlist = []     # list of tokens created by tokenizer
+tokenindex = -1    # index of current token in tokens
+token = None       # current token
+prevchar = '\n'    # '\n' in prevchar signals start of new line
+blankline = True
+instring = False
+parenlevel = 0
+
+# constants that represent token categories
+EOF = 0      # end of file
+PRINT = 1      # 'print' keyword
+UNSIGNEDINT = 2      # unsigned integer
+NAME = 3      # identifier that is not a keyword
+ASSIGNOP = 4      # '=' assignment operator
+LEFTPAREN = 5      # '('
+RIGHTPAREN = 6      # ')'
+PLUS = 7      # '+'
+MINUS = 8      # '-'
+TIMES = 9      # '*'
+NEWLINE = 10     # end of line
+ERROR = 11     # if not any of the above, then error
+
+# new keywords
+NONE = 12     # 'None' keyword
+TRUE = 13     # 'True' keyword
+FALSE = 14     # 'False' keyword
+PASS = 15     # 'pass' keyword
+IF = 16     # 'if' keyword
+ELSE = 17     # 'else' keyword
+WHILE = 18     # 'while' keyword
+
+# new types
+UNSIGNEDFLOAT = 19     # number with a decimal point
+STRING = 20     # string delimited by single quotes
+
+# relational operators
+EQUAL = 21     # '=='
+NOTEQUAL = 22     # '!='
+LESSTHAN = 23     # '<'
+LESSEQUAL = 24     # '<='
+GREATERTHAN = 25     # '>'
+GREATEREQUAL = 26     # '>='
+
+# new arithmetic operators
+DIV = 27     # '/'  floating point divide
+
+# new punctuation
+COMMA = 28     # ','
+COLON = 29     # ':'
+
+# Python indentation
+
+INDENT = 30     # indentation
+DEDENT = 31     # outdentation
+
+# displayable names for each token category
+catnames = ['EOF', 'PRINT', 'UNSIGNEDINT', 'NAME', 'ASSIGNOP',
+            'LEFTPAREN', 'RIGHTPAREN', 'PLUS', 'MINUS',
+            'TIMES', 'NEWLINE', 'ERROR', 'NONE', 'TRUE', 'FALSE',
+            'PASS', 'IF', 'ELSE', 'WHILE', 'UNSIGNEDFLOAT',
+            'STRING', 'EQUAL', 'NOTEQUAL', 'LESSTHAN', 'LESSEQUAL',
+            'GREATERTHAN', 'GREATEREQUAL', 'DIV',
+            'COMMA', 'COLON', 'INDENT', 'DEDENT']
+
+keywords = {'print': PRINT, 'None': NONE, 'True': TRUE,
+            'False': FALSE, 'pass': PASS, 'if': IF, 'else': ELSE,
+            'while': WHILE}
+
+smalltokens = {'=': ASSIGNOP, '==': EQUAL, '<': LESSTHAN,
+               '<=': LESSEQUAL, '>': GREATERTHAN, '>=': GREATEREQUAL,
+               '!': ERROR, '!=': NOTEQUAL, '(': LEFTPAREN,
+               ')': RIGHTPAREN, '+': PLUS, '-': MINUS, '*': TIMES,
+               '\n': NEWLINE, '': EOF, ',': COMMA, ':': COLON, '/': DIV}
+
+#################
+# main function #
+#################
+
+
+def main():
+    global source
+
+    if len(sys.argv) == 2:
+        try:
+            infile = open(sys.argv[1], 'r')
+            source = infile.read()   # read source code
+        except IOError:
+            print('Cannot read input file ' + sys.argv[1])
+            sys.exit(1)
+    else:
+        print('Wrong number of command line arguments')
+        print('Format: python p2.py <infile>')
+        sys.exit(1)
+
+    if source[-1] != '\n':
+        source = source + '\n'
+
+    if grade:
+        print(time.strftime('%c') + '%34s' % 'Andrew McDonald')
+        print('Parser      = ' + sys.argv[0])
+        print('Input file  = ' + sys.argv[1])
+
+    if trace:
+        print('------------------------------------------- Token trace')
+        print('Line  Col Category    Lexeme\n')
+
+    try:
+        tokenizer()    # tokenize source code in source
+        if grade or trace:
+            print('------------------------------------------- Program output')
+        parser()
+
+    # on an error, display an error message
+    # token is the token object on which the error was detected
+    except RuntimeError as emsg:
+        # output slash n in place of newline
+        lexeme = token.lexeme.replace('\n', '\\n')
+        print('\nError on ' + "'" + lexeme + "'" + ' line ' +
+              str(token.line) + ' column ' + str(token.column))
+        print(emsg)         # message from RuntimeError object
+        sys.exit(1)
+
+####################
+# tokenizer        #
+####################
+
+
+def tokenizer():
+    global token, instring
+    curchar = ' '                       # prime curchar with space
+    indentstack = [1]
+
+    while True:
+        # skip whitespace but not newlines
+        while curchar != '\n' and curchar.isspace():
+            curchar = getchar()  # get next char from source program
+
+        # construct and initialize token
+        token = Token(line, column, None, '')
+
+        if curchar.isdigit() or curchar == '.':  # unsigned int or float?
+            token.category = UNSIGNEDINT
+            if curchar == '.':
+                token.category = UNSIGNEDFLOAT
+            while True:
+                token.lexeme += curchar
+                curchar = getchar()
+                if token.category == UNSIGNEDINT and curchar == '.':
+                    token.category = UNSIGNEDFLOAT
+                elif not curchar.isdigit():
+                    break
+
+        elif curchar == "'":                     # string?
+            instring = True
+            while True:
+                curchar = getchar()
+                if curchar == '' or curchar == '\n':
+                    raise RuntimeError('Unterminated string')
+                if curchar == "'":     # end of string
+                    curchar = getchar()  # move past the end of the string
+                    token.category = STRING
+                    instring = False    # now not in string so set to False
+                    break
+                if curchar == '\\':    # escape sequence
+                    curchar = getchar()
+                    if curchar == 'n':
+                        token.lexeme += '\n'   # insert newline char
+                    elif curchar == 't':
+                        token.lexeme += '\t'   # insert tab char
+                    elif curchar == '\n':
+                        pass
+                    else:
+                        token.lexeme += curchar
+                else:
+                    token.lexeme += curchar
+
+        elif curchar.isalpha() or curchar == '_':  # keyword or name
+            while True:
+                token.lexeme += curchar
+                curchar = getchar()
+                if not curchar.isalnum() and curchar != '_':
+                    break
+            # determine if lexeme is a keyword or name of variable
+            if token.lexeme in keywords:
+                token.category = keywords[token.lexeme]
+            else:
+                token.category = NAME
+
+        elif curchar in smalltokens:
+            save = curchar
+            curchar = getchar()
+            twochar = save + curchar
+            if twochar in smalltokens:
+                token.category = smalltokens[twochar]
+                token.lexeme = twochar
+                curchar = getchar()
+            else:
+                token.category = smalltokens[save]
+                token.lexeme = save
+
+        else:
+            token.category = ERROR    # invalid token
+            token.lexeme = curchar    # save lexeme
+            raise RuntimeError('Invalid token')
+
+        # check for change in indentation
+        if len(tokenlist) == 0 or tokenlist[-1].category == NEWLINE:
+            if indentstack[-1] < token.column:         # indentation
+                indentstack.append(token.column)
+                indenttoken = Token(token.line, token.column, INDENT, '{')
+                tokenlist.append(indenttoken)
+                if trace:                    # display token if trace is True
+                    print("%3s %4s  %-14s %s" % (str(indenttoken.line),
+                                                 str(
+                                                     indenttoken.column), catnames[indenttoken.category],
+                                                 indenttoken.lexeme))
+            elif indentstack[-1] > token.column:       # dedentation
+                while True:
+                    dedenttoken = Token(token.line, token.column, DEDENT, '}')
+                    tokenlist.append(dedenttoken)
+                    indentstack.pop()
+                    if trace:                 # display token if trace is True
+                        print("%3s %4s  %-14s %s" % (str(dedenttoken.line),
+                                                     str(
+                                                         dedenttoken.column), catnames[dedenttoken.category],
+                                                     dedenttoken.lexeme))
+                    if indentstack[-1] == token.column:
+                        break
+                    elif indentstack[-1] < token.column:
+                        raise RuntimeError('Indentation error')
+
+        tokenlist.append(token)      # append token to tokens list
+        if trace:                    # display token if trace is True
+            print("%3s %4s  %-14s %s" % (str(token.line),
+                                         str(token.column), catnames[token.category], token.lexeme))
+
+        if token.category == EOF:    # finished tokenizing?
+            break
+
+# getchar() gets next char from source and adjusts line and column
+
+
+def getchar():
+    global sourceindex, column, line, prevchar, blankline
+
+    # check if starting a new line
+    if prevchar == '\n':    # '\n' signals start of a new line
+        line += 1            # increment line number
+        column = 0           # reset column number
+        blankline = True     # initialize blankline
+
+    if sourceindex >= len(source):  # at end of source code?
+        column = 1                  # set EOF column to 1
+        prevchar = ''               # save current char for next call
+        return ''                   # null str signals end of source
+
+    c = source[sourceindex]  # get next char in the source program
+    sourceindex += 1        # increment sourceindex to next character
+    column += 1             # increment column number
+
+    if c == '#' and not instring:  # skip over comment
+        while True:
+            if sourceindex >= len(source):
+                return ''
+            c = source[sourceindex]
+            sourceindex += 1
+            if c == '\n':
+                break
+
+    if not c.isspace():     # if c not whitespace then line not blank
+        blankline = False    # indicate line not blank
+    prevchar = c            # save current character
+
+    # if at end of blank line, return space in place of '\n'
+    if c == '\n' and blankline:
+        return ' '
+    else:
+        return c             # return character to tokenizer()
+
+####################
+# parser functions #
+####################
+
+
+def advance():
+    global token, tokenindex
+    tokenindex += 1
+    if tokenindex >= len(tokenlist):
+        raise RuntimeError('Unexpected end of file')
+    token = tokenlist[tokenindex]
+
+
+def consume(expectedcat):
+    if (token.category == expectedcat):
+        advance()
+    else:
+        raise RuntimeError('Expecting ' + catnames[expectedcat])
+
+
+def parser():
+    advance()     # advance to first token
+    program()
+
+
+def program():
+    while token.category == NAME or token.category == PRINT or token.category == PASS or token.category == WHILE or token.category == IF:
+        stmt()
+    SystemExit
+
+
+def stmt():
+    if token.category == NAME or token.category == PRINT or token.category == PASS:
+        simplestmt()
+        consume(NEWLINE)
+    elif token.category == WHILE or token.category == IF:
+        compoundstmt()
+
+
+def simplestmt():
+    if token.category == NAME:
+        assignmentstmt()
+    if token.category == PRINT:
+        printstmt()
+    if token.category == PASS:
+        passstmt()
+
+
+def compoundstmt():
+    if token.category == WHILE:
+        whilestmt()
+    if token.category == IF:
+        ifstmt()
+
+
+def assignmentstmt():
+    advance()
+    consume(ASSIGNOP)
+    relexpr()
+
+
+def printstmt():
+    advance()
+    consume(LEFTPAREN)
+    if token.category != RIGHTPAREN:
+        relexpr()
+        while token.category == COMMA:
+            advance()
+            if token.category == RIGHTPAREN:
+                break
+            relexpr()
+    consume(RIGHTPAREN)
+
+
+def passstmt():
+    advance()
+
+
+def whilestmt():
+    advance()
+    relexpr()
+    consume(COLON)
+    codeblock()
+
+
+def ifstmt():
+    advance()
+    relexpr()
+    consume(COLON)
+    codeblock()
+    if token.category == ELSE:
+        advance()
+        consume(COLON)
+        codeblock()
+
+
+def codeblock():
+    consume(NEWLINE)
+    consume(INDENT)
+    while token.category == NAME or token.category == PRINT or token.category == PASS or token.category == WHILE or token.category == IF:
+        stmt()
+    consume(DEDENT)
+
+
+def relexpr():
+    expr()
+    if token.category in [LESSTHAN, LESSEQUAL, EQUAL, NOTEQUAL, GREATERTHAN, GREATEREQUAL]:
+        advance()
+        expr()
+
+
+def expr():
+    term()
+    while token.category == PLUS or token.category == MINUS:
+        advance()
+        term()
+
+
+def term():
+    factor()
+    while token.category == TIMES or token.category == DIV:
+        advance()
+        factor()
+
+
+def factor():
+    if token.category == PLUS:
+        advance()
+        factor()
+    elif token.category == MINUS:
+        advance()
+        factor()
+    elif token.category == UNSIGNEDINT:
+        advance()
+    elif token.category == UNSIGNEDFLOAT:
+        advance()
+    elif token.category == NAME:
+        advance()
+    elif token.category == LEFTPAREN:
+        advance()
+        relexpr()
+        consume(RIGHTPAREN)
+    elif token.category == STRING:
+        advance()
+    elif token.category == TRUE:
+        advance()
+    elif token.category == FALSE:
+        advance()
+    elif token.category == NONE:
+        advance()
+
+
+####################
+# start of program #
+####################
+main()
+if grade:
+    # display language processor's source code
+    print('------------------------------------------- ' + sys.argv[0])
+    print(open(sys.argv[0]).read())
+
