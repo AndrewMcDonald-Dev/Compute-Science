@@ -82,35 +82,27 @@ public class Mallocator {
                         bestIndex = j;
                 }
             }
-            if(bestIndex != -1){
-                int start = memory.get(bestIndex).startMem;
-                int end = start + processes.get(i).size;
-                processes.get(i).start = start;
-                processes.get(i).end = end;
-                memory.get(bestIndex).size -= processes.get(i).size;
-                memory.get(bestIndex).startMem += processes.get(i).size;
-            }
+            if(bestIndex != -1)
+                updateData(memory, processes, i, bestIndex);
         }
         printResult(processes, "BFoutput1.data");
     }
 
     public void worstFit(ArrayList<Memory> memory, ArrayList<Process> processes){
-        ArrayList<String> out = new ArrayList<>();
-
-        out.add("100" + " " + "310" + " " + "2");
-        out.add("1500" + " " + "1690" + " " + "1");
-        out.add("1690" + " " + "1895" + " " + "3");
-        out.add("-0");
-
-        try {
-            FileWriter outWriter = new FileWriter(new File("WFoutput1.data"));
-            for(String line : out)
-                outWriter.write(line + "\n");
-            outWriter.close();
-        }catch (Exception e){
-            System.out.println("An error bas occured");
-            e.printStackTrace();
+        for (int i = 0; i < processes.size(); i++ ){
+            int worstIndex = -1;
+            for(int j = 0; j < memory.size(); j++){
+                if(memory.get(j).size >= processes.get(i).size){
+                    if(worstIndex == -1)
+                        worstIndex = j;
+                    else if(memory.get(worstIndex).size < memory.get(j).size)
+                        worstIndex =j;
+                }
+            }
+            if (worstIndex != -1)
+                updateData(memory, processes, i, worstIndex);
         }
+        printResult(processes, "WFoutput1.data");
     }
 
     
@@ -118,18 +110,23 @@ public class Mallocator {
         for(int i = 0; i < processes.size(); i++){
             for(int j = 0; j < memory.size(); j++){
                 if(memory.get(j).size >= processes.get(i).size){
-                    int start = memory.get(j).startMem;
-                    int end = start + processes.get(i).size;
-                    processes.get(i).start = start;
-                    processes.get(i).end = end;
-                    memory.get(j).size -= processes.get(i).size;
-                    memory.get(j).startMem += processes.get(i).size;
+                    updateData(memory, processes, i, j);
                     break;
                 }
             }
         }
         printResult(processes, "FFoutput1.data");
     }
+
+    private void updateData(ArrayList<Memory> memory, ArrayList<Process> processes, int procLoc, int memLoc){
+        int start = memory.get(memLoc).startMem;
+        int end = start + processes.get(procLoc).size;
+        processes.get(procLoc).start = start;
+        processes.get(procLoc).end = end;
+        memory.get(memLoc).size -= processes.get(procLoc).size;
+        memory.get(memLoc).startMem += processes.get(procLoc).size;
+    }
+
 
     private void printResult(ArrayList<Process> processes, String location){
         Collections.sort(processes);

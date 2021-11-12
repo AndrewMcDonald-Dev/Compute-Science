@@ -1,0 +1,7 @@
+PID: 1, Start: 700, End 900, Allocated: true
+PID: 2, Start: 100, End 400, Allocated: true
+PID: 3, Start: 1000, End 1200, Allocated: true
+
+Start: 100, End: 600, Space Left: 200, NumProcesses: 1, Processes: [PID: 2, Start: 100, End 400, Allocated: true]
+Start: 700, End: 1000, Space Left: 100, NumProcesses: 1, Processes: [PID: 1, Start: 700, End 900, Allocated: true]
+Start: 1000, End: 1300, Space Left: 100, NumProcesses: 1, Processes: [PID: 3, Start: 1000, End 1200, Allocated: true]
