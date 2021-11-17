@@ -1,0 +1,955 @@
+         Turing Machines, Computability, and Complexity
+
+     A Turing machine consists of the following components:
+
+     1) An infinite length tape (both to the left and to the 
+        right) divided into squares.  Each square can hold one
+        symbol.
+
+     2) A finite-state mechanism with a single start state and with 
+        some subset of its states final states.
+
+     3) A read/write head that can read from and write to the 
+        square on the tape to which the read/write head is 
+        pointing.
+
+     4) A set of quintuples.  These quintuples specify the
+        actions the Turing machine should take.  It is analogous
+        to a machine language program in a computer.
+
+
+
+
+                        tape
+     <---------------------------------------------------------->
+      |   |   |   |   | a | a | b | b |   |   |   |   |   |   |
+     <---------------------------------------------------------->
+                        ^  read/write head
+                        |
+                 +-----------------------+     
+                 | 1 (the current state) | finite-state mechanism
+                 +-----------------------+
+
+
+Depending on the current state of the FA and the current input 
+(i.e., the symbol under the read/write head), the Turing machine 
+takes some action.  An action consists of the following actions: 
+
+     1) Write a new symbol (not necessarily different than the 
+        current input) to the tape at the current location of the 
+        read/write head.  Note: "current input" is the symbol 
+        under the read/write head. 
+
+     2) Move the read/write head left or right one square or stay
+        at the current location on the tape
+
+     3) Change the state of the finite-state mechanism to some 
+        new state (which can be the same as the current state).
+
+The quintuples of a Turing machine define these actions.  Each 
+quintuple consists of the following five components:
+
+     CurrentState CurrentInput NewSymbol Move NextState
+
+The last three components (Nextstate NewSymbol Move) specify the 
+action.  The first two components specify the condition under 
+which the action should be performed.  A move is l (left), r 
+(right), or s (stay).  Consider the quintuple  
+
+     1 a b r 2
+                                      
+Because the first two components of this quintuple are 1 a, the 
+action specified by this quintuple (b r 2) can be taken only 
+if the Turing machine is in state 1 and the current input is 
+'a'.  This is the case with the Turing machine illustrated above.  
+Thus, this quintuple causes the Turing machine above to go into 
+state 2, write 'b', and move right.  The new configuration 
+looks like this: 
+
+ 
+
+                                  tape
+     <---------------------------------------------------------->
+      |   |   |   |   | b | a | b | b |   |   |   |   |   |   |
+     <---------------------------------------------------------->
+                            ^  read/write head
+                            |
+                   +-----------------------+     
+                   | 2 (the current state) | finite-state mechanism
+                   +-----------------------+
+
+
+
+A Turing machine halts if there is no quintuple applicable to its 
+current state and current input.  A Turing machine also halts as 
+soon as it reaches a final state (i.e., an accept state) even if 
+there are quintuples applicable to this final state and current 
+input (the Turing machines simulated by the t program work this 
+way unless the "continueonfinal" keyword is specified).  
+
+
+Graphical Representation of a Turing Machine
+--------------------------------------------
+
+Turing machines can be represented graphically in very much the 
+same way FAs are represented graphically.  Each state is 
+represented by a node.  Each quintuple is represented by an arrow 
+labeled with the action of that quintuple.  For example, consider 
+the quintuple
+
+     1 a b r 2
+
+This quintuple is represented by an arrow from state 1 to state 2 
+labeled with "a, b, r".  You may find it easier to design or 
+understand Turing machines when using the graphical 
+representation rather than the quintuple representation. 
+
+
+Turing Machines as Language Recognizers
+---------------------------------------
+
+A Turing machines can function as a language recognizer.  That 
+is, it can accept or reject strings depending on whether or not 
+they are in a particular language.  A Turing machine accepts a 
+string by halting in an final state.  A Turing machine rejects a 
+string by either halting (because no quintuple is applicable) in 
+a non-final state or by never halting.  The language defined by a 
+Turing machine is the set of strings it can accept. 
+
+We call a language that can be recognized by a Turing machine 
+TURING RECOGNIZABLE or RECURSIVELY ENUMERABLE.  We call a 
+language that can be recognized by a Turing machine that halts 
+for all inputs TURING DECIDABLE or RECURSIVE. 
+
+Turing machines can also compute mathematical functions.  We 
+typically represent whole numbers on a tape in "unary" form.  In 
+unary, the number n is represented with n consecutive 1's.  
+Suppose, for example, we have a Turing machine that when started 
+on a tape with n 1's (which represents the number n) will 
+eventually halt leaving n+1 1's (which represents the number n+1) 
+on the tape.  Such a Turing machine computes the function f(n) = 
+n + 1.  Turing machines that compute functions typically have no 
+final states. 
+
+
+Nondeterministic Turing Machines
+--------------------------------
+
+A Turing machine is nondeterministic if more than one quintuple 
+exists with the same initial two components.  For example, if a 
+Turing machine contains both of these quintuples 
+
+     1 a b r 1
+     1 a x l 3
+
+then the Turing machine is nondeterministic.  When the current 
+state is 1 and the current input is 'a', either quintuple can be 
+applied.   
+   
+
+Universal Turing Machine
+------------------------
+
+A univeral Turing machine is a Turing machine which when 
+operating on a tape that intially contains an encoding of a 
+Turing machine M and an input string w, simulates the behavior of 
+M operating on a tape that initially contains w.  Thus, a 
+universal Turing machine is programmable: the program is the 
+encoding of the Turing machine it is to simulate.  
+
+
+Why Turing Machines are Important
+---------------------------------
+
+Turing machines have three particularly interesting 
+properties: 
+
+     1) They have the same power as a general-purpose computer. 
+        Whatever computation a computer can perform, so can a 
+        Turing machine, and vice versa.  In fact, a Turing 
+        machine can be viewed as an abstract model of a modern
+        computer.
+
+     2) There is no known automaton that is more powerful than a 
+        Turing machine.  Moreover, it is widely believed that a 
+        more powerful automaton does not exist (this assertion is 
+        called Church's thesis, after its originator, Alonzo 
+        Church). 
+
+     3) Turing machines have precisely the same power to define
+        languages as unrestricted grammars.
+
+
+Because of property 1, the following assertions are all equivalent:
+
+     There exists a Turing machine that always halts that will ....
+
+     There exists a computer program that always halts that will ...
+
+     There exists an algorithm that will ...
+
+     There exists an effective procedure that will ...
+
+The terms "algorithm" and "effective procedure" both mean a 
+sequence of instructions that halts for all inputs.
+
+
+Simulating a FA with a Turing machine
+-------------------------------------
+
+A Turing machine can easily simulate a finite automaton.  It 
+simply changes state as it scans the input tape left to right 
+exactly as the FA would.  If it has the same set of final states, 
+it would then accept precisely the same set of strings as the FA.  
+For example, consider the FA given by odd.fa: 
+
+1            start state
+{2}          set of final states
+
+1 a 2        state 1 corresponds to even-length strings     
+1 b 2
+
+2 a 1        state 2 corresponds to odd-length strings
+2 b 1   
+
+The corresponding Turing machine is
+
+1         continueonfinal (need this keyword)
+{2}
+
+1 a a r 2
+1 b b r 2
+
+2 a a r 1
+2 b b r 1
+
+This Turing machines defines the same language as odd.fa ONLY if 
+the Turing machine is allowed to continue executing when it 
+reaches its final state.  The t program simulates Turing machines 
+this way ONLY if the "continueonfinal" keyword is specified.  
+Generally, a Turing machine halts as soon as it reaches a final 
+state, which would occur for the Turing machine above when 
+simulated by the t program if the "continueonfinal" keyword were 
+not specified.  Without the "continueonfinal" keyword, this 
+machine would not accept the same set of strings as odd.fa.  
+Instead, it would accept any string that caused it to reach its 
+final state (state 2).  Thus, it would accept any string of non-
+zero length rather than only odd-length strings as odd.fa does.  
+
+If the Turing machine model we are using halts immediately on 
+reaching a final state, it still easy to construct a Turing 
+machine that simulates an FA: simply use a single final state in 
+the Turing machine distinct from all the states the correspond to 
+states in the FA.  Add a transition to this state on a blank from 
+every state in the Turing machine that corresponds to a final 
+state in the FA.  For example, for odd.fa, the corresponding 
+Turing machine is    
+
+1
+{3}
+
+1 a a r 2
+1 b b r 2
+
+2 a a r 1
+2 b b r 1
+
+2 _ _ r 3    accept if in state 2 after input string scanned
+
+This Turing machine switches back and forth between states 1 and 
+2 just like the FA in odd.fa.  At the end of the input string 
+(when the current input is a blank), if the Turing machine is in 
+state 2,  the last quintuple causes a transition to the final 
+state 3.
+
+
+Busy Beaver Machines and the Sigma Function
+-------------------------------------------
+
+An n-state 2-symbol busy beaver machine is a deterministic Turing 
+machine with n states (not counting the "halt" state) and only 
+two tape symbols: the blank and 1.  When started on a blank tape, 
+it 
+
+     1) eventually halts, and
+     2) leaves on the tape a number of 1's that is the maximum
+        possible for a n-state 2-symbol Turing machine that 
+        halts, and
+     3) uses only L and R moves--it does not use the S (stay) 
+        move.
+
+A 1-state 2-symbol busy beaver leaves one 1 on the tape.
+A 2-state 2-symbol busy beaver leaves four 1's on the tape.
+A 3-state 2-symbol busy beaver leaves six 1's on the tape.
+A 4-state 2-symbol busy beaver leaves 13 1's on the tape.
+A 5-state 2-symbol busy beaver leaves >= 4098 1's on the tape
+A 6-state 2-symbol busy beaver leaves > 10**18267 1's on the tape
+
+Obviously, busy beavers with more than 5 states cannot be 
+simulated to completion by the t program (or any other program) 
+because of the enormous numbers of 1's left on the tape and the 
+even greater number of Turing machine operational steps required. 
+
+Here is the definition file for a 1-state 2-symbol busy beaver:
+
+
+// This Turing machine is a 1-state busy beaver
+1           notrace finalconfig
+{}          no final states
+1 _ 1 r 2    
+
+
+The keyword "notrace" suppresses the trace output.  The 
+keyword "finalconfig" causes the t program to display the final 
+machine configuration (i.e., the configuration when the machine 
+halts).  For 1, 2, 3, and 4-state busy beavers, you don't need to 
+specify either of these keywords (because the trace output is 
+minimal).  
+
+The function sigma(n) is defined to be the number on 1's left on 
+the tape by an n-state 2-symbol busy beaver. sigma is a non-
+computable function.  sigma(1) = 1, sigma(2) = 4, sigma(3) 
+= 6, sigma(4) = 13, sigma(5) = some value >= 4098, sigma(6) = 
+some value > 10**18267.
+
+The sigma function is often referred to as the busy beaver 
+function.  Be sure to distinguish it from the modified busy 
+beaver function discussed below.  Both functions are not 
+computable.  However, the modified busy beaver function 
+distinguishes itself by having a particularly easy proof of its 
+non-computability. 
+
+
+Modified busy beaver function
+-----------------------------
+
+     Any Turing machine can be converted to an equivalent Turing 
+machines whose tape alphabet is only two symbols--only blank and 
+1. Thus, we are restricting the capability of Turing machines by 
+restricting the tape alphabet to {blank, 1}.
+
+     Let's consider Turing machines whose tape alphabet is 
+{blank, 1}. How many one-state Turing machines exist with this 
+tape alphabet?  Consider the components of a quintuple: 
+
+          1            2           2       2      2
+     CurrentState CurrentInput NewSymbol Move NextState 
+
+Above each component is the number of possibilities for that 
+component.  We are not allowing an "S" move, so there only two 
+possible moves, L and R.  The are two possibilities for 
+NextState: the one operational state of the machine and a "halt" 
+state.  Thus, there are 1 x 2 x 2 x 2 x 2 = 16 distinct 
+quintuples.  Any subset of these 16 quintuples is a 1-state 
+Turing machine.  Thus, there are 2 to the 16 distinct one-state 
+Turing machines.  What is important here is not the specific 
+number but that the number is FINITE.  Using the same analysis, 
+we can see that the number of n-state Turing machines whose tape 
+alphabet is {blank, 1} must be FINITE for any n. 
+     Now let's define the modified busy beaver function mbb(n) 
+where n >= 1. Here is how to determine the value of mbb(n).  Take 
+all n-state Turing machines with tape alphabet {blank, 1} (there 
+are only a finite number).  Throw away all that do not halt when 
+started on a tape that initially has n 1's. Run all the rest on a 
+tape that initially has n 1's.  After the Turing machines halt, 
+examine the tapes.  Determine the tape with the maximum number of 
+1's.  The number of 1's on that tape is mbb(n).     
+     Suppose a Turing machine T computes mbb(n).  Modify it so it 
+computes mbb(n)+1.  This modification is easy:  Add quintuples 
+that make the Turing machine, after it would normally halt, move 
+right until the first blank, and then write 1 there, and then halt. 
+Let's call the modified Turing machine T'.  T' has some number of 
+states.  Let's designate this number with k.  Now apply T' to a 
+tape with k 1's initially.  From its construction, T' leaves 
+mbb(k)+1 1's on the tape.  But mbb(k) is the maximum number on 
+1's that can be left on a tape by any k-state Turing machine, 
+including T'.  But this is a contradiction.  The only way to 
+resolve this contradiction is to conclude that our initial 
+assumption--that the Turing machine T exists that computes 
+mbb(n)--is false.  mbb(n) is a NON-COMPUTABLE FUNCTION. 
+
+
+Turing Machines and Unrestricted Grammars
+-----------------------------------------
+
+Now let's consider property 3 above.  Suppose we have an unrestricted 
+grammar, one of whose productions is
+
+     BC -> D
+
+This production replaces BC with D.  We can easily simulate this 
+action on a Turing machine:  
+
+     If two consecutive squares contains BC, a Turing machine can 
+     easily change the B to a D and then move everything to the 
+     right one square to the left. The effect is to replace BC 
+     with D, just like the production.  
+
+Using this idea, we can create a Turing machine for a given 
+unrestricted grammar that can derive any string in the language 
+defined by the grammar.  The Turing machine can then compare the 
+derived string with the string on the tape initially.  A match 
+would then confirm that the initial string is in the language of 
+the grammar, in which case the Turing machine would accept (i.e., 
+halt in a final state).  Thus, the Turing machine would accept 
+precisely those strings that can be generated by the grammar. 
+
+Conversely, any tape modification that a Turing machine can perform 
+can be achieved with a production in an unrestricted grammar. 
+Using these ideas, it is possible to prove that any language 
+defined by a Turing machine can be defined by an unrestricted 
+grammar, and vice versa.
+
+
+A Sketch of the Unsolvability of the Halting Problem
+----------------------------------------------------
+
+Halting Problem: Does a Turing Machine H exist which can determine
+if an arbitrary Turing Machine M halts when applied to an arbitrary
+initial tape containing w.  
+
+Let R(M) represent the encoding of the start state, final 
+states, and quintuples that represent the Turing Machine M.  A 
+Turing machine H which solves the halting problem would behave as 
+follows:  
+
+     When H is applied to a tape containing both R(M) and w, H 
+     would always halt.  It would halt in an final state if M 
+     halts on w and would halt in a non-final state if M never halts 
+     on w. 
+
+Assume Turing Machine H exists.  Construct Turing Machine H' from
+H that behaves as follows:
+
+When H' is applied to a tape containing  R(M) w
+
+     H' never halts if M halts on a tape initially containing w.
+     H' halts if M never halts on a tape initially containing w.
+
+Notice that H', when applied to R(M) w, does the opposite of what M 
+does when M is applied to w. 
+    
+Now modify H' to get H".  H" is the same as H' except that it 
+first duplicates whatever is on the input tape.  After the 
+duplication has been completed, then H" behaves exactly like H'. 
+
+Now let's see what happens when we apply H" to an initial tape
+containing R(M). It first duplicates R(M).  So the tape has
+
+       R(M) R(M)
+
+Then it behaves exactly like H'.  Thus, it does the opposite of 
+Turing Machine M when M is applied to its own description.  That 
+is, if M halts on its own description, R(M), then H" never halts; 
+if M never halts on it own description then H" halts eventually. 
+
+Now what happens when H" is applied to R(H")?  IT DOES THE 
+OPPOSITE OF WHAT IT DOES (this is the conclusion of the preceding 
+paragraph; try rereading carefully).  Obviously, this is a 
+logical impossibility.  Thus, it must be that our initial 
+assumption--that a Turing machine H exists that solves the 
+halting problem--is false.  The halting problem is an unsolvable 
+problem. 
+
+
+Reducibility
+------------
+
+Here is a variation of the halting problem:  
+
+Blank Tape Halting Problem: Does a Turing Machine B exist which 
+can determine if an arbitrary Turing Machine M halts when applied 
+to a blank tape.  Given a tape with R(M) (the encoding of a 
+Turing machine M), Turing machine B would always halt.  It would 
+halt in the final state if M halts when started on a blank 
+tape.  It would halt on a non-final state if M does not halt when 
+started on a blank tape.
+
+Suppose the blank tape halting problem were solvable--that is, 
+suppose the Turing machine B exists.  It can be shown that we 
+could then use B to solve the general halting problem.  Thus, if 
+B exists, the halting problem would be solvable.  But, as we saw 
+above, the halting problem is not solvable.  Thus, it is 
+impossible for B to exist.  In other words, the blank tape 
+halting problem is also unsolvable.  
+
+Definition:
+
+Given two problems, A and B, if a solution to B implies there is 
+a solution to A, we say 
+
+     A is reducible to B.
+
+For example, a solution to the blank tape halting problem implies 
+there is a solution to the halting problem.  Thus, the halting 
+problem is reducible to the blank tape halting problem.
+
+If A is reducible to B, and A is unsolvable, then B must be 
+unsolvable as well (because, otherwise, A would be solvable).  If 
+we then show that B is reducible to C, then C must be unsolvable.  
+If we then show that C is reducible to D, then D must be 
+unsolvable.  And so on.  Given a sequence of problems that 
+starts with an unsolvable problem, and in which each problem 
+reduces to the next, then the entire sequence of problems is 
+unsolvable.
+
+Unsolvable problems are often presented as language membership 
+problems.  For example, consider the following language:
+
+     {R(M) w : M is a Turing machine and M halts when started on w}
+
+This language is decidable if and only if the halting problem is 
+solvable.
+
+
+Recursive and Recursively Enumerable Languages
+----------------------------------------------
+
+Defintion: 
+
+A RECURSIVE LANGUAGE is a language that can be defined by a 
+Turing machine that always halts. We also call such a language 
+a Turing-decidable language. 
+
+Definition: 
+
+A RECURSIVELY ENUMERABLE language is a language that can be 
+defined by a Turing machine.  We also call such a language a Turing-
+recognizable language.  For a recursively enumerable language, 
+we do not require that the defining Turing machine always halts. 
+It can reject strings by never halting. 
+
+The preceding definitions imply that the recursive languages are 
+a subclass of the recursively enumerable languages.  That is, 
+every recursive language is also recursively enumerable.  
+However, it turns out that not every recursively enumerable 
+language is recursive.  In fact, there are languages that are not 
+even recursively enumerable.  The NRE language defined below is 
+an example a language which is not recursively enumerable.  It's 
+curious that WE can define NRE below but no Turing machine can define it.
+
+
+NRE--a language which is not recursively enumerable
+---------------------------------------------------
+
+We can order Turing machines whose alphabet is {blank, 0, 1}. 
+First list the 1-state Turing machines, then the 2-state Turing 
+machines, and so on.  Thus, we can talk about T1 (the first 
+Turing machine on the list), T2 (the second), and so on.  Given 
+any Turing machine T with alphabet {blank, 0, 1}, there exists a 
+positive integer i such that T is equal to Ti.  Consider the 
+language NRE = {i : Ti rejects i}.  This language cannot be 
+defined by T1 because if T1 accepts 1 then 1 is not in the 
+language.  But if T1 rejects 1 then 1 is in the language. 
+Similarly, this language cannot be defined by T2.  If T2 accepts 
+2 then 2 is not is the language, but if T2 rejects 2, then 2 is 
+in the language.  Using the same argument, we can conclude that 
+this language is not defined by T3, T4, T5, and so on. NO TURING 
+MACHINE DEFINES THIS LANGUAGE. This language is not recusively 
+enumerable.  
+
+A recursively enumerable language has the property that it can be 
+enumerated--that is, listed out (i.e., written out on the tape) 
+by some Turing machine.  Conversely, if a language can be 
+enumerated by some Turing machine, then it is recursively 
+enumerable (i.e., it can be defined by some Turing machine). 
+
+
+P and NP
+--------
+
+P is a set of languages.  A language L is in P if 
+
+   - there exists a deterministic Turing machine M that decides 
+     L.  That is, there exists a Turing machine M that 
+     always halts that accepts all strings in L and rejects all 
+     others, and 
+
+   - the maximum number of steps M takes for an input of length
+     n is some polynomial function of n.  We call this function
+     the time complexity of the Turing machine.
+
+The number of steps a Turing machine takes before it halts is a 
+measure of how much time it takes.  Thus, we can view P as the 
+set of languages that can be decided in polynomial time.
+
+NP is a set of languages.  A language L is in NP if
+
+   - there exists a non-deterministic Turing machine M that 
+     decides L.  That is, there exists a Turing machine M that 
+     always halts that can accept all strings in L and only 
+     strings in L, and 
+
+   - the maximum number of steps M takes for an input of length
+     n is some polynomial function of n.
+
+Because a non-deterministic Turing machine is allowed to have 
+choices in its operation, it is possible that the outcome might 
+depend on the choices it makes.  For example, on a string w, a 
+Turing machine might reject if it makes one set of choices.  But 
+it might accept the same string if it makes a different set of 
+choices.  The string w is in the language defined the Turing 
+machine as long as it is possible for the Turing machine to 
+accept (by making the right choices).  If, on the other hand , no 
+matter what choices the Turing machine makes, it cannot accept w, 
+then w is not in the language defined by the Turing machine. 
+
+A deterministic Turing machine is a special case of a non-
+deterministic Turing machine.  Thus, P is a subset of N.  But 
+is P a proper subset of N or does P equal N?  The question, 
+"does P equal NP" is a famous open question.
+
+There are some languages in NP that have a remarkable property. 
+If there exists a deterministic Turing machine that decides any 
+of them in polynomial time, then for EVERY language in NP, there 
+exists a deterministic decider that operates in polynomial time.  
+In other words, if any of these special languages are in P, then 
+the entire set NP is necessarily in P, in which case P = NP.  We 
+call the languages in NP that have this property NP-COMPLETE 
+LANGUAGES. Thus, to show that P = NP, all we have to do is show 
+that any one of the NP complete languages is in P.
+
+
+Primitive Recursive Functions  
+-----------------------------
+
+We can define addition on the non-negative integers using 
+recursion.  Here's the definition:
+
+     add(x, y) = x                   for y = 0
+     add(x, y) = add(x, y - 1) + 1   for y > 0
+
+Using this definition, we get
+
+     add(5, 0) = 5  
+     add(5, 1) = add(5, 0) + 1 = 5 + 1 = 6
+     add(5, 2) = add(5, 1) + 1 = 6 + 1 = 7
+     add(5, 3) = add(5, 2) + 1 = 7 + 1 = 8
+
+and so on.
+
+Each value of the function is obtained from the value of the 
+function for the predecessor value of y.  For example, add(5, 2) 
+is obtained by getting the value of add(5, 1) and adding 1.  
+Similarly, add(5, 3) is obtained by getting the value of 
+add(5, 2) and adding 1.
+
+Define the successor function S(x) on the non-negative integers 
+as follows:
+
+     S(0) = 1, S(1) = 2, S(2) = 3, as so on
+
+The successor function yields a value one more than the value it is 
+provided.
+
+Using the successor function, we can define the additon function 
+as follows: 
+
+     add(x, 0)    =  x
+     add(x, S(y)) =  S(add(x, y))
+
+This is essentially the same definition of add as the preceding 
+one: the value of the function in defined in terms of the value 
+of the function for the predecessor value of y.  
+
+Let's now define multiplication:
+
+     mult(x, 0)    = 0
+     mult(x, S(y)) = add(mult(x, y), x))
+
+Using this definition, to determine mult(5, 2), we first get the 
+value of mult(5, 1) and then add 5.  Thus, 
+
+     mult(5, 2) = add(mult(5, 1), 5) = add(5,5) = 10
+
+Function defined in this way are called PRIMITIVE RECURSIVE 
+FUNCTIONS.  
+
+Now let's define exponentiation, using our mult function and 
+primitive recursion:
+
+     exp(x, 0)    = 1
+     exp(x, S(y)) = mult(exp(x, y), x)
+
+All primitive recursive functions are Turing computable, but are 
+all Turing computable functions primitive recursive?  The answer 
+is no. For example, Ackermann's function is Turing computable but 
+not primitive recursive: 
+
+     A(x, y) = y + 1                  for x = 0
+     A(x, y) = A(x - 1, 1)            for x > 0 and y = 0
+     A(x, y) = A(x - 1, A(x, y - 1))  for x > 0 and y > 0
+
+
+
+Godel's Incompleteness Theorem
+------------------------------
+
+A formal mathematical system consists of
+
+      - axioms (statements that are assumed to be true).
+
+      - rules of inference (rules used to prove statements using 
+        the axioms or previously proven statements).  A 
+        statement, once proven, is called a theorem.  A example 
+        of a rule of inference is modus modens.  Suppose p and q 
+        are statements, and we have already established that the 
+        following two statements: 
+
+             p
+             p implies q
+
+        Then by modus modens, we can conclude that q is true.
+
+      - theorems (statements proven from the axioms and
+        previously proven theorems using the rules of
+        inference).
+
+A formal system should be consistent.  That is, it should be 
+impossible to prove a false statement.  A formal system should 
+also be complete.  That is, it should be possible to prove every 
+true statement.  
+
+Suppose we have a consistent formal system powerful enough that 
+all mathematically true statements could be proven in it.  
+
+Then if x is an element and N is a set, one of the following 
+statements must be true: 
+
+     x is an element of N
+or
+     x is not an element of N 
+
+
+If we start with our axioms and grind out all possible theorems 
+using our rules of inference, one of these statements would 
+eventually appear.  Thus, for any set, we can determine is any 
+given element is a member.  But this means that all sets are 
+recursive.  But all sets are not recursive (e.g., NRE discussed 
+above).  Thus, it must be that a consistent system of mathematics  
+is incomplete--that is, there necessarily will be true statements 
+that cannot be proven in that system.  This result is called 
+Godel Incompleteness Theorem. 
+
+
+Problems
+--------
+
+Busy beaver problems:
+
+bb2) Construct the 2-state 2-symbol (blank and 1) busy beaver machine.
+     Use the file name bb2.tm.  Test with bb2.t.
+
+bb3) Construct the 3-state 2-symbol (blank and 1) busy beaver machine.
+     Use the file name bb3.tm.  Test with bb3.t.
+
+bb4) Construct the 4-state 2-symbol (blank and 1) busy beaver machine.
+     Use the file name bb4.tm.  Test with bb4.t.
+
+bb5) Construct the 5-state 2-symbol (blank and 1) busy beaver machine.
+     Use the file name bb5.tm.  Test with bb5.t.
+
+bb6) Prove that the sigma function is non-computable.
+
+
+Modified busy beaver problems:
+
+mbb1) Construct the 1-state 2-symbol (blank and 1) modified busy 
+      beaver machine.  Use the file name mbb1.tm.  Test with 
+      mbb1.t 
+
+mbb2) Construct the 2-state 2-symbol (blank and 1) modified busy 
+      beaver machine.  Use the file name mbb2.tm.  Test with 
+      mbb2.t 
+
+mbb3) Construct the 3-state 2-symbol (blank and 1) modified busy 
+      beaver machine.  Use the file name mbb3.tm.  Test with 
+      mbb3.t 
+
+mbb4) Construct the 4-state 2-symbol (blank and 1) modified busy 
+      beaver machine.  Use the file name mbb4.tm.  Test with 
+      mbb41.t 
+
+mbb5) Construct the 5-state 2-symbol (blank and 1) modified busy 
+      beaver machine.  Use the file name mbb5.tm.  Test with 
+      mbb5.t
+
+
+Other Types of Problems 
+
+Define the following sets with a deterministic Turing machine. 
+Use the quintuple file name that matches the tape file name, but 
+has the extension ".tm".  For example, for problem 3, the tape 
+file is t3.t.  Thus, the quintuple file should be t3.tm. 
+
+Note: "**" is the exponentiation operator, which is used in these 
+problems to represents replication.  For example, b**n is b to 
+the nth, which is the string of n consecutive b's. The alphabet 
+is {a, b} unless indicated otherwise.  
+
+
+Turing machines that recognize languages
+
+t1) a*|b*  Hint: Your Turing machine should simply simulate the 
+    DFA that defines this language. 
+
+t2) {a**n : n is even}. Hint: Your Turing machine should simply 
+    simulate the DFA that defines this language. 
+
+t3) {a**nb**mc**nd**m : m, n >= 0}
+
+t4) {a**nb**nc**n : n >= 0}. 
+
+t5) {wcw} where w is a string over the alphabet {a,b}.
+
+t6) {wcw**r : w is a string over the alphabet {a, b}.  w**r is w 
+    reversed.
+
+t7) X = the set of all strings over {b} with length a power of 2.
+    X = {b, bb, bbbb, bbbbbbbb, bbbbbbbbbbbbbbbb, ...}
+
+t8) Redo the Turing machine in paired.tm so that it blanks out the 
+    a's and b's rather than replacing them with x's and y's.  
+    Which approach is more efficient? 
+
+t9) Well-formed parenthesized expressions.
+
+t10) {ww**r : w is a string over the alphabet {a, b}.  w**r is w 
+     reversed.
+
+t11) {a**nb**nc**nd**n : n >= 0}
+
+t12) The set of strings over {a, b, c} in which the number of a's 
+     equals the number of b's equals the number of c's.
+
+t13) {xx : x is a string over {a, b}}
+
+t14) The complement of the language in problem 13 with respect to 
+     {a, b}*.
+
+
+Turing machines that compute functions
+
+Create Turing machines that compute the functions indicated.  
+Assume integers are represented on the tape in unary (the value 
+is equal to the number of 1's).  For example, 
+
+   blank tape is 0
+   1          is 1
+   11         is 2
+   111        is 3
+
+The Turing machines for these problems are computing functions--
+they are not recognizing a language.  Thus, they should not have 
+any final states.  That is, the second line of the definition 
+file should be {}.  At the end of each run on a tape, the 
+computed value alone should appear on the tape with all blanks to 
+the right and left.  The computed value should be in unary, with 
+no embedded blanks or other extraneous characters. 
+
+t20) f(x, y) = x - y where x >= y >= 1.  The tape initially should 
+     contain x and y, separated by the symbol -.
+
+t21) f(n) = n mod 3, n >= 1.  
+
+t22) f(n) = 2n, n >= 1.
+
+t23) f(n) = n/2, n >= 1. 
+
+t24) f(n, m) = n*m, n, m >= 1.  The tape initially should contain 
+     m and n, separated by the symbol *.  
+
+t25) f(n, m) = n/m, n, m >= 1.  The tape initially should contain 
+     m and n, separated by the symbol /.  
+
+
+More problems
+
+t30) Construct a Turing machine which when started on a tape with
+     cx, where x is a string over {a, b}, moves x one position
+     to the right and then halts.  Thus, it leaves c x on the 
+     tape, with a single blank between c and x.
+
+
+t31) Construct a Turing machine which when started on a tape that
+     contains xcy halts and leaves on the tape xy, where x and y 
+     are strings over {a, b}.
+
+t32) Construct a Turing machine which when started on a tape that 
+     contain a base 2 number leaves on the tape a base 2 number 
+     whose value is 1 greater than the given number.  For example, 
+     if the tape initially has 11 (3 decimal), the Turing 
+     machine should leave 100 (4 decimal) on the tape.
+
+
+Paper and pencil problems:
+
+t40) Is a finite language always recursive?  Justify your answer.
+
+t41) If a language is recursive, is its complement necessarily 
+     recursive?  Justify your answer. 
+
+t42) If a language and its complement are both recursively 
+     enumerable, are they also recursive?  Justify your answer. 
+
+t43) We defined the language NRE above that is not recursively 
+     enumerable. What can you say about the complement of NRE? 
+
+t44) Give examples of languages that are recursive, recursively 
+     enumerable, but not recursive, and not even recursively 
+     enumerable. 
+
+t45) Show that for every recursively enumerable language, there 
+     exists a Turing machine that will enumerate it. 
+
+t46) Show that any language that can be enumerated by some Turing 
+     machine is recursively enumerable (i.e., can be defined by 
+     some Turng machine). 
+
+t47) Show that the blank tape halting problem is unsolvable.   
+     That is, does an arbitrary Turing machine halt when started 
+     on a blank tape. 
+
+t48) Show that the following problem is unsolvable: Is the 
+     language defined by a Turing machine M empty? 
+
+t49) Show that the following problem is unsolvable: Is the 
+     language defined by a Turing machine M is regular? 
+
+t50) Show that the following problem is unsolvable: Are the 
+     languages defined by Turing machines M and N equal? 
+
+t51) Show that non-deterministic Turing machines are no more 
+     powerful than deterministic Turing machines.  
+
+t52) Using primitive recursion, define the predecessor function, 
+     which returns one less than the value it is given, except for 
+     zero, in which case it returns zero. 
+
+t53) Using primitive recursion, define the floor subtraction 
+     function, which yields x - y if x >= y but yields 0 if y > x.
+
+t54) Write a program that computes the value of Ackermann's 
+     function.  Display the value of A(n,n) for n = 1, 2, 3, ...  
+     What's the largest value of n for which you can compute 
+     A(n,n)? 
+    
+t55) Why does it make sense to use the successor function rather 
+     than subtraction by 1 in primitive recursive definitions?
+
+t56) Present a cogent argument that supports the following 
+     contention:  For every nondeterministic Turing machine there 
+     exists an equivalent deterministic Turing machine.
+
+t57) Construct a universal Turing machine.
+
+t58) Show that for any n >= 1, there exists an n-state 2-symbol Turing 
+     machine that will leave n 1's on a tape that is initially 
+     blank and then halt.
+
+t59) Show that any Turing machine that computes a function 
+     on the positive integers can be modified so that is computes
+     one more than the given Turing machine.  That is, if the
+     original Turing machine computes f(n), then the modified
+     Turing machine computes f(n) + 1.
+

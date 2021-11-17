@@ -1,0 +1,9 @@
+^       a
+b       a
+c       a
+bb      a
+bc      a
+cb      a
+cc      a
+bbb     a
+ccc     a

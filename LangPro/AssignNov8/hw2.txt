@@ -1,0 +1,289 @@
+
+
+t20) t20) f(x, y) = x - y where x >= y >= 1.  The tape initially should 
+     contain x and y, separated by the symbol -.
+
+Turing Machine Simulator Version 3.1
+1
+{7}
+
+1 1 X r 2
+
+2 1 1 r 2
+2 - - r 3
+
+3 Y Y r 3
+3 1 Y r 5
+5 _ _ l 6
+5 1 1 l 4
+
+4 - - l 4
+4 Y Y l 4
+4 1 1 l 4
+4 X X r 1
+
+6 Y _ l 6
+6 X _ l 6
+6 - _ l 6
+6 _ _ l 7
+
+Number of states: 7
+Number of quintuples: 15
+
+Hit ENTER (proceed), g (go to end), q (quit)
+--------------- TAPE  1 ---------------------------------
+1-1                0
+---------------------------------------------------------
+     [1>1-1
+     X[2>-1
+     X-[3>1
+     X-Y[5> 
+     X-[6>Y 
+     X[6>-  
+     [6>X   
+    [6>     
+   [7>      
+       ACCEPT
+       8 quintuple(s) executed
+       1's left on tape: 0
+       1's expected:     0
+--------------- TAPE  2 ---------------------------------
+11-1               1
+---------------------------------------------------------
+     [1>11-1
+     X[2>1-1
+     X1[2>-1
+     X1-[3>1
+     X1-Y[5> 
+     X1-[6>Y 
+     X1[6>-  
+     X[6>1   
+       REJECT
+       7 quintuple(s) executed
+       1's left on tape: 1
+       1's expected:     1
+--------------- TAPE  3 ---------------------------------
+111-1              2
+---------------------------------------------------------
+     [1>111-1
+     X[2>11-1
+     X1[2>1-1
+     X11[2>-1
+     X11-[3>1
+     X11-Y[5> 
+     X11-[6>Y 
+     X11[6>-  
+     X1[6>1   
+       REJECT
+       8 quintuple(s) executed
+       1's left on tape: 2
+       1's expected:     2
+--------------- TAPE  4 ---------------------------------
+1111-1             3
+---------------------------------------------------------
+     [1>1111-1
+     X[2>111-1
+     X1[2>11-1
+     X11[2>1-1
+     X111[2>-1
+     X111-[3>1
+     X111-Y[5> 
+     X111-[6>Y 
+     X111[6>-  
+     X11[6>1   
+       REJECT
+       9 quintuple(s) executed
+       1's left on tape: 3
+       1's expected:     3
+--------------- TAPE  5 ---------------------------------
+11-11              0
+---------------------------------------------------------
+     [1>11-11
+     X[2>1-11
+     X1[2>-11
+     X1-[3>11
+     X1-Y[5>1
+     X1-[4>Y1
+     X1[4>-Y1
+     X[4>1-Y1
+     [4>X1-Y1
+     X[1>1-Y1
+     XX[2>-Y1
+     XX-[3>Y1
+     XX-Y[3>1
+     XX-YY[5> 
+     XX-Y[6>Y 
+     XX-[6>Y  
+     XX[6>-   
+     X[6>X    
+     [6>X     
+Hit ENTER (proceed), c (cancel tape), g (go to end), q (quit)
+    [6>       
+   [7>        
+       ACCEPT
+       20 quintuple(s) executed
+       1's left on tape: 0
+       1's expected:     0
+--------------- TAPE  6 ---------------------------------
+111-11             1
+---------------------------------------------------------
+     [1>111-11
+     X[2>11-11
+     X1[2>1-11
+     X11[2>-11
+     X11-[3>11
+     X11-Y[5>1
+     X11-[4>Y1
+     X11[4>-Y1
+     X1[4>1-Y1
+     X[4>11-Y1
+     [4>X11-Y1
+     X[1>11-Y1
+     XX[2>1-Y1
+     XX1[2>-Y1
+     XX1-[3>Y1
+     XX1-Y[3>1
+     XX1-YY[5> 
+     XX1-Y[6>Y 
+     XX1-[6>Y  
+Hit ENTER (proceed), c (cancel tape), g (go to end), q (quit)
+     XX1[6>-   
+     XX[6>1    
+       REJECT
+       20 quintuple(s) executed
+       1's left on tape: 1
+       1's expected:     1
+--------------- TAPE  7 ---------------------------------
+111-111            0
+---------------------------------------------------------
+     [1>111-111
+     X[2>11-111
+     X1[2>1-111
+     X11[2>-111
+     X11-[3>111
+     X11-Y[5>11
+     X11-[4>Y11
+     X11[4>-Y11
+     X1[4>1-Y11
+     X[4>11-Y11
+     [4>X11-Y11
+     X[1>11-Y11
+     XX[2>1-Y11
+     XX1[2>-Y11
+     XX1-[3>Y11
+     XX1-Y[3>11
+     XX1-YY[5>1
+     XX1-Y[4>Y1
+     XX1-[4>YY1
+Hit ENTER (proceed), c (cancel tape), g (go to end), q (quit)
+     XX1[4>-YY1
+     XX[4>1-YY1
+     X[4>X1-YY1
+     XX[1>1-YY1
+     XXX[2>-YY1
+     XXX-[3>YY1
+     XXX-Y[3>Y1
+     XXX-YY[3>1
+     XXX-YYY[5> 
+     XXX-YY[6>Y 
+     XXX-Y[6>Y  
+     XXX-[6>Y   
+     XXX[6>-    
+     XX[6>X     
+     X[6>X      
+     [6>X       
+    [6>         
+   [7>          
+Hit ENTER (proceed), c (cancel tape), g (go to end), q (quit)
+       ACCEPT
+       36 quintuple(s) executed
+       1's left on tape: 0
+       1's expected:     0
+--------------- TAPE  8 ---------------------------------
+1111111111-111     7
+---------------------------------------------------------
+     [1>1111111111-111
+     X[2>111111111-111
+     X1[2>11111111-111
+     X11[2>1111111-111
+     X111[2>111111-111
+     X1111[2>11111-111
+     X11111[2>1111-111
+     X111111[2>111-111
+     X1111111[2>11-111
+     X11111111[2>1-111
+     X111111111[2>-111
+     X111111111-[3>111
+     X111111111-Y[5>11
+     X111111111-[4>Y11
+     X111111111[4>-Y11
+     X11111111[4>1-Y11
+     X1111111[4>11-Y11
+     X111111[4>111-Y11
+     X11111[4>1111-Y11
+Hit ENTER (proceed), c (cancel tape), g (go to end), q (quit)
+     X1111[4>11111-Y11
+     X111[4>111111-Y11
+     X11[4>1111111-Y11
+     X1[4>11111111-Y11
+     X[4>111111111-Y11
+     [4>X111111111-Y11
+     X[1>111111111-Y11
+     XX[2>11111111-Y11
+     XX1[2>1111111-Y11
+     XX11[2>111111-Y11
+     XX111[2>11111-Y11
+     XX1111[2>1111-Y11
+     XX11111[2>111-Y11
+     XX111111[2>11-Y11
+     XX1111111[2>1-Y11
+     XX11111111[2>-Y11
+     XX11111111-[3>Y11
+     XX11111111-Y[3>11
+Hit ENTER (proceed), c (cancel tape), g (go to end), q (quit)
+     XX11111111-YY[5>1
+     XX11111111-Y[4>Y1
+     XX11111111-[4>YY1
+     XX11111111[4>-YY1
+     XX1111111[4>1-YY1
+     XX111111[4>11-YY1
+     XX11111[4>111-YY1
+     XX1111[4>1111-YY1
+     XX111[4>11111-YY1
+     XX11[4>111111-YY1
+     XX1[4>1111111-YY1
+     XX[4>11111111-YY1
+     X[4>X11111111-YY1
+     XX[1>11111111-YY1
+     XXX[2>1111111-YY1
+     XXX1[2>111111-YY1
+     XXX11[2>11111-YY1
+     XXX111[2>1111-YY1
+Hit ENTER (proceed), c (cancel tape), g (go to end), q (quit)
+     XXX1111[2>111-YY1
+     XXX11111[2>11-YY1
+     XXX111111[2>1-YY1
+     XXX1111111[2>-YY1
+     XXX1111111-[3>YY1
+     XXX1111111-Y[3>Y1
+     XXX1111111-YY[3>1
+     XXX1111111-YYY[5> 
+     XXX1111111-YY[6>Y 
+     XXX1111111-Y[6>Y  
+     XXX1111111-[6>Y   
+     XXX1111111[6>-    
+     XXX111111[6>1     
+       REJECT
+       67 quintuple(s) executed
+       1's left on tape: 7
+       1's expected:     7
+
+Report for Brown Trevor: Correct
+        
+
+
+
+t41) 
+The complement of a recursive language is recursive. If a language L and its complement
+ are Recursively Enumerable, then the language is recursive. A language can be Recursively Enumerable 
+ but its complement need not be Recursively Enumerable.

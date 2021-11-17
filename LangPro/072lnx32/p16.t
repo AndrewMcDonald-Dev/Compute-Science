@@ -1,0 +1,14 @@
+b                                                          a
+c                                                          a
+bb                                                         a
+bbb                                                        a
+bcb                                                        a
+bccb                                                       a
+bcbcb                                                      a
+bbccccbb                                                   a
+^                                                          a
+bc                                                         r
+bcbb                                                       r
+bbcb                                                       r
+bccbb                                                      r
+bbbbbbbbc                                                  r

@@ -1,0 +1,688 @@
+                     Pushdown Automata
+
+
+A finite automaton can be viewed as a finite-state mechanism with 
+a read head that reads the squares--one at a time--of an input 
+tape.  Depending on the symbol read from the input tape and the 
+current state, the machine goes to a new state.  It, at the same 
+time, moves right to the next square.  
+
+
+                        Finte Automaton
+
+
+                          input tape
+                      +---------------+
+                      | a | a | b | b |
+                      +---------------+
+                        ^  read head
+                        |
+                 +------------------------+     
+                 | finite-state mechanism |
+                 +------------------------+
+
+
+A pushdown automaton (PDA) is an extension of this finite 
+automaton model.  It includes a stack that has no limitations on 
+its size.  Access to the stack is restricted to the symbol 
+currently on its top.  A pop operation removes the top symbol 
+from the stack, making the symbol below the popped symbol the new 
+top-of-the-stack symbol.  A push operation pushes a new symbol 
+(or symbols) on top of the stack, making the last pushed symbol 
+the new top-of-the-stack symbol.  
+
+The operation of the PDA at every step depends on its current 
+state, the current input symbol (i.e., the symbol under the read 
+head), and the symbol on the top of the stack. 
+
+
+
+                                Pushdown Automaton
+
+
+                                    input tape
+                                +---------------+
+                                | a | a | b | b |
+                                +---------------+                                                  ^  read/write head
+                                  ^  read head
+                                  |
+                           +------------------------+     
+                        +--| finite-state mechanism |
+                        |  +------------------------+
+                        |
+                        |
+   top of stack | b |<--+ 
+                |---|
+                | a |
+                |---| stack
+                | a |
+                +---+
+
+
+
+Like the FA model, a PDA has a single start state and a subset of 
+its states designated as accept states (also called final 
+states). 
+
+The operation of a PDA is defined by a set of quintuples.  Each 
+quintuple consists of the following five components:
+
+     CurrentState CurrentInput TopOfStack NextState PushString
+
+CurrentState, CurrentInput, and TopOfStack specify the conditions 
+under which the action specified by NextState and PushString are 
+to be performed. 
+
+When a quintuple is used during the operation of a PDA, the 
+action it specifies is performed.  An action consists of the 
+following: 
+
+     Pop the stack.  Then push PushString.  Note: if the 
+     TopOfStack component of the quintuple is the null string 
+     (represented by ^), then the stack is not popped before 
+     PushString is pushed. 
+
+     Move the read head right one square.  Note: if the 
+     CurrentInput component of the quintuple is the null string 
+     (represented by ^), then the read head is not moved. 
+
+     Change the state to NextState.  NextState can be the same as 
+     the current state, in which case the state of the PDA is not 
+     changed. 
+
+
+For example, consider the quintuple
+
+     1 b c 2 def
+                                      
+Because the first three components of this quintuple are 1 b c, 
+this quintuple can be used only if the current state is 1, the 
+current input is b, and the top of the stack is c.  The action (2 
+def) indicates the PDA should change to state 2 and push the 
+string def (in right-to-left order so that d becomes the top 
+symbol on the stack) AFTER the current top symbol on the stack 
+(c) is popped. That is, first c is popped.  Then def is pushed. 
+
+Note: Some PDA models have only one state, in which case the 
+operation of the PDA is defined by triples consisting of
+
+     CurrentInput TopOfStack PushString
+
+This model is no less powerful because information represented 
+by states can be incorporated into the stack symbols.
+
+The current input symbol and/or the top of the stack in a 
+quintuple can be the null string (represented by ^).  For 
+example, consider the quintuple, 
+
+     1 ^ c 2 def
+
+This quintuple can be used if The current state is 1 and the top 
+of the stack is c.  The current input symbol can be anything.  
+Moreover, if this quintuple is used, the PDA does NOT advance to 
+the next symbol on the input tape.  Similarly, the following 
+quintuple 
+
+     1 b ^ 2 def 
+
+can be used if the current state is 1 and the current input is b.  
+The symbol on top of the stack can be anything.  Moreover, if this 
+quintuple is used, the symbol on top of the stack is NOT popped 
+before def is pushed.
+
+
+Acceptance Criteria
+-------------------
+
+There are several variations of the PDA model, depending on the 
+acceptance criteria (recall "final state" means "accept state"):
+
+     accept by final state: PDA accepts if it reads the entire 
+                            input tape and ends in a final state.
+
+     accept by empty stack: PDA accepts if it reads the entire 
+                            input tape and ends with an empty stack.
+
+     accept by final state and empty stack: PDA accepts if it 
+                            reads the entire input  tape, ends in 
+                            a final state, and ends with an empty 
+                            stack. 
+                              
+All three models are equivalent.  That is, any language that can 
+be defined by one can be defined by the other two.  Note that in 
+all three models, acceptance requires that the PDA has read the 
+entire input string.  
+
+
+Non-standard features supported by the p program
+------------------------------------------------
+
+The p program can simulate any of the three acceptance criteria 
+listed above.  It can also simulate any of the models used in the 
+popular automata textbooks.  The p program can also simulate 
+PDA's with following features not found on the commonly used 
+models: 
+
+1) A PDA can sense end-of-input (specify '#' as the 
+   CurrentInput in a quintuple).  For example, the quintuple 
+
+        1 # ^ 2 y
+
+   can be used only if the PDA is in state 1 and is at the end of 
+   the input string.  In contrast, the quintuple 
+
+        1 ^ ^ 2 y
+
+   can be used whenever the PDA is in state 1, regardless of where 
+   the PDA is in the input string.  For both quintuples, the PDA 
+   does not advance on the input string. 
+
+2) A PDA can test for an specific input symbol but not advance
+   in the input (specify '<' immediately following CurrentInput 
+   in the quintuple).  For example, the quintuple
+
+        1 b< ^ 2 y
+
+   can be used only if the current input is b and the PDA is in 
+   state 1.  However, it does not cause the PDA to advance in 
+   the input string.
+
+
+3) The p program also supports the wildcard '.'  The wildcard '.' 
+   can be used as the CurrentInput and TopOfStack components in a 
+   quintuple or triple.  The effect is the same as using '^' for 
+   the CurrentInput and TopOfStack components except 
+    
+       '.' as CurrentInput causes the PDA to advance in the input
+       '.' as TopOfStack causes the PDA to pop the stack
+
+
+PDA models used in popular textbooks
+------------------------------------
+
+There a variety of PDA models in the literature.  Here is a list 
+of automata textbooks and the distinguishing characteristics of 
+the PDA model they use (the p program can simulate any of these 
+models):
+
+Hopcroft et al, "Introduction to Automata Theory, Languages, and 
+Computation":
+
+     The stack is always initialized with a single symbol from the 
+     stack alphabet.
+
+     Multiple states supported.
+
+     The CurrentInput component of a quintuple can be either ^
+     or a symbol from the input alphabet.
+
+     Every quintuple pops the stack.  That is, the TopOfStack
+     component of every quintuple is a symbol from the stack 
+     alphabet--^ is not allowed.  Thus, the PDA necessarily halts 
+     whenever the stack goes empty. 
+     
+     The PushString component of each quintuple can be a string of
+     any length, including ^.
+
+     The PDA accepts by final state.
+          
+          
+Linz, Formal Languages and Automata: 
+
+     Same as Hopcroft
+
+
+Martin, Introduction to Languages and the Theory of Computation:
+
+     Same as Hopcroft
+     
+      
+Webber, Formal Language A Practical Introduction:
+
+     The stack is initialized with a single S.  
+
+     Multiple states are not supported.  Thus, its operation is 
+     specified with triples (quintuples in which the two state 
+     components are omitted). 
+
+     The CurrentInput component of a quintuple can be either ^
+     or a symbol from the input alphabet.
+
+     Every triple pops the stack.  That is, the TopOfStack 
+     component of every triple is a symbol from the stack 
+     alphabet--^ is not allowed.  Thus, the PDA necessarily halts 
+     whenever the stack goes empty. 
+
+     The PushString component of each quintuple can be a string of
+     any length, including ^.
+
+     The PDA accepts by empty stack.
+
+
+Sipser, Introduction to the Theory of Computation
+
+     Stack is empty initially.
+    
+     Multiple states supported.
+
+     The CurrentInput component of a quintuple can be either ^
+     or a symbol from the input alphabet.
+     
+     The top-of-stack symbol in a quintuple can be ^, in which 
+     case the quintuple can be used if only its current state and 
+     current input components match the current configuation. 
+     When such a quintuple is used, it does not pop the stack.  
+     If ^ appears in the second and fifth components of every 
+     quintuple, then the PDA never uses the stack, in which case 
+     it functions simply as an finite automaton.   
+
+     The PushString component of each quintuple can be only ^ or
+     a single symbol from the stack alphabet.    
+
+     PDA accepts by final state.
+
+
+
+PDA is nondeterministic
+-----------------------
+
+The PDA model is a nondeterministic model.  That is, it is 
+permissible for more that one quintuple to be applicable for a 
+given configuration, thereby allowing a choice of operations.  
+For example, a single PDA can contain all these quintuples: 
+
+     1 b c 2 bbb
+     1 b c 3 ccc
+     1 ^ c 4 ddd
+     1 b ^ 5 eee  (allowed only in Sipser's model)
+     1 ^ ^ 6 fff  (allowed only in Sipser's model)
+
+If the current state is 1, the current input is b, and the top 
+of the stack is c, then any of these five quintuples could be used.
+
+Deterministic PDAs (i.e., PDA's whose quintuple set does not 
+allow any choices) are less powerful than the nondeterministic 
+PDA's.  That is, there are some languages that can be defined by 
+a nondeterministic PDA but not by a deterministic PDA. But all 
+languages that can be defined by a deterministic PDA can be 
+defined by a nondeterministic PDA.  Remember, the 
+nondeterministic model allows choice--it does not require choice.  
+Thus, deterministic PDAs are special cases of nondeterministic 
+PDAs.  This means that anything a deterministic PDA can do, a 
+nondeterministic PDA can also do (because a deterministic PDA IS 
+a nondeterministic PDA).  But the reverse is not true.  For 
+example, a nondeterministic PDA can define the language of all 
+palindromes over {a,b}, but a deterministic PDA cannot. 
+
+The nondeterministic PDA model is equivalent in power to context-
+free grammars.  That is, a language that can be defined by a non-
+deterministic PDA if and only if it can be defined by a context-
+free grammar.  For example, both a nondeterministic PDA and a 
+context-free grammar can define the language of all palindromes 
+over the alphabet {a, b}.  If a PDA cannot define a language, 
+then a context-free grammar also cannot define that language, and 
+vice versa.  For example, both a PDA and a context-free grammar 
+cannot define the language {a**nb**nc**n : n >= 0}.  Note: "**" 
+is the exponentiation operator, which in this context represents 
+replication.  For example, b**n is b to the n, which is the 
+string of n b's.                                    
+
+
+Equivalence of the PDA model and context-free grammars
+------------------------------------------------------
+
+The PDA model and context-free grammars are equivalent.  That is, 
+any language that can be defined with one can be defined with the 
+other.  
+
+The equivalence of PDAs and context-free grammars is an 
+extraordinary result: They are completely different mechanisms 
+but they are intimately connected.  
+ 
+Let's determine the PDA that defines the same language as an 
+arbitrary context-free grammar. 
+
+The operation of the PDA is determined by the productions of the 
+grammar.  The details of the construction vary depending on the 
+particular model.  To make our construction as simple as 
+possible, let's use Webber's model becauses it does not support 
+multiple states.  Recall that this model
+
+     - initializes the stack with S 
+     - accepts by empty stack 
+     - does not have states so its operation is defined by triples 
+       rather than quintuples. 
+     - does not allow the top-of-stack symbol to be '^'.  Thus,
+       each step necessarily pops the stack.  Moreover, when
+       the stack goes empty, the PDA necessarily halts.
+     - can push a string of any length.
+
+Thus, we can assume our stack initially already contains S, 
+where S is the start symbol of our grammar.
+
+Then for each production x -> y in the grammar, the PDA should 
+have a triple (CurrentInput, TopOfStack, PushString) of the form
+      
+      ^ x y
+
+For example, the production S -> AB would yield the triple
+
+      ^ S AB
+
+This triple replaces S on the stack with AB, just and the 
+production S -> AB replaces S with AB in a derivation.  
+Similarly, the production A -> a would yield the triple 
+
+     ^ A a
+
+These types of triples, in effect, derive strings from S.
+
+Terminal symbols that appear on the right side of productions 
+are pushed onto the stack.  When these symbols rise to 
+the top, there should be a matching symbol in the input.  The PDA 
+should discard both by popping the stack and advancing in the 
+input.  It does this with a triple of the form 
+
+     a a ^
+
+for every terminal symbol a.  
+
+Suppose the PDA accepts the input string.  That is, the stack 
+goes empty and the PDA has read the entire input string.  What is 
+the significance of the stack going empty?  It means all the 
+nonterminals have been replaced by the PDA and all the generated 
+terminal symbols have been matched with symbols in the input 
+string.  That is, the PDA has derived the input string from S.
+
+Now suppose the input string is derivable from S.  Then the PDA 
+can perform the steps in the derivation of the input string, 
+resulting in a empty stack when the entire input string has been 
+read.  But then the PDA accepts.
+
+We conclude that
+
+     The constucted PDA can accept if and only if the input 
+     string is derivable from S.
+
+Thus, the PDA and the grammar define the same language. 
+
+Let's use this approach to convert the following grammar to a 
+PDA that accepts the language defined by the grammar:
+
+     S -> AB
+     A -> a
+     B -> b
+
+Here are the required triples:
+
+^ S AB        replace S with AB
+^ A a         replace A with a
+^ B b         replace B with b
+
+a a ^         match a in the input with a on the stack
+b b ^         match b in the input with b on the stack
+
+Here is the Hopcroft's model of the PDA that defines the same 
+language.  Recall that in this model, the PDA stack is 
+initialized with a single stack symbol--$ in this case before its 
+operation starts.  $ serves as the bottom-of-stack marker.
+
+0 ^ $ 1 S$     push S onto stack
+1 ^ S 1 AB     replaces S with AB
+1 ^ A 1 a      replaces A with a
+1 ^ B 1 b      replaces B with b
+1 a a 1 ^      matches generated a with a in the input
+1 b b 1 ^      matches generated b with b in the input
+1 ^ $ 2 ^      accept if the input string has been completely read
+
+where 1 is the start state and 2 is the final state.  Initially, 
+$ is the top-of-stack symbol.  State 0 is used to initialize the 
+stack (by pushing S on top of $).  Later $ again becomes the top-
+of-stack symbol, which indicates that the PDA has replaced all 
+the nonterminal symbols on that state and has matched all the 
+terminal symbols with the corresponding symbols in the input 
+string.  Thus, if the input string has been completely read, the 
+PDA should accept.  To trigger the accept, the PDA goes into 
+state 2 when $ becomes the top-of-stack symbol. 
+ 
+The PDA constructed in this way can end up in state 2 with the 
+entire input string completely read (and, therefore, accept) if 
+and only if the input string can be generated by the given 
+grammar. Thus, the PDA defines the same language as the given 
+grammar. 
+
+There are two possible triples that correspond to a production 
+that whose right side starts with a terminal symbol.  For 
+example, for the production 
+
+     S -> aBC
+
+the corresponding triple can be either
+
+     ^ S aBC
+
+or
+
+     a S BC
+
+The single triple a S BC has the effect of the triple ^ S aBC 
+followed by a a ^.   
+
+The technique used in the preceding examples can be used for any 
+context-free grammar.  This means that, given a context-free 
+grammar, a PDA can always be constructed that defines the same 
+language.  
+
+Now suppose you are given the PDA above corresponding to Webber's 
+model that uses triples: 
+
+^ S AB        replace S with AB
+^ A a         replace A with a
+^ B b         replace B with b
+
+a a ^         match a in the input with a on the stack
+b b ^         match b in the input with b on the stack
+
+Can you determine a grammar that defines the same language the 
+PDA defines?  It would be simple to do.  Clearly, the first 
+triple implies the production S -> AB, the second A -> a, and the 
+third B -> b.  In fact, we can always perform this reverse 
+process.  That is, given a PDA that defines a language, we can 
+construct a context-free grammar that defines the same language. 
+
+Let's summarize: Given a context-free grammar, we can construct a 
+PDA that defines the same language; given a context-free grammar, 
+we can construct a PDA that defines the same language.  Thus, we 
+can conclude:
+
+     PDA's and context-free grammars have precisly the same power 
+     to define languages.  Whatever language can be defined by 
+     one can be defined by the other.  Whatever language cannot 
+     be defined by one cannot be defined by the other. 
+
+
+Simulating a FA with a PDA
+
+A PDA can easily simulate a finite automaton.  It simply changes 
+state as it scans the input tape left to right exactly as the FA 
+would.  If it has the same set of final states, it would then 
+accept precisely the same set of strings as the FA.  During the 
+entire process the PDA does not use its stack.  For example, 
+consider the FA defined in odd.fa:
+
+1            start state
+{2}          set of accept states
+
+1 a 2        state 1 corresponds to even-length strings     
+1 b 2
+
+2 a 1        state 2 corresponds to odd-length strings
+2 b 1   
+
+The corresponding PDA (Hopcroft model) is
+
+1   $
+{2}
+
+1 a $ 2 $
+1 b $ 2 $
+
+2 a $ 1 $
+2 b $ 1 $
+
+Problems
+--------
+ 
+Construct a PDA for each of the following languages.  Use 
+whatever PDA model you want unless indicated otherwise by your 
+instructor.  Assume the input alphabet {a, b} unless indicated 
+otherwise.  Run on the p simulator.  For instructions on the p 
+simulator, see p.txt. Note: to run a PDA on the p simulator, your 
+PDA should be deterministic.  The p program always applies the 
+first applicable quintuple listed--it does not explore alternate 
+choices. 
+
+To test your PDA's, use the tape file corresponding to the 
+question number.  For example, the tape file for problem 2 is 
+p2.t.  The definition file you create should have have the same 
+name but the the extension ".pda".  Thus, for problem 2, your 
+definition file should be named p2.pda. 
+
+Note: "**" is the exponentiation operator, which is used in these 
+problems to represents replication.  For example, b**n is b to 
+the n, which is the string of n b's. 
+
+p1) a*b* Do with the Webber model (use p1w.pda and p1w.t) and the 
+    Hopcroft model (use p1h.pda and p1h.t).  Hint: Simulate the FA 
+    that defines this language. With the Webber model, use the 
+    top-of-stack symbol to carry the state information.  With
+    the Hopcroft model, use the PDA's states and do not the stack. 
+
+p2) a*|b*
+
+p3) aa* where {a} is the input alphabet.   
+
+p4) {a**nb**(2n) : n > 0} 
+
+p5) The set of all strings over {a, b} in which the number of a's 
+    does not equal the number of b's.  
+
+p6) {wcw**r : w is a string over {a, b}}.  Note: "w**r" represents 
+    the reverse of w. 
+
+p7) {a**(i+j)b**ic**j : i, j >= 0}.
+
+p8) a*b*c 
+
+p9) (a*|b*)c
+
+p10) The set containing the null string only. 
+
+p11) The language defined by
+
+         S -> BD
+         B -> bB
+         B -> c
+         D -> dD
+         D -> e
+
+     Do three ways: use the Hopcroft model (use p11h.t with 
+     p11h.pda), the Webber model (use p11w.t with p11w.pda), and 
+     the Sipser model (use p11s.t with p11s.pda). 
+
+p12) a*b*(c*|d*)
+
+p13) Set of all strings over {a, b} whose length is divisible by 3.
+
+p14) {a**nb**m : m > 3n}
+
+p15) {a**nb**n : n is odd}
+
+p16) Set of all strings over {a, b} which equal their reverse.
+
+p17) {a**nb**m : m > n}
+
+p18) {a**nb**m : m < n}
+
+p19) {(bc)**nd(efg)**n : n >= 0}.  Input alphabet is {a,b,c,d,e,f,g}.
+     Do for the Webber model (use p19w.t with p19w.pda).  Also do 
+     for the Hopcroft model (use p19h.t with p19h.pda).  Use an 
+     essentially different approach with the Hopcroft model.  
+     Specifically, push b then c and repeat until all the bc pairs 
+     have been pushed.  Then match each bc pair with a efg triple.  
+     When the stack goes empty, go into a final state. 
+
+p20) {a**nb**mc**md**n : n, m >= 0}  
+    
+p21) {a**nb**2n : n >= 0}
+    
+p22) {a**(2n)b**n : n >= 0}  
+    
+p23) The set of all strings over {a, b} in which the number of
+    a's equals the number of b's.
+
+p24) The set of strings generated by the grammar S -> lambda, 
+     S -> (S), S -> SS.  This grammar generates well-formed
+     expressions of parentheses.  For example, (), ((())), and
+     (()())()
+
+
+Paper and pencil problems:
+
+p25) Try to construct a PDA for {a**nb**nc**n : n >= 0}.
+     You won't be successful because it's impossible to do.
+     What can you conclude about this language?
+
+p26) Try to construct a deterministic PDA that defines the 
+     language of all palindromes over {b, c}.  You won't be able 
+     to do it (because it is impossible to do).  However, a 
+     nondeterministic PDA can define this language.  Define such a 
+     PDA. Use the Webber's model.
+
+p27) Write a context-free grammar that defines the set of all 
+     palindromes over the alphabet {b, c}.  Using the construction 
+     technique described above, convert your grammar to a PDA. 
+     Compare with your answer from the preceding problem. 
+
+p28) Show that the three models of the PDA--accept by final state, 
+     accept by empty stack, and accept by final state and empty 
+     state are equivalent.  That is, show that any language 
+     defined by one model can be defined by the other two models. 
+
+p29) Construct the context-free grammar from the following PDA 
+     (Webber's model).  This example is from Webber's textbook.
+
+         a S 0S
+         a 0 00
+         b 0 ^
+         b S 1S
+         b 1 11
+         a 1 ^
+         ^ S ^
+
+p30) Using Hopcroft's model, show how to construct a PDA that defines 
+     the same language as an NFA.
+
+p31) Same as problem 30, but use Webber's model.
+
+p32) Is a PDA that allows multiple states (like Hopcroft's model) 
+     more powerful than a PDA that does not have states (like 
+     Webber's model).  Justify your answer.
+
+p33) Does the following PDA (assume it's the Hopcroft model with 
+     state 1 as both the start and final state)
+
+         1 ^ S 1 AB
+         1 ^ A 1 a      replaces A with a
+         1 ^ B 1 b      replaces B with b
+         1 a a 1 ^      matches generated a with a in the input
+         1 b b 1 ^      matches generated b with b in the input
+
+     define the same language as the following CFG:
+
+         S -> AB
+         A -> a
+         B -> b
+
+p34) Does a PDA always halt?  If not, describe a scenario in which 
+     a PDA never halts.

@@ -1,0 +1,16 @@
+zz
+zu
+zd
+zt
+uz
+uu
+ud
+ut
+dz
+du
+dd
+dt
+tz
+tu
+td
+tt

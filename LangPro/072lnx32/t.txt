@@ -1,0 +1,662 @@
+        Deterministic Turing Machine Simulator Version 7.2
+
+ +-------------------------------------------------------------+
+ | This software is provided to you on an "as is" basis for    |
+ | instructional purposes only, without any warranties,        |
+ | expressed or implied.  Neither the author nor the publisher |
+ | shall be liable in any event for incidental, consequential, |
+ | special, or punitive damages in connection with, or arising |
+ | out of the distribution, performance, or use of this        |
+ | software.                                                   |
+ +-------------------------------------------------------------+
+
+
+Running the t program (use tlnx on Linux, use tmac on Macintosh)
+----------------------------------------------------------------
+
+To run the t program, enter
+
+
+t  definitionFilename tapeFilename 
+
+The extension ".tm" is assumed for the definition file name if one 
+is not given.  tapeFileName is optional.  If tapeFilename is not 
+specified, the tape file name is assumed to be the same as the 
+definition file name but with the extension is ".t". 
+
+initPosition argument is optional.  The initPosition argument 
+determines the position of the read/write head in the initial 
+configuration relative to the beginning of the data on the tape.  
+If this argument is omitted, the default value 0 is used.  The 
+value specified may be positive (to the right) or negative (to 
+the left). 
+
+
+Name file t.ttt
+---------------
+
+When the t program is run for the first time, it prompts for the 
+user's name:
+
+Enter familyname firstname middleinitial (if any)  
+
+After the user enters this information, the t program saves it in 
+a file named t.ttt.  It then inserts this name information in all 
+the trace files it subsequently creates. If the name entered is 
+not correct, the t.ttt file can be directly edited with any text 
+editor.  Alternatively, the t.ttt file can be deleted.  Then 
+when the t program is run again, it will prompt for and read in 
+new name information.  
+
+
+Keywords
+--------
+
+Keywords can appear as a comment or anywhere within a comment.  
+The following keywords has the indicated effect: 
+
+     Keyword                      Effect
+     -------                      ------
+
+     notrace           No trace output is generated. Use this 
+                       keyword if the trace output is excessive.  
+                       If the "finalconfig" keyword is used, then 
+                       the final configuration of the TM is 
+                       displayed and written to the tog file even 
+                       if the "notrace" keyword is specified. 
+
+     finalconfig       The final machine configuration (i.e., the 
+                       configuration when the machine halts) for 
+                       each tape is displayed. 
+
+     countcharx        The number of x's (where x is any 
+                       character) in the final configuration is 
+                       displayed and written to the tog file.  If 
+                       x is whitespace, then the character 
+                       counted defaults to '1'. If this keyword 
+                       is omitted, but an expected count is given 
+                       on a line of a  tape file, the number of 
+                       1's in the final configuration is counted, 
+                       displayed, and written to the tog file. 
+
+     continueonfinal   Causes the simulation on a tape to 
+                       continue when a final state is reached if 
+                       there are quintuples applicable to this 
+                       final state and the current input. Without 
+                       this keyword, the simulation halts and 
+                       accepts as soon as the Turing machine 
+                       enters a final state. 
+                        
+     nodefinition      The contents of the definition file from 
+                       the location of this keyword to the end of 
+                       the file is not displayed or written to 
+                       the tog file.  This keyword allows an 
+                       instructor to demonstate the operation of 
+                       a TM without displaying the definition 
+                       file.
+
+
+
+Definition file
+---------------
+
+The first line in the definition file that is not a //-comment or 
+blank should contain the start state of the Turing machine, 
+followed optionally by initial head position.  The start state 
+can be any integer. 
+
+The initial position value on the first line of the definition 
+file is optional.  It determines the position of the read/write 
+head in the initial configuration relative to the beginning of 
+the data on the tape.  If omitted, the default value 0 is used.  
+The value specified may be positive (to the right) or negative 
+(to the left). 
+
+A comment can appear to the right of a definition file entry,
+separated by at least one blank.  Such comments do not have
+to start with //.   A line that contains only a comment must 
+start with //.  Blank lines can appear anywhere in a definition 
+file.
+
+The final states (final states are also called accept states) are 
+listed on the line that immediately follows the start-state line.  
+A final state can be any integer.  Succesive final states should 
+be separated by a comma.  The list of final states should be 
+enclosed in braces. 
+
+If no final states are given, the final-states line should 
+specify the empty set with an empty pair of braces (i.e., {}).  
+If no final states are given, the t program will not generate an 
+ACCEPT/REJECT message for each tape.  However, it will display 
+the number of occurrences of the counted character at the end of 
+a run on a tape if the "countchar" keyword is specified or if an 
+integer (the expected value) appears to the right of the tape 
+input string.  The counted character is '1' unless a different 
+character is specified by the "countchar" keyword.          
+
+The quintuples for the Turing machine should start after the 
+final-states line.  One quintuple should be specified per line.  
+
+The components of a quintuple should be specified in the 
+following order: 
+
+CurrentState CurrentInput NewSymbol Move NextState
+
+One or more spaces should separate each component of a quintuple. 
+CurrentState and NextState can be any integer. 
+
+CurrentInput and NewSymbol can be any non-blank character.  
+Use '_' (the underscore character) to represent a blank.  Use '~' 
+as a wildcard character.  Use '\~' to specify an ordinary '~'.
+
+MOVE can be one of the following:  
+
+     L  (either upper or lowercase)
+     R  (either upper or lowercase) 
+     S  (either upper or lowercase)  
+
+Sample definition file (paired.tm):
+
+// paired.tm
+// This Turing machine accepts {b**nc**n : n >= 0}
+// Format of a quintuple:
+//     CurrentState CurrentInput NewSymbol Move NextState
+
+0             Start state
+{5}           Set of final states (i.e., accept states)
+
+0 _ _ R 5     Use state 0 to check for ^ input
+0 a x R 2
+1 a x R 2     mark a
+2 a a R 2     now move right to matching b
+2 y y R 2
+2 b y L 3     mark matching b
+3 y y L 3     now move left first marked a
+3 a a L 3
+3 x x R 1     start cycle again
+1 y y R 4     check if all b's have been marked
+4 y y R 4
+4 _ _ R 5     if all b's marked, go to final state 5
+
+
+States other than the start state and the final states are 
+implicitly specified by the quintuples in the definition file.  
+Similarly, the input and tape alphabets are implicitly specified.
+
+
+Wildcard character '~'
+----------------------
+
+'~' as the second component of a quintuple is a wildcard.  At any 
+state, it matches any tape symbol except those symbols on 
+transitions from that state.  For example, suppose a TM has two 
+quintuples whose first component is state 3: 
+
+3 ~ x r 4
+3 a Y r 5
+
+The '~' in the first quintuple matches any tape symbol except for 
+'a'.  For this quintuple, the input 'a' is the exception because 
+there is a transition (specified by the second quintuple above) 
+on state 3 on an 'a'.  Thus, if the TM is in state 3 and the 
+current input is 'a', the second quintuple above is used.  
+However, for all other inputs, the first quintuple is used.  
+
+'~' used as the third component of a quintuple suppresses the 
+writing of a new symbol to the tape.  For example, the quintuple 
+
+3 ~ ~ r 4
+
+causes only a right move and a switch to state 4. 
+
+To specify an ordinary '~', precede it with a backslash. 
+
+
+Input tape file
+---------------
+
+The tape file should consist of one or more lines.  Each line 
+represents one tape.  A tape can consist of any sequence of non-
+blank characters.  Blanks embedded within a tape should be 
+represented by the underscore character '_' (one '_' for each 
+blank).  For example, a tape consisting of three a's, three 
+blanks and three b's should  be represented with
+
+aaa___bbb 
+
+A completely blank tape (i.e.,the null string), is represented by 
+a single '^' (the null string) or a single '_'.  
+
+The t program treats each line in the tape file as a separate 
+tape and makes one run for each line.  
+
+If one or more final states are specified and either the letter 
+'a' or the letter 'r' preceded by at least one blank appears on 
+the right of a tape, the result of the run--ACCEPT or REJECT--is 
+checked.  If the the letter 'a' is specified, the result should be 
+ACCEPT; if the the letter 'r' is specified, the result should be 
+REJECT.  
+
+If a number is specified on the right of the tape, that number is 
+compared with the number of occurrences of the counted character 
+that remain on the tape at the conclusion of the run on that 
+tape.  The two numbers should be equal.  The "counted character" 
+is the character specified by the "countchar" keyword (see 
+Keyword section above).  If the "countchar" keyword is omitted or 
+does not specify a specific character to be counted, then the 
+character counted defaults to '1'.  When an expected count 
+appears on the right of a tape, that count and the actual count 
+are displayed at the conclusion of the run on that tape, whether 
+or not the "countchar" keyword was specifed. 
+
+If either a/r or an expected count is specified on the tape, and 
+the result differs from that specified on a tape, the error 
+message "Wrong" appears at the end of the trace for that tape, 
+and the error message "Errors detected" appears at the bottom of 
+the trace for the entire run.  If no errors are detected during 
+an entire run, the message "Correct" appears at the bottom of the 
+trace for the entire run. 
+
+A comment can appear on a tape to the right of the input string 
+and the expected result, but it must be preceded with at least 
+one blank.  A comment here does not have to start with //.  
+However, if an expected result (a, r, or a number) is not 
+specified on the tape, then a comment should not start with an a, 
+r, or a number.  Completely blank lines in the tape file can appear
+anywhere in a tape file.  Lines that contain only a comment 
+should NOT be used in a tape file.
+
+If a run on any tape is canceled with the c command or if the 
+simulation is terminated with the q command, "Errors detected" 
+appears at the bottom of the trace for the entire run. 
+
+Sample tape file (paired.t): 
+
+^        a  ^ represents null string
+ab       a
+aaabbb   a
+abab     r  comments are allowed here
+abb      r
+aab      r
+a        r
+b        r
+ba       r
+bbaa     r
+
+Another sample tape file for a Turing machine (plus1.tm) that 
+computes the function f(n) = n + 1: 
+
+^        1             ^ (the null string) is unary for 0
+1        2             1 is unary for 1
+111      4             111 is unary for 3
+
+
+The values 1, 2, and 4 are expected values--that is they are the 
+values  that should be computed by the Turing machine.  For 
+example, on the last tape, the input string is 111 (unary for 3).  
+The value of the function for this input is 4.  Thus, the Turing 
+machine should leave 4 one's on the tape when it halts.  
+
+
+Trace
+-----
+
+If "notrace" (in lowercase) appears anywhere in the definition 
+file, then trace output is not generated.  
+
+If "finalconfig" (in lowercase) appears anywhere in the 
+definition file, then the final configuration of the machine at 
+the conclusion of the run on each tape is displayed.
+
+The trace generated by the t program is written to BOTH the 
+display screen and a file with the same name as the definition 
+file but with the added extension ".<familyname>.tog", where 
+<familyname> is the family name the user enters when running the 
+t program for the first time.  If, however, the user initially 
+enter his/her family name prefixed with a hyphen, then the family 
+name is not incorporated in the trace file name (but the user's 
+name still appears within the trace file). 
+
+The trace consists of "snapshots" of the current configuration of 
+the machine in the format 
+
+     LeftTape[CurrentState>CurrentInput RightTape
+
+If more than one quintuple can be applied to a given machine 
+configuration, the first one listed in the definition file is 
+used.  If the continueonfinal keyword is specified, the Turing 
+machine halts when a configuration occurs to which no quintuple 
+applies. If continueonfinal is NOT specified, then the Turing 
+machine halts when either a configuration occurs to which no 
+quintuple applies, or when a final state is entered. 
+
+The t program pauses after each input tape is run.  Entering any 
+key except g, G, q, or Q causes the t program to run the next 
+tape.  Entering g or G at a pause between tapes causes the 
+t program to run the remaining tapes without pauses.  Entering q 
+or Q causes the t program to terminate.  The t program also 
+pauses periodically when running an input tape which requires 
+more moves than can be shown on the display screen at one time.  
+At such a pause, entering c cancels further simulation on the 
+current tape.  Entering any other key continues the simulation on 
+the current tape. 
+
+The trace limits output lines to 79 characters.  The 79-character 
+wide viewing window moves with the read/write head so the current 
+action of the machine is always shown.  If the "finalconfig" 
+keyword is used, the entire final configuration is displayed (on 
+multiple lines if necessary) with each line limited to 79 
+characters. 
+
+
+Non-halting simulations
+
+If the g command (go to end) is entered, the t program will not 
+periodically pause to allow you to enter another command (such as 
+c to cancel the run on the current tape).  Thus, if the Turing 
+machine never halts, the t program will not halt.  In this cause, 
+you should terminate execution of the t program by entering the 
+appropriate control sequence for your system (try Ctrl-c, Ctrl-
+d, or Ctrl-z).
+
+
+Busy beaver simulations
+-----------------------
+
+If "countchar" (in lowercase with or without the quotes) appears 
+anywhere in the definition file, then at the conclusion of the 
+run on each tape, the total number of ones left on the tape and 
+the number of quintuples executed are displayed.  The 
+"countchar" keyword is not necessary if each tape has an 
+expected value on its right (in which case both the expected and 
+actual counts are displayed).
+
+You many wish to use the "countchar" keyword in your definition 
+file or expected counts on the tapes if you are experimenting 
+with busy beaver machines.  Busy beaver machines can generate 
+excessive output so you may want to use the "notrace" keyword as 
+well.  If you specify the "notrace" keyword and want to see the 
+final configuration of the machine, use the "finalconfig" keyword 
+anywhere in the definition file.    
+
+The t program does not support an H (halt) state.  However, any 
+integer for which there are no quintuples can serve as a halt 
+state.  For example, the definition file for a 1-state busy 
+beaver machine is 
+
+// This is a 1-state busy beaver
+1           notrace finalconfig
+{}          no final states
+1 _ 1 r 2    
+
+For this machine, there are no quintuples for the state 2.  Thus, 
+the machine necessarily halts when it enters state 2.  2 
+is, in effect, the halt state.  Thus, this is a 1-state busy 
+beaver (the halt state is not counted in busy beaver machines).
+
+
+Sample definition and tape files
+--------------------------------
+
+The Turing machine simulator package includes three pairs of 
+sample files: 
+
+Definition file      Tape file        Description
+
+paired.tm            paired.t     Accepts {a**nb**n | n >= 0}
+plus1.tm             paired.t     Computes f(n) = n + 1
+bb1.tm               bb1.t        1-state busy beaver
+
+The simulator package also includes tape files for the problems 
+given in turing.txt.
+
+Here is the tog file that the t program generates for paired.tm 
+and paired.t:
+
+
+Turing Machine Simulator Version 7.2       Wed Mar 27 13:24:40 2013
+
+Your name:       DosReis Anthony J
+tog file:        paired.dosreis.tog
+Tape file:       paired.t
+Definition file: paired.tm
+
+// paired.tm
+// This Turing machine accepts {a**nb**n : n >= 0}
+// Format of a quintuple:
+//     CurrentState CurrentInput NewSymbol Move NextState
+
+0             Start state
+{5}           Set of final states
+
+0 _ _ R 5     Use state 0 to check for ^ input
+0 a x R 2
+1 a x R 2     mark a
+2 a a R 2     now move right to matching b
+2 y y R 2
+2 b y L 3     mark matching b
+3 y y L 3     now move left first marked a
+3 a a L 3
+3 x x R 1     start cycle again
+1 y y R 4     check if all b's have been marked
+4 y y R 4
+4 _ _ R 5     if all b's marked, go to final state 5
+
+Number of states: 6
+Number of quintuples: 12
+
+--------------- TAPE  1 ---------------------------------
+^        a  ^ represents null string
+---------------------------------------------------------
+     [0> 
+      [5> 
+       ACCEPT       1 quintuple(s) executed
+
+--------------- TAPE  2 ---------------------------------
+ab       a
+---------------------------------------------------------
+     [0>ab
+     x[2>b
+     [3>xy
+     x[1>y
+     xy[4> 
+     xy [5> 
+       ACCEPT       5 quintuple(s) executed
+
+--------------- TAPE  3 ---------------------------------
+aaabbb   a
+---------------------------------------------------------
+     [0>aaabbb
+     x[2>aabbb
+     xa[2>abbb
+     xaa[2>bbb
+     xa[3>aybb
+     x[3>aaybb
+     [3>xaaybb
+     x[1>aaybb
+     xx[2>aybb
+     xxa[2>ybb
+     xxay[2>bb
+     xxa[3>yyb
+     xx[3>ayyb
+     x[3>xayyb
+     xx[1>ayyb
+     xxx[2>yyb
+     xxxy[2>yb
+     xxxyy[2>b
+     xxxy[3>yy
+     xxx[3>yyy
+     xx[3>xyyy
+     xxx[1>yyy
+     xxxy[4>yy
+     xxxyy[4>y
+     xxxyyy[4> 
+     xxxyyy [5> 
+       ACCEPT       25 quintuple(s) executed
+
+--------------- TAPE  4 ---------------------------------
+abab     r  comments are allowed here
+---------------------------------------------------------
+     [0>abab
+     x[2>bab
+     [3>xyab
+     x[1>yab
+     xy[4>ab
+       REJECT       4 quintuple(s) executed
+
+--------------- TAPE  5 ---------------------------------
+abb      r
+---------------------------------------------------------
+     [0>abb
+     x[2>bb
+     [3>xyb
+     x[1>yb
+     xy[4>b
+       REJECT       4 quintuple(s) executed
+
+--------------- TAPE  6 ---------------------------------
+aab      r
+---------------------------------------------------------
+     [0>aab
+     x[2>ab
+     xa[2>b
+     x[3>ay
+     [3>xay
+     x[1>ay
+     xx[2>y
+     xxy[2> 
+       REJECT       7 quintuple(s) executed
+
+--------------- TAPE  7 ---------------------------------
+a        r
+---------------------------------------------------------
+     [0>a
+     x[2> 
+       REJECT       1 quintuple(s) executed
+
+--------------- TAPE  8 ---------------------------------
+b        r
+---------------------------------------------------------
+     [0>b
+       REJECT       0 quintuple(s) executed
+
+--------------- TAPE  9 ---------------------------------
+ba       r
+---------------------------------------------------------
+     [0>ba
+       REJECT       0 quintuple(s) executed
+
+--------------- TAPE 10 ---------------------------------
+bbaa     r
+---------------------------------------------------------
+     [0>bbaa
+       REJECT       0 quintuple(s) executed
+
+V7.2 paired.dosreis.tog: s6/q12/mqe25
+be95 Report for DosReis Anthony J: Correct
+ca11 Wed Mar 27 13:24:40 2013
+
+
+
+Here is the tog file for plus1.tm (computes f(n) = n + 1) and 
+plus1.t:
+
+Turing Machine Simulator Version 7.2       Wed Mar 27 13:24:49 2013
+
+Your name:       DosReis Anthony J
+tog file:        plus1.dosreis.tog
+Tape file:       plus1.t
+Definition file: plus1.tm
+
+// plus1.tm
+// This Turing machine computes the function f(n) = n + 1
+
+0                  start state
+{}                 this TM computes a function so no final states
+
+0 1 1 r 0          
+0 _ 1 r 2
+
+Number of states: 2
+Number of quintuples: 2
+
+--------------- TAPE  1 ---------------------------------
+^        1             ^ (the null string) is unary for 0
+---------------------------------------------------------
+     [0> 
+     1[2> 
+
+       1 quintuple(s) executed
+       1's left on tape: 1
+       1's expected:     1
+
+--------------- TAPE  2 ---------------------------------
+1        2             1 is unary for 1
+---------------------------------------------------------
+     [0>1
+     1[0> 
+     11[2> 
+
+       2 quintuple(s) executed
+       1's left on tape: 2
+       1's expected:     2
+
+--------------- TAPE  3 ---------------------------------
+111      4             111 is unary for 3
+---------------------------------------------------------
+     [0>111
+     1[0>11
+     11[0>1
+     111[0> 
+     1111[2> 
+
+       4 quintuple(s) executed
+       1's left on tape: 4
+       1's expected:     4
+
+V7.2 plus1.dosreis.tog: s2/q2/mqe4/mc4
+7df3 Report for DosReis Anthony J: Correct
+f19f Wed Mar 27 13:24:49 2013
+
+
+Here is the tog file for bb1.tm (1-state busy beaver) and bb1.t:
+
+Turing Machine Simulator Version 7.2       Wed Mar 27 13:24:30 2013
+
+Your name:       DosReis Anthony J
+tog file:        bb1.dosreis.tog
+Tape file:       bb1.t
+Definition file: bb1.tm
+
+// bb1.tm 
+// This is a 1-state 2-symbol busy beaver.  The one state is 
+// state 1 (state 2 is not counted since its only purpose is to halt 
+// the operation of the Turing machine).  The two symbols are 
+// blank (represented by _ in the quintuples) and 1.  The keyword 
+// notrace suppresses the trace output.  This keyword is not necessary 
+// for this busy beaver because the size of its trace is minimal. 
+// However, for busy beavers with more states, the output can be 
+// considerable, causing both runtime and the size of the tog file 
+// to be excessive.  The keyword finalconfig causes the 
+// configuration of the machine when it halts to be displayed 
+// and written to the tog file.
+
+1            notrace finalconfig
+{}           no final states
+
+1 _ 1 r 2    
+
+Number of states: 2
+Number of quintuples: 1
+
+
+Final configuration
+1[2> 
+
+       1 quintuple(s) executed
+       1's left on tape: 1
+       1's expected:     1
+
+V7.2 bb1.dosreis.tog: s2/q1/mqe1/mc1
+8343 Report for DosReis Anthony J: Correct
+cb9d Wed Mar 27 13:24:30 2013

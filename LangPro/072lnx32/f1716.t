@@ -1,0 +1,17 @@
+cb                a
+bbcb              a
+bbcccbbcb         a
+cbcccc            a
+bbcccbbbccbcb     a
+cbcccbcbc         a
+bcccc             a
+bccc              a
+^                 r
+b                 r
+bb                r
+bccb              r
+cbcb              r
+cbccbc            r
+cbccb             r
+bbcbcb            r
+ccbccbccb         r

@@ -1,0 +1,15 @@
+// paired6.pda  
+// This PDA accepts {a**nb**n : n >= 0}
+// Using Webber's model; triples are derived directly from grammar
+// S -> aSb | ^
+// Like paired5.pda except # and < features used to make the 
+// PDA deterministic.  Thus, unlike paired5.pda, the p program 
+// can simulate it properly.
+
+S                stack initialization string           
+
+a< S aSb         pop S, push aSb, do not advance
+#  S ^           pop S when at end of input
+b< S ^           pop S when current input is b, do not advance
+a  a ^           match a's in input with a's on stack
+b  b ^           match b's in input with b's on stack

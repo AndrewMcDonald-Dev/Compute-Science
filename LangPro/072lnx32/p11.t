@@ -1,0 +1,9 @@
+ce                                                    a
+bce                                                   a
+cde                                                   a
+bcde                                                  a
+bbcdde                                                a
+cce                                                   r
+bde                                                   r
+bbbe                                                  r
+ddd                                                   r

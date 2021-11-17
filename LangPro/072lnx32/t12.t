@@ -1,0 +1,21 @@
+^          a
+abc        a
+acb        a
+bca        a
+bac        a
+cab        a
+cba        a
+abcabc     a
+cbacba     a
+ccbbaa     a
+abca       r
+acbb       r
+bacc       r
+cabb       r
+cbaa       r
+aabbcca    r
+aaabbcc    r
+aabbbcc    r
+aabbccc    r
+cccaabb    r
+

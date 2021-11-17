@@ -1,0 +1,518 @@
+        Finite Automaton (accent on 2nd syllable)
+        Finite Automata  (this is the plural form--it's not automatons)
+
+
+A Simple Explanation of a Finite Automaton
+------------------------------------------
+
+A finite automaton (FA) can b viewed as a game of "follow the 
+arrows."  The game consists of circles and arrows.  One circle 
+has a small unlabeled arrow pointing to it--that's where you 
+start. You then are given symbols, one after another.  For each 
+symbol, you follow the arrow labeled with that symbol to another 
+circle.  For example, suppose you are on circle 2 and are given 
+the symbol 'b'.  Suppose out of circle 2 there are two arrows--
+one labeled with 'a' that goes to circle 5, the other labeled 
+with 'b' that goes to circle 10.  You should follow the arrow 
+labeled with 'b', which brings you to circle 10.  You then repeat 
+this process from circle 10 with the next symbol.  
+
+Out of each circle, you should have one arrow for each possible 
+symbol, labeled with that symbol.  For example, suppose the 
+possible input symbols are 'a' and 'b'.  Then out of every circle 
+there should be one arrow labeled with 'a' and one arrow labeled 
+with 'b'.  So on every circle, there is always exactly one arrow 
+to follow for any possible symbol. 
+
+You keep this up until you run out of symbols.  You then look at 
+the cirlce on which you end.  If it's a double circle (i.e., a 
+circle inside a circle), then you say "accept."  If it's a circle 
+without an inner circle, say "reject." 
+
+Such a game defines a language:  all the symbol sequences that 
+are accepted are in the language; all the symbol sequences that 
+are rejected are not in the language.
+
+The best way to represent an FA is with circles and arrows.  
+However, such a representation is hard for a computer to process.
+Here is a representation that good for computers:
+
+Give each circle a number: 1, 2, ...
+
+Specify the starting circle  by listing its number.
+
+On the next line, list the numbers of all the accepting circles, 
+enclosed in braces, separating successive numbers with a comma. 
+
+On succeeding lines, represent each arrow, one line for each 
+arrow.  Represent each arrow by listing three items:
+   
+     1) the number of the circle where the arrow starts 
+     2) the label on the arrow
+     3) the number of the circle the arrow points to
+        (for example, 1 b 5 represents an arrow from circle 1 
+        to circle 5 labeled with a b)
+
+Here is a complete representation of an FA.
+
+1        start circle
+{2}      list of accepting circles
+1 a 3    arrows
+1 b 2
+2 a 2
+2 b 2
+3 a 3
+3 b 3
+ 
+Try drawing the circle/arrow representation for this FA.  What 
+language does it define?
+
+Here's the common terminology for the parts of an FA:
+
+The circles are called "states."
+
+The start circle is called the "start state."
+
+The accepting circles are called "accept states" or "final 
+states."  The non-accepting circles are called "non-accepting 
+states", "reject states", "nonfinal states."  Note that "final" 
+in "final state" does NOT mean the last state the FA is in after 
+processing all the input.  Rather, it simply means an accept 
+state. 
+
+The sequence of input symbols applied to the FA is called the 
+"input string."
+
+The arrows can be represented mathematically by a function.  
+Because the arrows show the transitions from one state to 
+another, we call the mathematical function that represents the 
+arrows the "transition function."
+
+The  set consisting of the symbols that are used in the input to 
+the FA and appear on the arrows is called the "alphabet."
+
+Because there is one arrow out of each circle for each symbol in 
+the alphabet, the operation of the FA is completely determined.  
+That is, there is never a choice in its operation.  We 
+accordingly call such an FA a deterministic FA (DFA).  
+
+Another form of an FA allows choice.  For example, it allows two 
+or more arrows out of a circle, all labeled with the same symbol.  
+Thus, any one of these arrows can be followed if the current 
+input symbol matches the symbol on this set of arrows.  We call 
+such an FA a nondeterministic FA (NFA).  A DFA is a special case 
+of an NFA because an NFA allows choice but does not require it.   
+Thus, every DFA is also an NFA, but not every NFA is a DFA. 
+
+Given a language, the DFA that defines that language with the 
+fewest states is called a minimal DFA for that language.  
+
+A "dead state" is a reject state that loops to itself on all 
+inputs.  Thus, once in a dead state, a DFA never leaves it, and 
+will (since it is a reject state) reject the input string.  
+
+A minimal DFA in which its dead state (if any) and associated 
+arrows have been removed is called the pruned minimal DFA. 
+
+If a minimal DFA has no dead state to prune, then, of course, 
+the pruned minimal DFA is identical to the minimal DFA.
+
+Although no longer strictly meeting the definition of a DFA, a 
+pruned minimal DFA's operation is completedly determined.  That 
+is, there is never any choice in its operation.  If it is in a 
+state for which there is no outgoing arrow for the current input 
+(because the missing arrow went to a dead state and, therefore, 
+was pruned), and it gets another input symbol, it immediately 
+rejects the input string.  
+
+A pruned minimal DFA derived from a minimal DFA with a dead state 
+is more efficient than the minimal DFA: both in space (because it 
+has one fewer states if the minimal DFA has a dead state) and in 
+time (because it rejects any string that takes the minimal DFA to 
+a dead state sooner--in a DFA, the entire input string has to be 
+processed before the DFA can reject a string that takes it to a 
+dead state). 
+
+==============================================================
+
+Another View of an FA
+---------------------
+
+We can view an FA as a finite-state mechanism with a read head 
+that reads symbols from an input tape.  The input tape consists 
+of squares with the successive input symbols in successive 
+squares. The read head reads the squares--one at a time--of an 
+input tape.  Depending on the symbol read from the input tape and 
+the current state of the FA, the machine goes to a new state.  
+It, at the same time, moves right to the next square. 
+
+                        Finte Automaton
+
+
+                          input tape
+                      +---------------+
+                      | a | a | b | b |
+                      +---------------+
+                        ^  read head
+                        |
+                 +------------------------+     
+                 | finite-state mechanism |
+                 |      (in state 1)      |
+                 +------------------------+
+
+Each state in an FA is either accepting or rejecting.  If the  
+state in which the FA ends in after it reads the entire tape is 
+an accept state, the FA accepts the input string on the tape 
+(meaning the input string on the tape is in the language defined 
+by the FA).  If the state in which the FA ends in after it reads 
+the entire tape is a reject state (i.e., a state that is not an 
+accept state), the FA rejects the input string on the tape 
+(meaning the input string is not in the language defined by the 
+FA). 
+
+One of the states in an FA is designated as the start state.  The 
+FA always starts its operation in this state.
+
+An FA can be specified by specifing
+
+     start state
+     list of accept states
+     triples that define what happens for each state/input pair.
+
+Each triple is of the form 
+
+     CurrentState CurrentInput NextState
+
+CurrentState is the state the FA is currently in.
+CurrentInput is the input symbol currently under the read head.
+NextState is the state to switch to if this triple is used. 
+
+For example, here is the definition of an FA that defines the 
+language consisting of all odd-length strings over {a, b}:
+
+1      start state
+{2}    list of accept states
+1 a 2  when in state 1 and input is a, go to state 2 and advance on tape
+1 b 2  when in state 1 and input is b, go to state 2 and advance on tape
+2 a 1  when in state 2 and input is a, go to state 2 and advance on tape
+2 b 1  when in state 2 and input is b, go to state 2 and advance on tape
+
+Each triple is used only if the current state and the current 
+input of the FA match the first two components of the triple.  
+For example, if the FA is in state 1 and the input symbol under 
+the read head is a, then the first triple listed above is used 
+(because it first two components are 1 and a).  This triple 
+indicates that the FA should switch to state 2.  
+
+If the initial configuration of the FA is as pictured above, 
+after the first move (in which the triple 1 a 2 is used), the 
+configuration would become 
+
+
+                          input tape
+                      +---------------+
+                      | a | a | b | b |
+                      +---------------+
+                            ^  read head
+                            |
+                 +------------------------+     
+                 | finite-state mechanism |
+                 |    (now in state 2)    |
+                 +------------------------+
+
+Notice that the FA has advanced on the tape to the next square and 
+has switched to state 2.
+
+For the FA defined above, if the length of the input string is 
+odd, the ending state will be 2 (an accept state).  If the length 
+is even, the ending state is 1 (a reject state).  Thus, this FA 
+accepts all and only those strings over the alphabet {a, b} of 
+odd length. 
+
+An FA can also be represented graphically, with a circle for each 
+state.  Each reject state is represented with a single circle.  
+each accept state is represented by a circle within a circle.  A 
+small  arrow points to the start state.  An arrow connecting two 
+states represents each triple.  For example, an arrow labeled 
+with a from state 1 to state 2 would represent the triple 1 a 2.                              
+
+
+Problems
+--------
+
+Using the f simulator (see f.txt), implement the FAs that 
+correspond to the languages specified in the problems below.  The 
+alphabet is {a, b} unless otherwise specified. 
+
+To test your FAs, use the tape file corresponding to the problem 
+number.  For example, the tape file for problem 2 is f2.t.  The 
+definition file you create should have have the same name but 
+with the extension ".fa".  Thus, for problem 2, your definition 
+file should be named f2.fa. 
+
+f1) a*b
+
+f2) a*|b*
+
+f3) a*b*
+
+f4) a*bba*
+
+f5) All strings ending in aba
+
+f6) All strings with exactly one occurrence of the substring bbb
+
+f7) Set of strings in which the number of a's is odd and the 
+    number of b's is even 
+
+f8) Set of strings over {0, 1} which when viewed as a binary 
+    number have a value divisible by 2.
+
+f9) Set of strings over {0, 1} which when viewed as a binary 
+    number have a value divisible by 5.
+
+f10) Set of strings over {0, 1} that contain the substring 111 and 
+     the substring 101 in any order (see problems 20 and 21).  Note: 
+     the string 11101 should be accepted (the substrings 111 and 
+     101 share a 1).  
+
+f11) Set of all strings over {0, 1} that contain the substring 111 
+     or the substring 0101 (or both). 
+
+f12) Set of all strings in which the fifth symbol from the right 
+     end is a.
+
+f13) Set of all strings in which every a is followed immediately 
+     by b.
+
+f14) Set of strings in which aaa never occurs.
+
+f15) Set of strings in which no more than two consecutive a's occur.
+
+f16) Set of strings over {0, 1} that contain the substring 111 and 
+     010 in any order.
+
+f17) Set of strings with at least three a's.
+
+f18) Set of strings in which the substring aaa occurs at least once.
+
+f19) Set of strings that start with b and end with b.
+
+f20) Set of strings over {0, 1} that contain the substring 111 
+     or the substring 101 (or both).
+
+f21) Set of strings over {0, 1} that contain the substring 1010 
+     followed by (not necessarily immediately) the substrings 111 
+     and 101 in any order (see problem 10).  Note: 101011101 should 
+     be accepted (111 and 101 share a 1). 
+
+f22) Set of all strings in which the first two symbols are the 
+     same as the last two symbols.  Strings of length 0 are 1 
+     should be rejected. 
+
+f23) Set of all strings in which the number of a's minus the number 
+     of b's is divisible by 3.
+
+f24) {a, aaa, b, ab}
+
+f25) Set of all strings with two a's and one b, in any order.
+
+f26) The language defined by the following definition file (see 
+     f.txt).  Convert the corresponding FA (it's an NFA) to a DFA 
+     and then run on f.
+    
+         1
+         {2}
+
+         1 0 2
+         1 1 2
+         1 0 3
+         1 1 3
+         2 0 1
+         2 1 3
+         3 0 3 
+         3 1 2
+
+f27) The union the languages in problems 22 and 23.
+
+f28) The language defined by the following definition file (see 
+     f.txt).  Convert the corresponding FA to the minimal pruned 
+     FA and then run on f. 
+
+         1
+         {4,5}
+
+         1 a 2
+         1 b 4
+         2 a 1
+         2 b 4
+         3 a 2
+         3 b 5
+         4 a 6
+         4 b 6
+         5 a 4
+         5 b 4
+         6 a 6
+         6 b 6
+
+f29) The language defined by the following definition file (see 
+     f.txt).  Convert the corresponding FA (it's an NFA) to a DFA 
+     and then run on f.  The alphabet is {a, b, c, d}.
+
+         1
+         {4}
+         1 a 1
+         1 ^ 2
+         2 b 2
+         2 ^ 3
+         3 c 3
+         3 ^ 4
+         4 d 4
+
+f30) Construct the FA that defines the intersection of the 
+     following two languages: the set of strings in which the 
+     number of a's is divisible by 3 and the set of strings in 
+     which the number of b's is divisible by 3.  Obtain your FA 
+     from the FAs of the two given languages. 
+
+f31) The union of the languages in problems 8 and 9.
+
+f32) The complement of the language in problem 18.
+
+f33) Comments that start with /* and end with */.  The input 
+     alphabet is any character available on a keyboard.  For this 
+     FA, use the wildcard character '~' (see f.txt). 
+
+For additional problems, see Chapter 17 of Compiler Construction 
+Using Java, JavaCC, and Yacc.  Tape files are provided in the FA 
+simulator package for problems 2, 3, 4, 5, 6, 8, 9, 16, 17, and 
+18.  The tape files are named according to the chapter and 
+problem numbers.  For example f172.t is the tape file for problem 
+2 in Chapter 17.  
+
+f172)  Chapter 17, problem 2
+f173)  Chapter 17, problem 3
+f174)  Chapter 17, problem 4
+f175)  Chapter 17, problem 5
+f176)  Chapter 17, problem 6
+f178)  Chapter 17, problem 8
+f179)  Chapter 17, problem 9
+f1716) Chapter 17, problem 16
+f1717) Chapter 17, problem 17
+f1718) Chapter 17, problem 18
+
+
+
+Programming Project 1:
+
+Write a program that will take a definition file of an NFA or DFA 
+in the format required by the f program and convert it to the 
+definition file for an equivalent FA (i.e., the new FA should 
+define the same language).  The new FA should be the minimal DFA 
+(i.e., the DFA with the fewest states possible) in which any dead 
+states and associated arrows have been pruned.  
+
+The original FA (i.e., the input to the your program) does not have 
+to have a triple for every (state, input) pair.  Moreover, it can 
+have triples with the same state and input, and triples in which 
+the second component (the current input) is '^' (i.e., the null 
+string).  For example,  all of the following triples could be in 
+the definition file of the original FA:  
+
+1 a 1
+1 a 2
+1 ^ 3
+
+
+Programming Project 2:
+
+Write a program that reads in a regular expression and outputs the 
+definition file for the corresponding FA.
+
+
+Programming Project 3: 
+
+Write a program that reads in a definition file for an FA and 
+outputs the corresponding regular expression.
+
+
+Programming Project 4: 
+
+Write a program that reads in a definition file for an FA and 
+outputs the corresponding regular grammar.
+
+
+Programming Project 5: 
+
+Write a program that reads in a regular grammar and outputs the 
+definition file for an corresponding FA. 
+
+
+Programming Project 6:
+
+Write a program that inputs the definition files for two DFAs and 
+determines if the corresponding DFAs define the same language. 
+
+
+Programming Project 7:
+
+Write a program that inputs a definition file for a DFA and 
+determines if the corresponding DFA defines an infinite language.
+
+
+Programming Project 8:
+
+Write a program that inputs a definition file for a DFA and 
+determines if the corresponding DFA defines the empty set.
+
+
+Programming Project 9:
+
+Write a program that inputs the definition files for two DFAs and 
+outputs a definition file for a DFA that defines the intersection 
+of their corresponding languages. 
+
+
+Programming Project 10:
+
+Write a program that inputs the definition files for two DFAs and 
+outputs a definition file for a DFA that defines the union of 
+their corresponding languages. 
+
+
+Programming Project 11:
+
+Write a program that inputs the definition files for two DFAs 
+that define the languages L1 and L2.  Your program should output 
+the definition file of the DFA that defines the right quotient of 
+L1 with L2, L1/L2, defined as follows:
+
+     {x : xy in L1 for some y in L2}
+
+
+Programming Project 12:
+
+Write a program that inputs a definition file for a DFA that 
+defines the language L.  Your program should output the 
+definition file for the DFA that defines the reverse of L.
+
+
+Programming Project 13:
+
+Write a program that inputs a definition file for a DFA that 
+defines the language L.  Your program should output the 
+definition file for the DFA that defines the language tail(L), 
+defined as
+
+   {y: xy in L for some string x over the input alphabet}
+
+
+Programming Project 14:
+
+Write a program that inputs a definition file for a DFA that 
+defines the language L.  Your program should output the 
+definition file for the DFA that defines the language head(L), 
+defined as
+
+     {x: xy in L for some string y over the input alphabet}
+

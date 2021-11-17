@@ -1,0 +1,4 @@
+The complement of a recursive language is itself a recursive language.
+Consider a RL {a^n b^n c^n d^m | n >= 0, m >= 0}
+and another RL {a^m b^m c^m d^n | n>=0, m>=0}. 
+The second RL is the complement of the first and is a RL.

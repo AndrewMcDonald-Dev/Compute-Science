@@ -1,0 +1,17 @@
+// odd.fa
+// This FA accepts strings over {a, b} of odd length.
+// Format of the triples:
+//      CurrentState CurrentInput NextState
+// For example, the triple, 1 a 2, indicates that if the current 
+// state of the FA is 1, and the current input is 'a', the FA 
+// should switch to state 2.  Each triple corresponds to an arrow
+// in the graphical representation of an FA.
+
+1            start state
+{2}          set of accept states
+
+1 a 2        state 1 corresponds to even-length strings     
+1 b 2
+
+2 a 1        state 2 corresponds to odd-length strings
+2 b 1   

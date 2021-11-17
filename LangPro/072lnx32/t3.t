@@ -1,0 +1,17 @@
+^            a                                       
+abcd         a
+ac           a
+bd           a
+aacc         a
+bbdd         a
+aabbbccddd   a
+aabccd       a                                            
+abccd        r
+abbcd        r
+abc          r
+bcd          r
+bcda         r
+cdab         r
+dabc         r
+ad           r
+bc           r

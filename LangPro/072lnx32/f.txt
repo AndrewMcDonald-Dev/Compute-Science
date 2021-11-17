@@ -1,0 +1,438 @@
+              Finite Automata Simulator Version 7.2
+
+ +-------------------------------------------------------------+
+ | This software is provided to you on an "as is" basis for    |
+ | instructional purposes only, without any warranties,        |
+ | expressed or implied.  Neither the author nor the publisher |
+ | shall be liable in any event for incidental, consequential, |
+ | special, or punitive damages in connection with, or arising |
+ | out of the distribution, performance, or use of this        |
+ | software.                                                   |
+ +-------------------------------------------------------------+
+
+A finite automaton can be viewed as a finite-state mechanism with 
+a read head that reads the squares--one at a time--of an input 
+tape.  Depending on the symbol read from the input tape, the 
+current state, and the transition function, the FA goes to 
+another state.  It, at the same time, moves right to the next 
+square.  When the FA has read the entire tape, it halts and 
+accepts or rejects, depending on the ending state of the FA.  If 
+it is an accept state (also called a final state), then the FA 
+accepts; otherwise, it rejects. 
+
+
+                        Finte Automaton
+
+
+                          input tape
+                      +---------------+
+                      | a | a | b | b |        Here the read 
+                      +---------------+        head is positioned
+             read head  ^                      on the first symbol
+                        |                      on the tape.  The
+                        |                      FA is in state 1.
+                 +------------------------+     
+                 | finite-state mechanism |
+                 |      (in state 1)      |
+                 +------------------------+
+
+
+
+Running the f program (use flnx on Linux, use fmac on Macintosh)
+----------------------------------------------------------------
+
+To run the f program, enter
+
+
+f  definitionFilename tapeFilename
+
+            or
+
+r  -regularExpression tapeFilename
+
+
+tapeFilename is optional.  If tapeFileName is omitted and 
+definitionFilename is specified, tapeFileName defaults to the 
+same name as definitionFilename but with a ".t" extension.  If 
+tapeFilename is omitted and  regularExpression is specified, it 
+defaults to re.t.  
+
+If extensions on defintionFilename and tapeFilename are omitted, 
+they default to ".fa" and ".t", respectively.  
+
+The only operators allowed in regularexpression are '*' (Kleene 
+star), '|' (or), concatenation (which is specified by 
+juxtaposition rather than with an explicit operator), and '~' 
+('~' is a wildcard character--on each state in the corresponding 
+FA, it matches any symbol except those symbols on transitions 
+from that state). 
+
+If '*', '|', or '~' are preceded by a backslash with no 
+intervening blanks, then these characters become ordinary 
+characters.  
+
+If regularExpression is specified but tapeFilename is not, then 
+tapeFilename defaults to re.t, and the fog file name defaults to  
+re.<familyname>.fog.             
+
+
+Name file f.fff
+---------------
+
+When the f program is run for the first time, it prompts for the 
+user's name:
+
+Enter familyname firstname middleinitial (if any)  
+
+After the user enters this information, the f program saves it in 
+a file named f.fff.  It then inserts this name information in all 
+the files it subsequently creates.  If the name entered is not 
+correct, the f.fff file can be directly edited with any text 
+editor.  Alternatively, the f.fff file can be deleted.  Then when 
+the f program is run again, it will prompt for and read in new 
+name information.  
+
+
+Wildcard character '~'
+----------------------
+
+'~' used as the second component of a triple is a wildcard.  On 
+each state, it matches any symbol except those symbols on 
+transitions from that state.  For example, suppose an FA has 
+three transitions from state 3 and two transitions from state 4: 
+
+3 ~ 7
+3 a 8
+3 b 9
+
+4 ~ 5
+4 d 6
+
+The wildcard '~'in the first triple matches any symbol except 
+those symbols on transitions from state 3.  Thus, it matches any 
+symbol except 'a' and 'b'.  The '~' in the fourth triple matches 
+any symbol except 'd'.   
+
+A triple with '~' as its second component causes an advance in 
+the input. 
+
+To specify an ordinary '~', backslash it.  For example, the 
+following FA accepts only the string consisting of a single '~': 
+
+1
+{2}
+1 \~ 2      \~ is an ordinary ~
+
+
+Definition file
+---------------
+
+The first line of the definition file that is not a //-comment or 
+blank line should contain the start state of the FA.  The start 
+state can be any integer. 
+
+The set of accepting states are listed on the line following the 
+start-state line.  An accepting state can be any integer.  
+Succesive accepting states should be separated by a comma.  The 
+list of accepting states should be enclosed in braces (i.e., { 
+and }).  For example,  to indicate that states 1 and 4 are 
+accepting, use 
+
+{1,4}
+
+If no states are accepting, then simply specify
+
+{}
+
+The triples (CurrentState, CurrentInput, NextState) define the 
+transition function.  Each triple corresponds to one arrow in the 
+graphical representation of the FA.  The triples for the FA 
+should follow the set of accepting states. Only one triple should 
+be specified per line. 
+
+Each triple corresponds to an arrow in the simulated FA.  The 
+defined FA does not have to be deterministic.  That is, the f f 
+program does not require that precisely one arrow for each letter 
+of the alphabet of the FA leave each state.  If the FA goes into 
+a configuration to which no triple applies, it immediately 
+rejects.  If more than one triple applies or if an input symbol 
+in a triple is '^' (which represents the null string), then the 
+FA is not deterministic.  In that case, the f program will not 
+simulate the FA (unless special permission is provided). 
+
+The components of a triple should be specified in the following 
+order: 
+
+CurrentState CurrentInput Nextstate
+
+One or more spaces should separate each component of a triple. 
+CurrentState and NextState can be any integer.  CurrentInput can 
+be any non-blank character.  Use '~' as a wildcard character.  
+Use '\.' to specify an "ordinary" period. 
+
+A sample definition file (odd.fa) follows:
+
+// odd.fa
+// This FA accepts strings over {a, b} of odd length.
+// Format of the triples:
+//      CurrentState CurrentInput NextState
+// For example, the triple, 1 a 2, indicates that if the current 
+// state of the FA is 1, and the current input is 'a', the FA 
+// should switch to state 2.  Each triple corresponds to an arrow
+// in the graphical representation of an FA.
+
+1            start state
+{2}          set of accepting states
+
+1 a 2        state 1 corresponds to even-length strings     
+1 b 2
+
+2 a 1        state 2 corresponds to odd-length strings
+2 b 1   
+
+
+States other than the start state and the accepting states are 
+implicitly specified by the triples.  For example, suppose a 
+definition file specifies 1 as the start state and 3 and 4 as the 
+accepting states.  If the triples include states 2, 5, and 6 in 
+either the CurrentState or NextState position, then these states 
+are also states in the FA.  Because they are not in the list of 
+the accepting states, they would be rejecting states. 
+
+A comment can appear on a line to the right of the start state, 
+the list of accepting states, or the triples, separated by at 
+least one blank.  Such comments do not have to start with //.  A 
+line that consists of only a comment must start with //.  Blanks 
+lines can appear anywhere. 
+
+
+Specifying regular expressions
+------------------------------
+
+If a regular expression is specified on the command line in place 
+of the definition file name, it is converted to an NFA.  It is 
+then displayed and written to the fog file in definition file 
+format.  If special permission is specified via the keyboard, the 
+f program will then convert the NFA to a DFA, optionally 
+minimizing it, and then simulating the resulting DFA. 
+
+The regular expression specified on the command line should be 
+preceded by a hyphen with no intervening blanks.  If the regular 
+expression includes '~', '|', ' ', or '*' (or any other character 
+than might be treated in a special way by the command line 
+interpreter), enclose the entire argument in quotes.  For 
+example, to specify the regular expression a*|b*, enter 
+
+f "-a*|b*"
+
+The only operators allowed in the regular expression specified on 
+the command line are '*' (Kleene star), '|' (or), and 
+concatenation (which is specified by juxtaposition rather than 
+with an explicit operator). 
+
+If '*' or  '|' are preceded by a backslash with no intervening 
+blanks, then these characters become ordinary characters--they 
+then do not denote regular expression operators.  
+
+
+
+Input tape file
+---------------
+
+The input tape file should consist of one or more lines.  Each 
+line represents one input tape.  An input tape can consist of any 
+sequence of non-blank characters.  The null string is represented 
+by a single '^'.  Use '_' to specify blanks.
+
+The f program treats each line in the tape file as a separate 
+input tape and makes one run for each line.  If either the letter 
+'a' or the letter 'r' preceded by at least one blank follows the 
+input string, the result of the run--ACCEPT or REJECT--is 
+checked.  If the letter 'a' is specified, the result should be 
+ACCEPT; if the letter 'r' is specified, the result should be 
+REJECT.  If the result differs from that specified on the tape, 
+the error message "Wrong" appears at the end of the trace for 
+that tape, and the error message "Errors detected" appears at the 
+bottom of the trace for the entire run.  If no errors are 
+detected during an entire run, the message "Correct" appears at 
+the bottom of the trace for the entire run.  
+
+A comment can appear on a line to the right of the input string 
+and the a/r expected result, but it must be preceded with at 
+least one blank.  A comment here does not have to start with //.  
+However, if the a/r expected result is not specified, a comment 
+should not start with the letter 'a' or 'r'. Blank lines can 
+appear anywhere in a tape file.  Lines that contain only a 
+comment should not be used in a tape file. 
+
+If a run on any tape is canceled with the c command or if the 
+simulation is terminated with the q command, then "Errors detected" 
+appears at the bottom of the trace for the entire run. 
+
+
+Sample input tape file (odd.t): 
+
+b                               a  
+bbb                             a
+bbbbb                           a
+
+^                               r       ^ represents null string
+bb                              r
+bbbb                            r
+ba                              r
+ab                              r
+
+
+Trace
+-----
+
+The trace generated by the f program is written to BOTH the 
+display screen and a file with the same name as the definition
+file but with the extension ".<familyname>.fog", where 
+<familyname> is the family name the user enters when running the 
+f program for the first time.  If, however, the user enters 
+his/her family name prefixed with a hyphen, then the family name 
+is not incorporated in the trace file name (but the user's name 
+still appears within the trace file). 
+
+The trace consists of "snapshots" of the current configuration of 
+the machine in the format 
+
+     PreviousInput<CurrentState>RemainingInput
+
+The f program pauses after each input tape is run.  Entering any 
+key except g, G, q, or Q causes the f program to run the next 
+tape.  Entering g or G at a pause between tapes causes the 
+f program to run the remaining tapes without pauses.  Entering q 
+or Q causes the f program to terminate.  The f program also 
+pauses periodically when running an input tape which requires 
+more moves than can be shown on the display screen at one time.  
+At such a pause, entering c cancels further simulation on the 
+current tape.  Entering any other key continues the simulation on 
+the current tape. 
+
+
+Converting an NFA to a DFA and a minimal DFA
+--------------------------------------------
+
+The f program will convert an NFA to a DFA and optionally 
+minimize the DFA if the appropriate password is specified via the 
+keyboard.  This password is not public to prevent students from 
+using the f program to do these conversions rather than learning 
+how to do them by hand.
+
+
+Definiton and tape files in the software package
+------------------------------------------------
+
+The FA simulator package includes the following defnition/input 
+tape files: 
+
+odd.fa              odd.t        Accepts strings over {a, b}
+                                 of odd length.
+
+The simulator package also contains tape files for the problems 
+given in fa.txt.
+
+Here is the fog file that the f program generates for odd.d and 
+odd.t:
+
+FA Simulator Version 7.2                   Wed Mar 27 13:54:23 2013
+
+Your name:       DosReis Anthony J
+fog file:        odd.dosreis.fog
+Tape file:       odd.t
+Definition file: odd.fa
+
+// odd.fa
+// This FA accepts strings over {a, b} of odd length.
+// Format of the triples:
+//      CurrentState CurrentInput NextState
+// For example, the triple, 1 a 2, indicates that if the current 
+// state of the FA is 1, and the current input is 'a', the FA 
+// should switch to state 2.  Each triple corresponds to an arrow
+// in the graphical representation of an FA.
+
+1            start state
+{2}          set of accept states
+
+1 a 2        state 1 corresponds to even-length strings     
+1 b 2
+
+2 a 1        state 2 corresponds to odd-length strings
+2 b 1   
+
+Number of states: 2
+Number of triples: 4
+
+----------------- TAPE  1 -------------------------------
+b                               a  
+---------------------------------------------------------
+[1>b
+b[2>
+       ACCEPT
+
+----------------- TAPE  2 -------------------------------
+bbb                             a
+---------------------------------------------------------
+[1>bbb
+b[2>bb
+bb[1>b
+bbb[2>
+       ACCEPT
+
+----------------- TAPE  3 -------------------------------
+bbbbb                           a
+---------------------------------------------------------
+[1>bbbbb
+b[2>bbbb
+bb[1>bbb
+bbb[2>bb
+bbbb[1>b
+bbbbb[2>
+       ACCEPT
+
+----------------- TAPE  4 -------------------------------
+^                               r       ^ represents null string
+---------------------------------------------------------
+[1>
+       REJECT
+
+----------------- TAPE  5 -------------------------------
+bb                              r
+---------------------------------------------------------
+[1>bb
+b[2>b
+bb[1>
+       REJECT
+
+----------------- TAPE  6 -------------------------------
+bbbb                            r
+---------------------------------------------------------
+[1>bbbb
+b[2>bbb
+bb[1>bb
+bbb[2>b
+bbbb[1>
+       REJECT
+
+----------------- TAPE  7 -------------------------------
+ba                              r
+---------------------------------------------------------
+[1>ba
+b[2>a
+ba[1>
+       REJECT
+
+----------------- TAPE  8 -------------------------------
+ab                              r
+---------------------------------------------------------
+[1>ab
+a[2>b
+ab[1>
+       REJECT
+
+V7.2 odd.dosreis.fog: s2/t4
+53d3 Report for DosReis Anthony J: Correct
+89f5 Wed Mar 27 13:54:23 2013
+
