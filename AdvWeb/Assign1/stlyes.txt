@@ -1,0 +1,87 @@
+/* 
+dark green #279C40
+green #27C440
+light green #27FF40
+background green #DCFAE6
+*/
+
+
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: Helvetica;
+    margin: 0;
+    padding: 0;
+    background-color: #dcfae6;
+}
+
+label {
+    font-size: 1.15em;
+    margin: 0;
+    padding: .3em 1.4em;
+    min-width: 5em;
+    display: block;
+}
+
+.dropdown-content {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    background-color: #279c40;
+    width: 100%;
+}
+
+.item{
+    min-width: 5em;
+    padding: .3em .5em;
+    background-color: #27c440;
+}
+
+.item:hover {
+    background-color: #27ff40;
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+.dropdown:hover {
+    background-color: #27c440;
+    position: relative;
+}
+
+nav {
+    background-color: #279c40;
+    display: flex;
+    flex-direction: row;
+}
+
+input {
+    position: absolute;
+    top: -100em;
+}
+
+.container {
+    max-width: 75em;
+    margin: 0 auto;
+}
+
+.textbox {
+    background-color: #fff;
+    border-left: .35em solid #fff;
+    margin: 1em;
+    padding: 1.3em;
+}
+
+.textbox > h3 {
+    margin: 0;
+}
+
+.green {
+    border-color: #27c440;
+}
+
+.yellow {
+    border-color: yellow;
+}

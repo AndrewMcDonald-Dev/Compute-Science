@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Example</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="dropdown">
+            <label> <strong>File</strong> </label>
+            <div class="dropdown-content">
+                <div class="item">New</div>
+                <div class="item">Open</div>
+                <div class="item">Save</div>
+                <div class="item">Print</div>
+                <div class="item">Close</div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <label>
+                <input />
+                Edit
+            </label>
+            <div class="dropdown-content">
+                <div class="item">Undo</div>
+                <div class="item">Redo</div>
+                <div class="item">Cut</div>
+                <div class="item">Copy</div>
+                <div class="item">Paster</div>
+                <div class="item">Delete</div>
+                <div class="item">Select All</div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <label>
+
+                <strong>View</strong>
+            </label>
+            <div class="dropdown-content">
+                <div class="item">Zoom In</div>
+                <div class="item">Zoom Out</div>
+                <div class="item">Actual Size</div>
+                <div class="item">Fit Page</div>
+                <div class="item">Fit Width</div>
+                <div class="item">Fit Height</div>
+                <div class="item">Rotate Left</div>
+                <div class="item">Rotate Right</div>
+                <div class="item">Full Screen</div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="textbox green">
+            <h3>Instructions</h3>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio aliquam, facilis suscipit doloremque tempora quaerat quia ad quos. Iste obcaecati culpa id vero saepe quas iure recusandae quis labore nesciunt?</p>
+        </div>
+        <div class="textbox yellow">
+            <h3>Extra Credit</h3>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos blanditiis voluptate sint exercitationem? Dolorum quaerat quas minus debitis cupiditate voluptatem. Perspiciatis non sed cupiditate veniam molestias maxime praesentium modi iste.</p>
+        </div>
+    </div>
+</body>
+</html>
