@@ -98,4 +98,9 @@ Bayes's theorem is useful because we get the relationship between A and B
                     so the test 99% of the time catches that you have covid 
                     On the other side P(t-|!C) = .9           //t-|!C = specificity
                     this means that if you dont have covid 90% of the time it will say that
+                    
+                    You can then apply Bayes' theorem by saying P(C|t+) = (P(t+|C) * P(C)) / P(t+)
+                    P(t+) = # of positive results
+                    P(t+) = P(t+|C) * P(C) + P(t+|(C)c) * P((C)c)
+                    figure out P(t+|(C)c) and you can solve everything
 
