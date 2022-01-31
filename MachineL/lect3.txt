@@ -1,0 +1,101 @@
+Conditional Prob Review P.2
+
+P(A|B) = P(A)
+and
+P(B|A) = P(B)
+
+if both are true that A,B is independent
+
+if P(A n B) = P(A) * P(B)
+then, A and B are independent
+
+P(A|B) = P(A)
+then , P(A) = P(A n B) / P(B)
+then, P(A) * P(B) = P(A n B)
+this is how you get the equation above this one
+this can only be done if A and B are independent.
+
+Real basic conditional prob stuff
+like there are 500 people surveyed, 222 male and 278 female
+They choose between 3 shoes to like the most
+For the wire 102 male and 80 female
+For the Sopranos 70 male and 110 female
+For Sex and the City 50 male and 88 female
+    1. Given that they are female what is the chance of them liking sopranos
+            Answer: 110/278
+    2. Given that their fav show is Sopranos what is the chance they are female
+            Answer: 110/180
+Now, divide each number by the total number of people surveyed.
+
+Now 
+
+            Male    Female  
+The Wire    0.204   0.16    0.364
+Sopranos    0.14    0.22    0.36
+Sex City    0.1     0.176   0.276
+            0.444   0.556   1
+
+The above table is called the joint distribution
+each number is the proportion of people under certain conditions
+like at point The Wire, Female is the proportion of people who like The Wire and are Female is 0.16
+
+The right most column is th emarginal probability distribution
+
+With this graph you can also ask questions like
+    1. What is the probability of a person being male OR favoring Sex and The City
+            Answer: P(Male OR SexCity) =    Add up all male probs and all Sex & and the City Prob (no double counting)
+                                            0.444 + 0.176
+                                            0.62
+P(Male OR SexCity) = P(Male U SexCity)
+= P(A) + P(B) - P(A n B)
+
+So all this condenses into two formulas
+
+if A and B are independent 
+    1. P(A n B) = P(A) * P(B)
+
+2. P(A U B) = P(A) + P(B) - P(A n B)
+
+The final situation is when A and B are mutually exclusive
+P(A|B) = 0
+P(B|A) = 0
+Chance of one happening after the other is 0
+    Example:    You threw an even # on a single die
+                You threw an odd # on a single die
+                These can not happen at the same time
+P(A n B) = 0
+
+mutual exclusion indicates each event being complements
+so (Even)c = Odd
+(Head)c = Tails
+
+P(A) = P(A n B) + P(A n Bc)
+Either event can be decomposed into two parts as shown above
+P(A n B) = what A and B share
+P(A n Bc) = what is both A and outside of B or !B
+
+This can be further decomposed
+P(A n B) = P(A|B) * P(B)
+P(A n Bc) = P(A|Bc) * P(Bc)
+To then get
+P(A) = P(A|B) * P(B) + P(A|Bc) * P(Bc)
+
+Now we can extract this to have many events and not just 2
+So lets say there is event B and events A1-A5 that may or may not have pieces of B within them.
+
+P(B) = P(B|A1) * P(A1) + ... + P(B|A5) * P(A5) = the summation from i = 1 to 5 of P(B|Ai) * P(Ai)
+
+Bayes' theorem
+we know P(A|B) = P(A n B) / P(B) or P(A|B) * P(B) = P(A n B)
+Similarly, P(B|A) = P(B n A)/P(A) or P(B|A) * P(A) = P(B n A)
+P(A n B) = P(B n A)
+P(A|B) = (P(B|A) * P(A)) / P(B) 
+^ is the mathematical statement of Bayes' theorem
+
+Bayes's theorem is useful because we get the relationship between A and B
+        Example:    You take a test for covid P(t+|C) = .99   //t+|C = sensitivity
+                    That statement indicates the sensitivity of the test based on if you have covid
+                    so the test 99% of the time catches that you have covid 
+                    On the other side P(t-|!C) = .9           //t-|!C = specificity
+                    this means that if you dont have covid 90% of the time it will say that
+
