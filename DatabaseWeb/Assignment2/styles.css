@@ -1,0 +1,130 @@
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    margin: 2em;
+}
+
+ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin-bottom: 1.5em;
+}
+
+li {
+    padding: 0em 0.5em;
+    margin: 0 1.5em;
+    font-size: 2em;
+    background-color: rgb(225, 227, 228);
+}
+
+li:hover {
+    background-color: rgb(219, 222, 223);
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+img {
+    width: 100em;
+    height: 60em;
+}
+
+h4 {
+    margin-left: 14em;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-sect {
+    width: 30em;
+    margin: 0.5em 2em;
+}
+
+/* Basic Styling i use everywhere */
+:root {
+    --scrollbar-width: 50px;
+}
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+html {
+    scroll-behavior: smooth;
+    font-size: 62.5%;
+    font-family: Montserrat, sans-serif;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: overlay;
+}
+label {
+    cursor: pointer;
+    user-select: none;
+}
+a,
+a:link,
+a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    word-spacing: 0em;
+    text-indent: 1em;
+    line-height: 1.3em;
+    margin-bottom: 0.5em;
+    max-width: clamp(40ch, 50%, 75ch);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    text-align: justify;
+}
+ul {
+    list-style-type: none;
+}
+
+body {
+    font-size: 1.6rem;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+h1 {
+    font-size: 235%;
+}
+
+h2 {
+    font-size: 200%;
+}
+
+h3 {
+    font-size: 175%;
+}
+
+h4 {
+    font-size: 150%;
+}
+h5 {
+    font-size: 125%;
+}
+h6 {
+    font-size: 100%;
+}

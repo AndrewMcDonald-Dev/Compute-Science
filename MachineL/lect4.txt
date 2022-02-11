@@ -1,0 +1,58 @@
+Given 1% pop. have cancer
+sensitivity <- test yields true 99% of th etime if you have cancer
+specificity <- test yields false 98% the time if you dont have cancer
+^ these are the prior probabilities
+
+Q:  If the test says I'm positive, what's the chance you have cancer?
+        A:  P(C) = .01
+            P(t+|C) = .99
+            P(t-|C') = .98
+            P(C|t+) = ?
+
+            P(C|t+) = (P(t+|C) * P(C)) / P(t+)
+                    = (.99 * .01) / p(t+)
+            
+            P(t+)   = (P(t+|C) * P(C)) + (P(t+|C') * P(C'))
+                    = (.99 * .01) + (.02 * .99)
+                    = .03
+
+            P(C|t+) = (.99 * .01) / .03
+                    = .33
+                    = 33%
+            Therefore you have a 33% chance of having cancer
+
+Reasoning for the above is as such. There is only a 1% chance of having cancer
+and a 2% of a negative test showing positive so 1/3 of the time a positive test
+is correct.
+
+C' = !C
+
+
+P(InRed) = .5
+P(InGreen) = .5
+P(SenseR|InRed) = .90
+P(SenseG|InGreen) = .85
+If robot reports Red how likely going to be in the red room
+    P(InRed|SenseR) = ?
+    
+    P(InRed|SenseR) = (P(SenseR|InRed) * P(InRed)) / P(SenseR)
+
+    P(SenseR)   = (P(SenseR|InRed)*P(InRed)) + (P(SenseR|InGreen) * P(InGreen))
+                = .525
+
+    P(InRed|SenseR) = (.9*.5)/.525
+                    = .857
+
+
+C1, C2, ... Cm -> Classes
+t1, t2, ... tm -> attributes
+given t1, t2, ... tk
+how likely is it going to be Ci?
+
+Naive Bayes' classifier
+
+P(Ci|A1,A2,...An) = (P(A1,A2,...An|Ci)*P(Ci}) / P(A1,A2,...An)
+
+P(A1,A2,...An|Ci) = P(A1|Ci) * P(A2|Ci) ... * P(An|Ci)
+
+
