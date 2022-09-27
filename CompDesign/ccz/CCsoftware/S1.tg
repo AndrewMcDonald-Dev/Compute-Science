@@ -1,0 +1,100 @@
+// Translation grammar for S1 ==========================
+
+void program(): {}
+{  
+   statementList() 
+   {cg.endCode();}
+   <EOF>
+}
+//------------------------------
+void statementList(): {} 
+{
+   statement() 
+   statementList()  
+ |  
+   {}
+}    
+//------------------------------
+void statement(): {} 
+{
+   assignmentStatement()
+ |
+   printlnStatement()
+}
+//------------------------------
+void assignmentStatement(): {Token t;}
+{
+   t=<ID>  
+   {st.enter(t.image);} 
+   {cg.emitInstruction("pc", t.image);}
+   "="
+   expr()
+   {cg.emitInstruction("stav");}
+   ";"
+}
+//------------------------------
+void printlnStatement(): {}
+{
+   "println"
+   "("
+   expr()
+   {cg.emitInstruction("dout");}
+   {cg.emitInstruction("pc", "'\\n'");}
+   {cg.emitInstruction("aout");}
+   ")"
+   ";"
+}
+//------------------------------
+void expr(): {}
+{
+   term()
+   termList()
+}
+//------------------------------
+void termList(): {}
+{
+   "+"
+   term()
+   {cg.emitInstruction("add");}
+   termList()
+ | 
+   {}
+}
+//------------------------------
+void term(): {}
+{
+   factor()
+   factorList()
+}
+//------------------------------
+void factorList(): {}
+{
+   "*"  
+   factor()
+   {cg.emitInstruction("mult");}
+   factorList()
+ |  
+   {}
+}
+//------------------------------
+void factor(): {Token t;} 
+{
+   t=<UNSIGNED> 
+   {cg.emitInstruction("pwc", t.image);}
+ |
+   "+"
+   t = <UNSIGNED>
+   {cg.emitInstruction("pwc", t.image);}
+ |
+   "-"
+   t = <UNSIGNED>
+   {cg.emitInstruction("pwc", "-" + t.image);}
+ |
+   t=<ID> 
+   {st.enter(t.image);}
+   {cg.emitInstruction("p", t.image);}
+ |  
+   "(" 
+   expr() 
+   ")"
+}

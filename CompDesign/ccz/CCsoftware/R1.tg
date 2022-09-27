@@ -1,0 +1,105 @@
+// Translation grammar for R1
+
+void program(): {}
+{  
+   statementList() 
+   {cg.endCode();}
+   <EOF>
+}
+//------------------------------
+void statementList(): {} 
+{
+   statement() 
+   statementList()  
+ |  
+   {}
+}    
+//------------------------------
+void statement(): {} 
+{
+   assignmentStatement()
+ |
+   printlnStatement()
+}
+//------------------------------
+void assignmentStatement(): {Token t; int left, expVal;}
+{
+    t=<ID>  
+    {left = st.enter(t.image, "0", true);} 
+    "="
+    expVal=expr()
+    {cg.assign(left, expVal);}
+    ";"
+}
+//------------------------------
+void printlnStatement(): {int expVal;}
+{
+    "println"
+    "("
+    expVal = expr()
+    {cg.println(expVal);}
+    ")"
+    ";"
+}
+//------------------------------
+int expr(): {int left, expVal;}
+{
+   left=term()
+   expVal=termList(left)
+   {return expVal;}
+}
+//------------------------------
+int termList(int left): {int right, temp, expVal;}
+{
+   "+"
+   right=term()
+   {temp = cg.add(left, right);}
+   expVal=termList(temp)
+   {return expVal;}
+ |  
+   {return left;}
+}
+//------------------------------
+int term(): {int left, termVal;}
+{
+   left=factor()
+   termVal=factorList(left)
+   {return termVal;}
+}
+//------------------------------
+int factorList(int left): {int right, temp, termVal;}
+{
+   "*"  
+   right=factor()
+   {temp = cg.mult(left, right);}
+   termVal=factorList(temp)
+   {return termVal;}
+ |  
+   {return left;}
+}
+//------------------------------
+int factor(): {Token t; int index;} 
+{
+   t=<UNSIGNED> 
+   {index = st.enter("@" + t.image, t.image, true);}
+   {return index;}
+ |
+   "+"
+   t = <UNSIGNED>
+   {index = st.enter("@" + t.image, t.image, true);}
+   {return index;}
+ |
+   "-"
+   t = <UNSIGNED>
+   {index = st.enter("@_" + t.image, "-" + t.image, true);}
+   {return index;}
+ |
+   t=<ID> 
+   {index = st.enter(t.image, "0", true);}
+   {return index;}
+ |  
+   "(" 
+   index=expr() 
+   ")"
+   {return index;}
+}

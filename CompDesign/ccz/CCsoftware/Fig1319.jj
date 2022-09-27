@@ -1,0 +1,32 @@
+// Fig. 13.19
+options
+{
+   STATIC = false;
+}
+//======================================================
+PARSER_BEGIN(Fig1319)
+import java.io.*;
+class Fig1319 
+{
+  public static void main(String[] args) throws 
+                             IOException, ParseException
+  {
+    Fig1319 parser = 
+              new Fig1319(new FileInputStream(args[0])); 
+    parser.S();
+  }
+}
+PARSER_END(Fig1319)
+//======================================================
+SKIP:
+{
+   " "|"\n"|"\r"|"\t"
+}
+//======================================================
+void S(): {}
+{
+   {System.out.println("hello");}  // Sel set is {<EOF>}
+ |
+   "b" S()                         // Sel set is {"b"}}
+}
+

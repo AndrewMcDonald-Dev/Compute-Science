@@ -1,0 +1,69 @@
+// Testp.jj for testing parser
+options 
+{
+  STATIC = false;         // generate non-static methods
+
+  // set to true to debug token manager
+  COMMON_TOKEN_ACTION = true;   
+
+  // pass parser reference to the token manager
+  TOKEN_MANAGER_USES_PARSER = true; 
+}                                // end of options block
+//======================================================
+PARSER_BEGIN(Testp)
+import java.io.*;
+import java.util.ArrayList;
+class Testp
+{
+  public static void main(String[] args) throws 
+                            IOException, ParseException
+  {
+    FileInputStream inFile = 
+                          new FileInputStream(args[0]);
+    Testp parser = new Testp(inFile);
+    parser.S();
+  }
+}
+PARSER_END(Testp)
+
+// Specification of the token manager ==================
+
+TOKEN_MGR_DECLS:
+{
+  // called for each token returned to parser
+  void CommonTokenAction(Token t)
+  {
+   
+  }
+}
+//------------------------------
+SKIP:  // these tokens are not returned to parser
+{
+   " " 
+ | 
+   "\n" 
+ | 
+   "\r" 
+ | 
+   "\t"
+}
+//------------------------------
+TOKEN:  // these tokens are returned to parser
+{
+   <B: "b">
+ |
+   <C: "c">
+ |
+   <ANY: ~[]> 
+}
+
+// Translation grammar
+
+void S(): {}
+{  
+   "b" S()
+ |
+   "c" S()
+ |
+    {}
+}

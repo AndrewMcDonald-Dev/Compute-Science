@@ -1,0 +1,76 @@
+// Fig. 15.7
+PARSER_BEGIN(Fig1507)
+class Fig1507 
+{
+}
+PARSER_END(Fig1507)
+
+// token manager specs for S4j extended to support embedded quotes
+SKIP:
+{
+   " "
+ |
+   "\n"
+ |
+   "\r"
+ |
+   "\t"
+ |
+   <"//" (~["\n", "\r"])*>  // matches one-line comment
+}
+//------------------------------
+MORE:
+{
+   "\"": IN_STRING      // matches initial quote in string
+}
+//------------------------------
+TOKEN:
+{
+   <PRINTLN: "println">
+ |
+   <PRINT: "print">
+ |
+   <READINT: "readint">
+ |
+   <UNSIGNEDINT: (["0"-"9"])+>
+ |
+   <IDENTIFIER: ["A"-"Z","a"-"z"] (["A"-"Z","a"-"z","0"-"9"])*>
+ |
+   <ASSIGN: "=">
+ |
+   <SEMICOLON: ";">
+ |
+   <LEFTPAREN: "(">
+ |
+   <RIGHTPAREN: ")">
+ |
+   <PLUS: "+">
+ |
+   <MINUS: "-">
+ |
+   <TIMES: "*">
+ |
+   <DIVIDE: "/">
+ |
+   <LEFTBRACE: "{">
+ |
+   <RIGHTBRACE: "}">
+ |
+   <ERROR: ~[]>
+}
+//------------------------------------
+<IN_STRING>
+MORE:
+{
+   "\\\""               // matches backslash, quote
+ |
+   "\\\\"               // matches backslash, backslash
+ |
+   <~["\"","\n","\r"]>  // matches everything else except ", \n, \r
+}
+//------------------------------------
+<IN_STRING>
+TOKEN:
+{
+   <STRING: "\""> : DEFAULT // matches terminating quote
+}

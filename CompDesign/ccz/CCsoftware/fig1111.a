@@ -1,0 +1,4 @@
+          pc        @L0
+^@L0:     dw        "Dog" 
+          sout
+          halt

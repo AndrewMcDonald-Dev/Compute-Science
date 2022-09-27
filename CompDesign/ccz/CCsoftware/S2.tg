@@ -1,0 +1,138 @@
+// Translation grammar for S2
+
+void program(): {}
+{  
+   statementList() 
+   {cg.endCode();}
+   <EOF>
+}
+//------------------------------
+void statementList(): {} 
+{
+   statement() 
+   statementList()  
+ |  
+   {}
+}    
+//------------------------------
+void statement(): {} 
+{
+   assignmentStatement()
+ |
+   printlnStatement()
+ |
+   printStatement()
+ |
+   nullStatement()
+ |
+   compoundStatement()
+}
+//------------------------------
+void assignmentStatement(): {Token t;}
+{
+   t=<ID>  
+   {st.enter(t.image);} 
+   {cg.emitInstruction("pc", t.image);}
+   "="
+   expr()
+   {cg.emitInstruction("stav");}
+   ";"
+}
+//------------------------------
+void printlnStatement(): {}
+{
+   "println"
+   "("
+   expr()
+   {cg.emitInstruction("dout");}
+   {cg.emitInstruction("pc", "'\\n'");}
+   {cg.emitInstruction("aout");}
+   ")"
+   ";"
+}
+//------------------------------
+void printStatement(): {}
+{
+   "print"
+   "("
+   expr()
+   {cg.emitInstruction("dout");}
+   ")"
+   ";"
+}
+//------------------------------
+void nullStatement(): {}
+{
+   ";"
+}
+//------------------------------
+void compoundStatement(): {}
+{
+   "{"
+   statementList()
+   "}"
+}
+//------------------------------
+void expr(): {}
+{
+   term()
+   termList()
+}
+//------------------------------
+void termList(): {}
+{
+   "+"
+   term()
+   {cg.emitInstruction("add");}
+   termList()
+|  
+   "-"
+   term()
+   {cg.emitInstruction("sub");}
+   termList()
+|  
+   {}
+}
+//------------------------------
+void term(): {}
+{
+   factor()
+   factorList()
+}
+//------------------------------
+void factorList(): {}
+{
+   "*"  
+   factor()
+   {cg.emitInstruction("mult");}
+   factorList()
+ |  
+   "/"  
+   factor()
+   {cg.emitInstruction("div");}
+   factorList()
+ |
+   {}
+}
+//------------------------------
+void factor(): {Token t;} 
+{
+   t=<UNSIGNED> 
+   {cg.emitInstruction("pwc", t.image);}
+ |
+   "+"
+   t = <UNSIGNED>
+   {cg.emitInstruction("pwc", t.image);}
+ |
+   "-"
+   t = <UNSIGNED>
+   {cg.emitInstruction("pwc", "-" + t.image);}
+ |
+   t=<ID> 
+   {st.enter(t.image);}
+   {cg.emitInstruction("p", t.image);}
+ |  
+   "(" 
+   expr() 
+   ")"
+}

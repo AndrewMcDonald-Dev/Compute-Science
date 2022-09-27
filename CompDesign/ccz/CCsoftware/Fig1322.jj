@@ -1,0 +1,78 @@
+// Fig1322.jj JavaCC input file
+options 
+{
+  STATIC = false;         // generate non-static methods
+
+  // set to true to debug token manager
+  COMMON_TOKEN_ACTION = false;   
+
+  // pass parser reference to the token manager
+  TOKEN_MANAGER_USES_PARSER = true; 
+}                                // end of options block
+//======================================================
+PARSER_BEGIN(Fig1322)
+import java.io.*;
+import java.util.ArrayList;
+class Fig1322
+{
+  public static void main(String[] args) throws 
+                            IOException, ParseException
+  {
+    FileInputStream inFile = 
+                          new FileInputStream(args[0]);
+    Fig1322 parser = new Fig1322(inFile);
+    parser.S();
+  }
+}
+PARSER_END(Fig1322)
+
+// Specification of the token manager ==================
+
+TOKEN_MGR_DECLS:
+{
+  // called for each token returned to parser
+  void CommonTokenAction(Token t)
+  {
+   
+  }
+}
+//------------------------------
+SKIP:  // these tokens are not returned to parser
+{
+   " " 
+ | 
+   "\n" 
+ | 
+   "\r" 
+ | 
+   "\t"
+}
+//------------------------------
+TOKEN:  // these tokens are returned to parser
+{
+   <UNSIGNED: (["0"-"9"])+>
+ |
+   <ID: ["A"-"Z","a"-"z"](["A"-"Z","a"-"z","0"-"9"])*>
+}
+
+// Translation grammar
+
+void S(): {}
+{  
+   LOOKAHEAD({getToken(1).kind == UNSIGNED && 
+                                  getToken(2).kind == ID}) 
+   E()
+ |
+   F()
+}
+void E() : {}
+{
+   <UNSIGNED>
+   <ID>
+}
+void F(): {}
+{
+   <UNSIGNED>
+   <UNSIGNED>
+}
+

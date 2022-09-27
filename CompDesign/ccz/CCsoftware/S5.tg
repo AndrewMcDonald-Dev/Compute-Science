@@ -1,0 +1,354 @@
+// Translation grammar for S5 (with omissions)
+// No range checking or error recovery
+
+void program(): {}
+{
+   programUnitList()
+   {cg.endCode();}
+   <EOF>
+}
+//------------------------------
+void programUnitList(): {}
+{ 
+   {if (getToken(1).kind == EOF) return;}
+   programUnit()
+   programUnitList()
+}
+//------------------------------
+void programUnit(): {}
+{
+   externDeclaration()
+ |
+   globalDeclaration()
+ |
+   functionDefinition()
+} 
+//------------------------------
+void externDeclaration(): {Token t;}
+{
+   "extern"
+   "int"
+   t=<ID>
+   {st.enter(t.image, 0, EXTERNVARIABLE);}
+   {cg.emitInstruction("extern", t.image);}
+   (
+      ","
+      t=<ID>
+      {st.enter(t.image, 0, EXTERNVARIABLE);}
+      {cg.emitInstruction("extern", t.image);}
+   )*
+   ";"
+}
+//------------------------------
+void globalDeclaration(): {}
+{
+   "int" 
+   global()            // process one global variable        
+   (
+      ","
+      global()         // process one global variable
+   )* 
+   ";"
+}
+//------------------------------
+void global(): {Token t1, t2; String initVal;}
+{
+   t1=<ID>
+   {cg.emitInstruction("public", t1.image);}
+   {initVal="0";}
+   (                // do if global variable initialized
+      "=" 
+      {initVal = "";}
+      (<PLUS> | <MINUS> {initVal = "-";})? 
+      t2=<UNSIGNED>
+      {initVal = initVal + t2.image;}
+   )?
+   {st.enter(t1.image, 0, GLOBALVARIABLE);}
+   {cg.emitdw(t1.image, initVal);}
+}
+//------------------------------
+void functionDefinition(): {Token t;}
+{ 
+   "void" 
+   t=<ID>
+   {cg.emitString(
+      "; =============== start of function " + t.image);}
+   {st.enter(t.image, 0, FUNCTIONDEFINITION);}
+   {cg.emitInstruction("public", t.image);}
+   {cg.emitLabel(t.image);}
+   "(" 
+   (parameterList())?
+   ")"
+   "{"
+   {cg.emitInstruction("esba");}
+   localDeclarations()
+   statementList()
+   "}"
+   {cg.emitInstruction("reba");}
+   {cg.emitInstruction("ret");}
+   {cg.emitString(
+      "; =============== end of function " + t.image);}
+   // remove locals from symbol table
+   {st.localRemove();} 
+}
+//------------------------------
+void parameterList(): {Token t; int p;}
+{
+   t=parameter() 
+   p=parameterR()  
+   {st.enter(t.image, p, LOCAL);}
+}
+//------------------------------
+Token parameter(): {Token t;}
+{
+   "int" 
+   t=<ID>
+   {return t;}
+}
+//------------------------------
+int parameterR(): {Token t; int p;}
+{
+   ","
+   t = parameter()
+   p = parameterR()      // p is the rel address
+   {st.enter(t.image, p, LOCAL);}
+   {return p + 1;}       // return next relative address
+ |
+   {return 2;}           // at end of parameter list 
+}
+//------------------------------
+void localDeclarations(): {int relativeAddress = -1;}
+{ 
+   (
+      "int" 
+      local(relativeAddress--)    // process 1 local var
+      (
+         ","
+         local(relativeAddress--) // process 1 local var
+      )*
+      ";"
+   )*
+}
+//------------------------------
+void local(int relativeAddress): {Token t; String sign;}
+{
+   t=<ID>
+   {st.enter(t.image, relativeAddress, LOCAL);}
+   (
+      (              // do if local variable initialized
+         "=" 
+         {sign = "";}
+         (<PLUS> | <MINUS> {sign = "-"; })?
+         t=<UNSIGNED>
+         {cg.emitInstruction("pwc", sign + t.image);}
+      )
+     |
+      {cg.emitInstruction("asp", "-1");}
+   )
+}
+//------------------------------
+void statementList(): {}
+{
+   {if (getToken(1).kind == RIGHTBRACE) return;}
+   statement()
+   statementList()
+}
+//------------------------------
+void statement(): {}
+{
+   LOOKAHEAD(2)
+   assignmentStatement()     // starts with <ID>
+ |
+   functionCall()            // also starts with <ID>
+ |
+   printlnStatement()  
+ |
+   printStatement()
+ |
+   nullStatement()
+ |
+   compoundStatement() 
+ |
+   readintStatement()
+ | 
+   whileStatement()
+ |
+   ifStatement()
+ |
+   doWhileStatement()
+}
+//------------------------------
+void assignmentStatement(): {Token t; int index;}
+{
+   t=<ID>  
+   {index=st.find(t.image);}
+   {cg.pushAddress(index);}
+   "="
+   assignmentTail()
+   {cg.emitInstruction("stav");}
+}
+//------------------------------
+void assignmentTail(): {Token t; int index;}
+{
+   LOOKAHEAD(2)
+   t=<ID>  
+   {index=st.find(t.image);}
+   {cg.pushAddress(index);}
+   "="
+   assignmentTail()
+   {cg.emitInstruction("dupe");}
+   {cg.emitInstruction("rot");}
+   {cg.emitInstruction("stav");}
+ |
+   expr()
+   ";"
+}
+//------------------------------
+void printlnStatement(): {}
+{
+   // as in S4
+}
+//------------------------------
+void printlnArg(): {Token t; String p;}
+{
+   // as in S4
+}
+//------------------------------
+void printStatement(): {}
+{
+   // as in S4
+}
+//------------------------------
+void printArg(): {Token t; String p;}
+{
+   // as in S4
+}
+//------------------------------
+void nullStatement(): {}
+{
+   // as in S4
+}
+//------------------------------
+void compoundStatement(): {int p;}
+{
+   // as in S4
+}
+//------------------------------
+void readintStatement(): {Token t; int index;}
+{
+   "readint"
+   "("
+   t=<ID>
+   {index=st.find(t.image);}
+   {cg.pushAddress(index);}
+   {cg.emitInstruction("din");}
+   {cg.emitInstruction("stav");}
+   ")"
+   ";"
+}
+//------------------------------
+void whileStatement(): {String label1, label2; Token t;}
+{
+   // as in S4
+}
+//------------------------------
+void ifStatement(): {String label1; Token t;}
+{
+   // as in S4
+}
+//------------------------------
+void elsePart(String label1): {String label2;}
+{
+   // as in S4
+}
+//------------------------------
+void doWhileStatement(): {String label; Token t;}
+{
+   // as in S4
+}
+//------------------------------
+void functionCall(): {Token t; int count;}
+{
+   t=<ID>
+   {st.enter(t.image, 0, FUNCTIONCALL);}
+   "("
+   {count = 0;}
+   (count = argumentList())?
+   {cg.emitInstruction("call", t.image);}
+   {
+      if (count > 0)
+         cg.emitInstruction("asp", 
+                               Integer.toString(count));
+   }
+   ")"
+   ";"
+}
+//------------------------------
+int argumentList(): {int count;}
+{
+   expr()
+   {count = 1;}
+   (
+      ","
+      expr()
+      {count++;}
+   )*
+   {return count;}
+}
+//------------------------------
+void expr(): {Token t;}
+{
+   // as in S4
+}
+//------------------------------
+void term(): {Token t;}
+{
+   // as in S4
+}
+//------------------------------
+void factor(): {Token t; int index;}
+{
+   t=<UNSIGNED> 
+   {cg.emitInstruction("pwc", t.image);}
+ |
+   t=<ID> 
+   {index=st.find(t.image);}
+   {cg.push(index);}
+ |
+   "(" expr() ")"
+ | 
+   "+"
+   factor()
+ |
+   "-" 
+   (
+      t=<UNSIGNED> 
+      {cg.emitInstruction("pwc", "-" + t.image);}
+    |
+      t=<ID>
+      {index=st.find(t.image);}
+      {cg.push(index);}
+      {cg.emitInstruction("neg");}
+    |
+      "(" 
+      expr() 
+      ")"
+      {cg.emitInstruction("neg");}  
+    |
+      (
+         LOOKAHEAD(1)  // suppress warning message
+         "+"
+      )+
+      (   
+         LOOKAHEAD(1)  // suppress warning message
+         "-"
+         factor()
+       |
+         factor()
+         {cg.emitInstruction("neg");}  
+      )
+    | 
+      "-"
+      factor()
+   )
+}

@@ -1,0 +1,3 @@
+In our study of compiler design theory, we begin with several 
+important definitions.  An alphabet is the finite set of 
+characters used in the writing of a language.

@@ -1,0 +1,88 @@
+// Fig1321.jj JavaCC input file
+options 
+{
+  STATIC = false;         // generate non-static methods
+
+  // set to true to debug token manager
+  COMMON_TOKEN_ACTION = false;   
+
+  // pass parser reference to the token manager
+  TOKEN_MANAGER_USES_PARSER = true; 
+}                                // end of options block
+//======================================================
+PARSER_BEGIN(Fig1321)
+import java.io.*;
+import java.util.ArrayList;
+class Fig1321
+{
+  public static void main(String[] args) throws 
+                            IOException, ParseException
+  {
+    FileInputStream inFile = 
+                          new FileInputStream(args[0]);
+    Fig1321 parser = new Fig1321(inFile);
+    parser.S();
+  }
+}
+PARSER_END(Fig1321)
+
+// Specification of the token manager ==================
+
+TOKEN_MGR_DECLS:
+{
+  // called for each token returned to parser
+  void CommonTokenAction(Token t)
+  {
+   
+  }
+}
+//------------------------------
+SKIP:  // these tokens are not returned to parser
+{
+   " " 
+ | 
+   "\n" 
+ | 
+   "\r" 
+ | 
+   "\t"
+}
+//------------------------------
+TOKEN:  // these tokens are returned to parser
+{
+   <A: "a">
+ |
+   <B: "b">
+ |
+   <C: "c">
+ |
+   <D: "d">
+}
+
+// Translation grammar
+
+void S(): {}
+{ 
+   LOOKAHEAD(D()"b")
+   B()
+ |
+   C()
+}
+void B() : {}
+{
+   D()
+   "b"
+   "b"
+}
+void C() : {}
+{
+   D()
+   "c"
+   "c"
+}
+void D() : {}
+{
+   "d"
+   "d"
+}
+

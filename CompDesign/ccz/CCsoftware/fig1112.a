@@ -1,0 +1,20 @@
+          pc        y    ; y = -2
+          pwc       -2   
+          stav
+
+          pc        x    ; x = y
+          p         y
+          stav
+          
+          pc        @L0  ; print("x = ");
+          sout
+^@L0:     dw        "x = "   
+
+          p         x    ; print(x);
+          dout
+          pc        '\n'
+          aout
+
+          halt
+y:        dw        0
+x:        dw        0

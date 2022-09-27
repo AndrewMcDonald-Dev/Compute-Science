@@ -1,0 +1,23 @@
+          ; b = 5000;
+          pc        b       ; push the address of b
+          pwc       5000    ; push 5000
+          stav              ; pop twice and store 5000 in b
+
+          ; c =     -3;
+          pc        c       ; push the address of c
+          pwc       -3      ; push -3
+          stav              ; pop twice and store -3 in c
+
+          ; d = b + c + 7000;
+          pc        d       ; push the address of d
+          p         b       ; push the value of b
+          p         c       ; push the value of c
+          add               ; pop twice, add, push
+          pwc       7000    ; push 7000
+          add               ; pop twice, add, push
+          stav              ; store result in d
+
+          halt              ; terminate execution
+b:        dw        0       ; create b variable
+c:        dw        0       ; create c variable
+d:        dw        0       ; create d variable

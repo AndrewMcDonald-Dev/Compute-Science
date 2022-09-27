@@ -1,0 +1,80 @@
+CPS526-01              Advanced Data Structures              Fall 2022
+
+                  Assignment #2: Airport Simulation
+                         (Due date: 9/27/2022)
+
+See Michael Main p.407, Programming Project #9
+
+Sample Input/Output:
+
+Sample 1:
+
+Amount of minutes to land: 4
+Amount of minutes to take off: 2
+Probability of arrival during a minute: 0.05
+Average amount of time between planes to land: 20.0
+Probability of departure during a minute: 0.05
+Average amount of time between planes to take off: 20.0
+Maximum amount of time in the air before crashing: 2
+Total simulation minutes: 6000
+
+Number of planes taken off: 322
+Number of planes landed: 300
+Number of planes crashed: 18
+Average waiting time for taking off: 0.93 minutes
+Average waiting time for landing: 0.21 minutes
+
+
+Sample 2:
+
+Amount of minutes to land: 4
+Amount of minutes to take off: 2
+Probability of arrival during a minute: 0.1
+Average amount of time between planes to land: 10.0
+Probability of departure during a minute: 0.1
+Average amount of time between planes to take off: 10.0
+Maximum amount of time in the air before crashing: 5
+Total simulation minutes: 6000
+
+Number of planes taken off: 611
+Number of planes landed: 584
+Number of planes crashed: 17
+Average waiting time for taking off: 4.11 minutes
+Average waiting time for landing: 0.97 minutes
+
+
+Sample 3:
+
+Amount of minutes to land: 4
+Amount of minutes to take off: 2
+Probability of arrival during a minute: 0.05
+Average amount of time between planes to land: 20.0
+Probability of departure during a minute: 0.05
+Average amount of time between planes to take off: 20.0
+Maximum amount of time in the air before crashing: 2
+Total simulation minutes: 6000
+
+Number of planes taken off: 310
+Number of planes landed: 284
+Number of planes crashed: 18
+Average waiting time for taking off: 0.84 minutes
+Average waiting time for landing: 0.21 minutes
+
+
+Sample 4:
+
+Amount of minutes to land: 4
+Amount of minutes to take off: 2
+Probability of arrival during a minute: 0.1
+Average amount of time between planes to land: 10.0
+Probability of departure during a minute: 0.1
+Average amount of time between planes to take off: 10.0
+Maximum amount of time in the air before crashing: 5
+Total simulation minutes: 6000
+
+Number of planes taken off: 604
+Number of planes landed: 587
+Number of planes crashed: 15
+Average waiting time for taking off: 3.36 minutes
+Average waiting time for landing: 0.84 minutes
+

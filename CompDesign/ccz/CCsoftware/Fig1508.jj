@@ -1,0 +1,93 @@
+// Fig. 15.8
+PARSER_BEGIN(Fig1508)
+class Fig1508 
+{
+}
+PARSER_END(Fig1508)
+// removes escaped line breaks from matchedToken
+SKIP:
+{
+   " "
+ |
+   "\n"
+ |
+   "\r"
+ |
+   "\t"
+ |
+   <"//" (~["\n", "\r"])*>  // matches one-line comment
+}
+//------------------------------
+MORE:
+{
+   "\"": IN_STRING      // matches initial quote in string
+}
+//------------------------------
+TOKEN:
+{
+   <PRINTLN: "println">
+ |
+   <PRINT: "print">
+ |
+   <READINT: "readint">
+ |
+   <UNSIGNEDINT: (["0"-"9"])+>
+ |
+   <IDENTIFIER: ["A"-"Z","a"-"z"] (["A"-"Z","a"-"z","0"-"9"])*>
+ |
+   <ASSIGN: "=">
+ |
+   <SEMICOLON: ";">
+ |
+   <LEFTPAREN: "(">
+ |
+   <RIGHTPAREN: ")">
+ |
+   <PLUS: "+">
+ |
+   <MINUS: "-">
+ |
+   <TIMES: "*">
+ |
+   <DIVIDE: "/">
+ |
+   <LEFTBRACE: "{">
+ |
+   <RIGHTBRACE: "}">
+}
+//------------------------------------
+<IN_STRING>
+MORE:
+{
+   "\\\""                    // matches backslash quote
+ |
+   "\\\\"                    // matches backslash backslash
+ |
+   "\\\r\n"                  // matches backslash \r \n
+ |
+   "\\\n"                    // matches backslash \n
+ |
+   "\\\r"                    // matches backslash \r
+ |
+   <~["\"","\n","\r"]>       // matches all except ", \n, and \r
+}
+//------------------------------------
+<IN_STRING>
+TOKEN:
+{
+   <STRING: "\"">            // matches terminating quote
+   {
+       matchedToken.image  =
+          matchedToken.image.replace("\\\r\n","");
+       matchedToken.image  =
+          matchedToken.image.replace("\\\r","");
+       matchedToken.image  =
+          matchedToken.image.replace("\\\n","");
+   } : DEFAULT
+}
+//------------------------------------
+<*>
+TOKEN:
+{
+   <ERROR: ~[]>               // catch-all expression
+}

@@ -1,0 +1,10 @@
+          p         @1   ; push 1
+          pc        2    ; push 2
+          add            ; pop twice, add, push
+          pwc       4    ; push 4
+          add            ; pop twice, add, push
+          dout           ; pop and display
+          pc        '\n' ; push newline
+          aout           ; pop and output
+          halt           ; terminate
+@1:       dw        1    ; data

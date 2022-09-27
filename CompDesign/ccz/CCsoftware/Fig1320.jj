@@ -1,0 +1,35 @@
+// Fig. 13.20
+options
+{
+   STATIC = false;
+}
+//======================================================
+PARSER_BEGIN(Fig1320)
+import java.io.*;
+class Fig1320 
+{
+  public static void main(String[] args) throws 
+                             IOException, ParseException
+  {
+    Fig1320 parser = 
+              new Fig1320(new FileInputStream(args[0])); 
+    parser.S();
+  }
+}
+PARSER_END(Fig1320)
+//======================================================
+SKIP:
+{
+   " "|"\n"|"\r"|"\t"
+}
+//======================================================
+void S(): {}
+{
+   Q() "b"
+}
+void Q(): {}
+{
+  "b"  // selection set is {"b"}
+ |
+   {}  // selection set is {"b"}
+}

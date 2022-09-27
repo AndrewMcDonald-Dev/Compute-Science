@@ -1,0 +1,3 @@
+          pc        x
+          halt
+x:        dw        12

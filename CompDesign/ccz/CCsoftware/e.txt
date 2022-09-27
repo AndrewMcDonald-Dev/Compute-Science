@@ -1,0 +1,273 @@
+                                                 e.txt
+
+ +-------------------------------------------------------------+
+ | This software is provided to you on an "as is" basis for    |
+ | instructional purposes only, without any warranties,        |
+ | expressed or implied.  Neither the author nor the publisher |
+ | shall be liable in any event for incidental, consequential, |
+ | special, or punitive damages in connection with, or arising |
+ | out of the distribution, performance, or use of this        |
+ | software.                                                   |
+ +-------------------------------------------------------------+
+
+
+                  How to Use e Version 1.8
+
+
+     e executes files created by the a assembler.  To use e, 
+enter 
+
+     e <infilename>
+ 
+           or
+
+     e <infilename> /c
+
+e then executes the program in the specified input file.  If 
+<infilename> has no extension, ".e" is assumed.  The /c command 
+line argument triggers the use of a check file whose base name is 
+the same as the input file, and whose extension is ".chk".  For 
+example, if the input file is sample.e, then e will use the 
+sample.chk check file if the /c argument is specified. 
+
+
+Name File
+
+     When you run e for the first time, it prompts for your last 
+name (i.e., family name), first name (i.e., given name), and 
+middle initial.  It saves this information in a "name file" whose 
+extension is ".eee" and whose base name is the base name of the 
+executable e program.  Thus, the name file is e.eee unless you 
+rename the e program.  For example, if you rename the e program 
+to mye, then the name file is mye.eee. 
+     On each run of e, e  incorporates your last name (obtained 
+from the name file) into the extension of the log file it 
+creates.  For example, if the last name entered is "DosReis", 
+then the log file name will have the extension ".dosreis.log" 
+(all lower case).  e also writes your complete name to the log 
+file. 
+     If you make an error when entering your name, delete the 
+file e.eee, and re-run e.  e will then prompt for your name, and 
+create a new name file.   Alternatively, you can edit e.eee with 
+any text editor.  e.eee should contain one line in the following 
+format:
+
+lastname firstname middleinitial
+
+     Because e uses your last name in log file names, be sure to 
+use only characters for your last name that are legal for file 
+names.  Do not embed any blanks within your last name. 
+     If you insert a leading hyphen in front of your last name in 
+the e.eee file, then the e program will not include your last 
+name in the name of the log files it creates.  For example, 
+instead of creating S1.dosreis.log, it would create S1.log.
+
+
+
+Check Files
+
+     When e executes a program, input is normally from the 
+keyboard.  However, if a check file contains input data, then 
+input is taken from the check file rather than the keyboard.  For 
+example, suppose a check file contains the following: 
+
+2
+3
+%
+4
+5
+%
+6
+7
+
+This check file contains three sets of input data (each set is 
+separated from the next with %).  With this check file, e will 
+run the program in <infilename> three times, once for each set of 
+data.  Input will be taken from the check file rather than the 
+keyboard.    
+     A check file can also have check data which allows e to 
+determine if the program in <infilename> is running correctly. 
+Check data must be on the first line of a check file.  Comments 
+(lines in which the first non-whitespace character is ';') may  
+follow check data, if any, and precede input data, if any.  A 
+blank line is treated as input data.  Thus, check data and 
+comments, if any, must precede blank lines, if any.  
+     Check data must appear on a line in which the first non-
+whitespace character is '#'.  A line of check data may contain 
+either one number (in which case e checks only the program's 
+output) or five numbers (in which case e evaluates the program's 
+size, machine instruction count, and execution time, in addition 
+to checking the program's output).  For example, here is a check 
+file with with the 5-number version of check data. 
+
+# 1741 638 463 6298 75ba
+; One set of input data follows
+2
+3
+
+     A check file can contain input data alone (one or more 
+sets), check data alone, or both check data and input data (one 
+or more sets). 
+     The J1 Software Package contains check files for many of the 
+programming assignments in the companion textbook.  The name of 
+the check file corresponds to the problem number.  For example 
+p1102.chk is the check file for Problem 11.2. 
+
+
+Log files                        
+
+     Whenever e is run, it creates a log file.  The base name of 
+a log file is the same as <infilename>.  Its extension is 
+<family_name>.log.  The log file records the results of the run.   
+If check data is provided (via a check file), the evaluation e 
+performs is both written to the log file and displayed on the 
+screen. 
+     Below is the log file created corresponding to the 
+following program:
+
+                       ;        program to convert decimal to hex
+         pc    m1
+         sout
+         din
+         pc    m2
+         sout
+         hout
+         pc    '\n'
+         aout
+         halt
+m1:      dw    "Enter decimal number:\n"
+m2:      dw    "Hex equivalent:\n"
+
+
+
+
+and the following check file:
+
+#a815 49 8 42 d3f4
+;
+12
+%
+-1
+%
+5
+
+
+
+e Version 1.7
+Log file sample.dosreis.log
+
+Your name:          DosReis Anthony J
+Machinecode file:   sample.e    
+Check file:         sample.chk
+Check data:         a815 49 8 42 d3f4
+
+=================== Sun Oct 02 04:20:05 2011 ==============r
+Enter decimal number:
+12
+Hex equivalent:
+C
+
+--------------------------------------------------- next run
+Enter decimal number:
+-1
+Hex equivalent:
+FFFF
+
+--------------------------------------------------- next run
+Enter decimal number:
+5
+Hex equivalent:
+5
+
+===========================================================r
+
+Report for:         DosReis Anthony J
+Program output:     correct
+Machine code size:  49     (at limit)
+Machine inst count: 8      (at limit)
+Execution time:     42     (at limit)
+
+================ r(50e7) terminated Sun Oct 02 04:20:05 2011
+
+
+
+Command Line Arguments
+
+     All command line arguments are optional, must be separated 
+by at least one space, and have no embedded spaces.  All 
+arguments except C++ "argv" arguments (i.e., arguments that can 
+be accessed via the argv parameter to main in a C++ program) must 
+have a leading "/" or "-".  All command line arguments are case 
+insensitive, except for filenames on systems with case-sensitive 
+filenames. 
+
+The start-up code in sup.o (for the stack instruction 
+set) and rup.o (for the register instruction set) provides the 
+main method with the command line arguments in C++ argc, argv 
+form with one difference: the startup code pushes argc and then 
+argv.  That is, it pushes the arguments in left to right order 
+rather than is the right to left order that C++ uses.  
+
+     The format of the command line is 
+e  <argument> <argument> . . .
+
+where <argument> can be
+
+<infilename>      - name of machinecode file; ".e" ext assumed.
+<argv arg>        - additional argv args.  These arguments must
+                    follow <infilename>.
+/h or /?          - display this help screen.
+/c<chkfilename>   - use check file
+
+
+The file name following /c is optional.  If omitted, e uses 
+the ".chk" file whose base name is the same as <infilename>.
+
+
+Search Path for Check Files
+
+     If a directory is specified by the /c argument, e searches 
+for the check file in that directory.  Otherwise, e searches 
+for the check file in the current directory and in the 
+directory specified by the J1DIR environment variable, if any, in 
+that order.
+
+
+Problem with a Leading "/" in Command Line Arguments on Non-
+Microsoft Systems
+
+     Command line arguments typically start with "/" on Microsoft 
+systems, and with "-" on other systems.  For the sake of 
+uniformity, all the programs in the J1 Software Package allow a 
+command line argument to start with EITHER "/" or "-" on any of 
+the supported platforms.  Unfortunately, allowing "/" to start a 
+command line argument on non-Microsoft systems can cause a 
+problem, because of the potential confusion with the root 
+directory designator "/".  For example, is the command line 
+argument 
+
+    /cf.chk
+
+the file cf.chk in the root directory, or is it the argument 
+marker /c (indicating that a check file name follows) followed 
+by the file name f.chk? e treats it as the latter.  
+
+To specify the root directory at the beginning of a command line 
+argument, use "//".  To specify the root directory in any other 
+position within a command line argument, use "/".  For example,
+e interprets
+
+     //cf.chk
+
+is interpreted as the cf.chk file in the root directory; and it 
+interprets 
+
+     /c/f.chk
+
+as the /c command line argument specifying the f.chk file 
+in the root directory (note here we use only a single "/" to 
+designate the root directory).
+
+This problem does not occur on Microsoft systems because they use 
+"\" rather than "/" for the root directory, and, thus, there is 
+never any confusion with the argument marker "/". 

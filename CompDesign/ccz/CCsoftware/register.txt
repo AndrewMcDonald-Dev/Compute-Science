@@ -1,0 +1,152 @@
+                                                 register.txt
+
+register Instruction Set
+
+Opcode  Assembly    Name             Description
+(hex)    Form
+
+ 0     ld   x    Load                if (ar == 0) ac = mem[x];
+                                     else ac = mem[bp + x];
+
+ 1     st   x    Store               if (ar == 0) mem[x] = ac;
+                                     else mem[bp + x] = ac;
+
+ 2     add  x    Add                 if (ar == 0) ac = ac + mem[x];
+                                     else ac = ac + mem[bp+x];
+                                     cy = carry;
+
+ 3     sub  x    Subtract            if (ar == 0) ac = ac - mem[x];
+                                     else ac = ac - mem[bp+x];
+
+ 4     mult x    Multiply            if (ar == 0) ac = ac * mem[x];
+                                     else ac = ac * mem[bp+x];
+
+ 5     div  x    Divide              if (ar == 0) temp = mem[x];
+                                     else temp = mem[bp+x];
+                                     if (temp == 0) ct = -1;
+                                     else ac = ac / temp;
+
+ 6     ldc  x    load constant       ac = x;
+
+ 7     ja   x    Jump always         pc = x;
+ 8     jp   x    Jump positive       if (ac >  0) pc = x;
+ 9     jn   x    Jump negative       if (ac <  0) pc = x;
+ A     jz   x    Jump zero           if (ac == 0) pc = x;
+ B     jnz  x    Jump nonzero        if (ac != 0) pc = x;
+ C     jzon x    Jump zero or neg    if (ac <= 0) pc = x;
+ D     jzop x    Jump zero or pos    if (ac >= 0) pc = x;
+
+ E     call x    Call procedure      mem[--sp] = pc; pc = x;
+ F0    ret       Return              pc = mem[sp++];
+
+ F1    ldi       Push indirect       ac = mem[ac];
+ F2    sti       Store indirect      mem[ac] = mem[sp++];
+
+ F3    push      Push onto stack     mem[--sp] = ac;
+ F4    pop       Pop from stack      ac = mem[sp++];
+
+ F5    asp w     Add to sp           sp = (sp + w)12;
+ F6    gsp       Get sp              ac = sp;
+ F7    ssp       Set sp              sp = ac;
+
+ F8    addw w    Add word            ac = ac + w; cy = carry;
+ F9    ldw w     load word           ac = w;
+
+ FA    esba      Estab base addr     mem[--sp] = bp; bp = sp12;
+ FB    reba      Restore base addr   sp = bp; bp = mem[sp++];
+
+ FC    cora      Convert rel addr    ac = (ac + bp)12;
+
+ FD    cmps y    Compare signed      temp = mem[sp++];
+                                     ac = 
+                                     (y >> 2) & 1   if temp < ac
+                                     (y >> 1) & 1   if temp == ac
+                                     (y & 1)        if temp > ac
+
+ FE    cmpu      Compare unsigned    Same as scmp but for 
+                                     unsigned numbers
+
+ FF0   shll z    Shift left logical  ac = ac << z; (inject 0's)
+ FF1   shrl z    Shift right logical ac = ac >> z; (inject 0's)
+ FF2   shra z    Shift right arith   ac = ac >> z; (inject sign)
+
+ FF3   abs       Set absolute mode   ar = 0;
+ FF4   rel       Set relative mode   ar = 1;
+
+ FF5   neg       Negate              ac = -ac;
+
+ FF6   rem       Remainder           if (ac == 0) ct = -1;
+                                     else ac = mem[sp++] % ac;
+
+ FF7   addy      Add with carry      ac = mem[sp++] + ac + cy; cy = carry;
+
+ FF8   or        Bitwise or          ac = ac | mem[sp++];
+ FF9   xor       Bitwise excl or     ac = ac ^ mem[sp++];
+ FFA   and       Bitwise and         ac = ac & mem[sp++];
+ FFB   flip      Bitwise complement  ac = ~ac;
+
+ FFC   cali      Call indirect       mem[--sp] = pc; pc = ac12;
+
+ FFD   sct       Set ct              ct = ac;
+ FFE   dct       Decrement ct reg    if (--ct == 0) pc++;
+
+ FFF0  sodd      Skip on odd         if (ac % 2 == 1) pc++;
+
+ FFF1  bpbp      Bp to bp            bp = mem[bp];
+ FFF2  pobp      Pop bp              bp = mem[sp++];
+ FFF3  pbp       Push bp             mem[--sp] = bp;
+
+ FFF4  bcpy      Block copy          temp = mem[sp++];
+                                     while (ct--)
+                                       mem[ac++] = mem[temp++];
+
+ FFF5  uout      Unsigned out        Output number in ac reg as
+                                     unsigned decimal number
+
+ FFF6  sin       String input        Input str to address in ac
+ FFF7  sout      String output       Output str pointed to by ac
+
+ FFF8  hin       Hex input           Input hex number to ac reg
+ FFF9  hout      Hex output          Output number in ac in hex
+
+ FFFA  ain       ASCII input         Input ASCII char to ac reg
+ FFFB  aout      ASCII output        Output ASCII char in ac reg
+
+ FFFC  din       Decimal input       Input decimal number (signed
+                                     or unsigned) to ac register
+ FFFD  dout      Decimal output      Output number in ac reg as
+                                     a signed decimal number
+
+ FFFE  noop      No operation        None
+ FFFF  halt      Halt                Trigger halt
+
+-----------------------------------------------------------------
+Instruction Fields
+
+  x:   12 rightmost bits of instruction,     0 <= x <= 4095 (FFF hex)
+  y:   8  rightmost bits of instruction,     0 <= y <= 255  (FF hex)
+  z:   4  rightmost bits of instruction,     0 <= z <= 15   (F dec)
+  w:   Second word in instruction       -32768 <= w <= 65535
+
+-----------------------------------------------------------------
+Registers
+
+pc:    program counter register
+sp:    stack pointer register
+ac:    accumulator register
+ct:    count register
+cy:    carry register
+bp:    base pointer register
+ar:    absolute/relative register
+temp:  designates a work register within the CPU
+
+Note:  An item followed by "12" in the instruction set 
+       descriptions denotes the 12 rightmost bits of that item.  
+       Main memory references (i.e., wherever "mem[...]" appears) 
+       use only the 12 rightmost of the address specified. 
+
+Note:  To use the register instruction, place the following 
+       directive at the beginning of the assembly language 
+       program: 
+
+       !register

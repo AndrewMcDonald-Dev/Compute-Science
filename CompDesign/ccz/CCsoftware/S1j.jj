@@ -1,0 +1,300 @@
+// S1j.jj JavaCC input file for S1j compiler
+options 
+{
+  STATIC = false;         // generate non-static methods
+
+  // set to true to debug token manager
+  COMMON_TOKEN_ACTION = false;   
+
+  // pass parser reference to the token manager
+  TOKEN_MANAGER_USES_PARSER = true; 
+}                                // end of options block
+//======================================================
+PARSER_BEGIN(S1j)
+import java.io.*;
+import java.util.ArrayList;
+class S1j
+{
+  private PrintWriter outFile;   
+  private S1jSymTab st;
+  private S1jCodeGen cg;
+  //-----------------------------------------
+  public static void main(String[] args) throws 
+                                             IOException
+  {
+    System.out.println("S1j compiler written by ...");
+
+    if (args.length != 1)
+    {
+      System.err.println("Wrong number cmd line args");  
+      System.exit(1);
+    }
+
+    // build input and output file names
+    String inFileName = args[0] + ".s";
+    String outFileName = args[0] + ".a";
+
+    // construct file objects
+    FileInputStream inFile = 
+                       new FileInputStream(inFileName);
+    PrintWriter outFile = new PrintWriter(outFileName);
+
+    // identify compiler/author in output file
+    outFile.println("; from S1j compiler written by ...");
+
+    // construct objects that make up compiler
+    S1jSymTab st = new S1jSymTab();
+    S1jCodeGen cg = new S1jCodeGen(outFile, st);
+    S1j parser = new S1j(inFile);
+
+    // initialize parser's instance variables
+    parser.outFile = outFile;
+    parser.st = st;   
+    parser.cg = cg;
+
+    try 
+    {
+      parser.program();
+    }
+    catch(ParseException e) 
+    {
+      System.err.println(e.getMessage());
+      outFile.println(e.getMessage());
+      outFile.close();
+      System.exit(1);
+    }
+
+    outFile.close();
+  }
+  //-----------------------------------------
+  // If COMMON_TOKEN_ACTION is true, the token manager 
+  // calls makeComment for each token to create the
+  // token trace.
+  //
+  public void makeComment(Token t)
+  {
+    outFile.printf(
+      "; kd=%3d bL=%3d bC=%3d eL=%3d eC=%3d im= %s%n",
+       t.kind, t.beginLine, t.beginColumn, t.endLine, 
+       t.endColumn, t.image);
+  }
+}                                          // end of S1j
+//======================================================
+class S1jSymTab
+{
+  private ArrayList<String> symbol;
+  //-----------------------------------------
+  public S1jSymTab()
+  {
+    symbol = new ArrayList<String>();
+  }
+  //-----------------------------------------
+  public void enter(String s)
+  {
+    int index = symbol.indexOf(s);
+
+    // if s is not in symbol, then add it
+    if (index < 0)
+      symbol.add(s);
+  }
+  //-----------------------------------------
+  public String getSymbol(int i)
+  {
+    return symbol.get(i);
+  }
+  //-----------------------------------------
+  public int getSize()
+  {
+    return symbol.size();
+  }
+}                                    // end of S1jSymTab
+//======================================================
+class S1jCodeGen
+{
+  private PrintWriter outFile;
+  private S1jSymTab st;
+  //-----------------------------------------
+  public S1jCodeGen(PrintWriter outFile, S1jSymTab st)
+  {
+    this.outFile = outFile;
+    this.st = st;
+  }
+  //-----------------------------------------
+  public void emitInstruction(String op)
+  {
+    outFile.printf("          %-4s%n", op); 
+  }
+  //-----------------------------------------
+  public void emitInstruction(String op, String opnd)
+  {
+    outFile.printf(
+                  "          %-4s      %s%n", op, opnd); 
+  }
+  //-----------------------------------------
+  public void emitdw(String label, String value)
+  {
+    outFile.printf(
+             "%-9s dw        %s%n", label + ":", value);
+  }
+  //-----------------------------------------
+  public void endCode()
+  {
+    outFile.println();
+    emitInstruction("halt");
+
+    int size = st.getSize();
+    // emit dw for each symbol in the symbol table
+    for (int i=0; i < size; i++) 
+      emitdw(st.getSymbol(i), "0");
+  }
+}                             // end of S1jCodeGen class
+PARSER_END(S1j)
+
+// Specification of the S1j token manager ==============
+
+TOKEN_MGR_DECLS:
+{
+  // called for each token returned to parser
+  void CommonTokenAction(Token t)
+  {
+    parser.makeComment(t);
+  }
+}
+//------------------------------
+SKIP:  // these tokens are not returned to parser
+{
+   " " 
+ | 
+   "\n" 
+ | 
+   "\r" 
+ | 
+   "\t"
+}
+//------------------------------
+TOKEN:  // these tokens are returned to parser
+{
+   <PRINTLN: "println">  // must precede <ID> 
+ |
+   <UNSIGNED: (["0"-"9"])+> 
+ |
+   <ID: ["A"-"Z","a"-"z"] (["A"-"Z","a"-"z","0"-"9"])*>
+ |
+   <ASSIGN: "=">
+ |
+   <SEMICOLON: ";">
+ |
+   <LEFTPAREN: "(">
+ |
+   <RIGHTPAREN: ")">
+ |
+   <PLUS: "+">
+ |
+   <MINUS: "-">
+ |
+   <TIMES: "*">
+ |
+   <ERROR: ~[]>  // matches any single character
+}
+
+// Translation grammar for S1j and S1 ==================
+
+void program(): {}
+{  
+   statementList() 
+   {cg.endCode();}
+   <EOF>
+}
+//------------------------------
+void statementList(): {} 
+{
+   statement() 
+   statementList()  
+ |  
+   {}
+}    
+//------------------------------
+void statement(): {} 
+{
+   assignmentStatement()
+ |
+   printlnStatement()
+}
+//------------------------------
+void assignmentStatement(): {Token t;}
+{
+   t=<ID>  
+   {st.enter(t.image);} 
+   {cg.emitInstruction("pc", t.image);}
+   "="
+   expr()
+   {cg.emitInstruction("stav");}
+   ";"
+}
+//------------------------------
+void printlnStatement(): {}
+{
+   "println"
+   "("
+   expr()
+   {cg.emitInstruction("dout");}
+   {cg.emitInstruction("pc", "'\\n'");}
+   {cg.emitInstruction("aout");}
+   ")"
+   ";"
+}
+//------------------------------
+void expr(): {}
+{
+   term()
+   termList()
+}
+//------------------------------
+void termList(): {}
+{
+   "+"
+   term()
+   {cg.emitInstruction("add");}
+   termList()
+ | 
+   {}
+}
+//------------------------------
+void term(): {}
+{
+   factor()
+   factorList()
+}
+//------------------------------
+void factorList(): {}
+{
+   "*"  
+   factor()
+   {cg.emitInstruction("mult");}
+   factorList()
+ |  
+   {}
+}
+//------------------------------
+void factor(): {Token t;} 
+{
+   t=<UNSIGNED> 
+   {cg.emitInstruction("pwc", t.image);}
+ |
+   "+"
+   t = <UNSIGNED>
+   {cg.emitInstruction("pwc", t.image);}
+ |
+   "-"
+   t = <UNSIGNED>
+   {cg.emitInstruction("pwc", "-" + t.image);}
+ |
+   t=<ID> 
+   {st.enter(t.image);}
+   {cg.emitInstruction("p", t.image);}
+ |  
+   "(" 
+   expr() 
+   ")"
+}
+

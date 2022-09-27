@@ -1,0 +1,134 @@
+                                                 l.txt
+
+ +-------------------------------------------------------------+
+ | This software is provided to you on an "as is" basis for    |
+ | instructional purposes only, without any warranties,        |
+ | expressed or implied.  Neither the author nor the publisher |
+ | shall be liable in any event for incidental, consequential, |
+ | special, or punitive damages in connection with, or arising |
+ | out of the distribution, performance, or use of this        |
+ | software.                                                   |
+ +-------------------------------------------------------------+
+
+                    How to Use l Version 1.8
+
+Quick Start 
+
+     l (library creator) creates a library of modules that can 
+be used with the "a" program.  To use l, enter 
+
+     l
+
+l then prompts the user for the names of the files that are to 
+be combined into a library.  Enter these names and/or any other 
+desired command line arguments (any number of items per input 
+line).  l will continue to prompt until the user hits ENTER 
+without first entering an argument.  l then combines all the 
+files specified, and creates the file a.l. 
+     If a module name entered has no extension, ".o" is 
+appended to it.  An input file can be 
+
+     - previously created library,
+     - ".e" file, or 
+     - ".o" file. 
+
+
+Command Line Arguments
+
+     All command line arguments are optional, can be specified in 
+any order, must have no embedded spaces, and must be separated by 
+at least one space. 
+
+     All command line arguments, except <infilename>, must have a 
+leading "/" or "-". 
+
+     All command line arguments are case insensitive, except for 
+filenames on systems with case-sensitive filenames. 
+
+     The format of the command line is
+
+l  <argument> <argument> . . .
+
+where <argument> can be
+
+<infilename>  
+/h or /?
+/r<rspfilename>  
+/o<outfilename>  
+
+If one or more input file names or response files are specified 
+on the command line, then l will not prompt the user for 
+additional input.  If an input file name starts with a pathname 
+that starts with "/", then substitute "//" for the leading "/" in 
+the pathname when entering the input file name. 
+
+If l detects an error in an argument ON THE COMMAND LINE that 
+invokes l, it generates an error message and terminates 
+execution.  If, on the other hand, l detects an error in an 
+argument entered IN RESPONSE TO A PROMPT displayed by l, l does 
+not terminate.  It, instead, allows the user to re-enter. 
+
+More than one <infilename> may be specified.  If an <infilename> 
+has no extension, ".o" is appended to it. 
+
+/h or /? displays a help screen.
+
+<rspfilename> is the name of an response file.  An response file 
+contains a list of files names.  Each file specified is included 
+in the library to be created.  More than one /r<rspfilename> may 
+be specified.  If /r is specified but not followed by a file 
+name, then the response file name defaults to "l.rsp". 
+                       
+<outfilename> is the name of the library file to be created.
+If <outfilename> has no extension, ".l" is appended to it.       
+If /o<outfilename> is omitted, then the output file name defaults 
+a.l.
+
+
+Search Path for Response Files
+
+     If a directory is specified by an /r argument, l searches 
+for the response file in that directory.  Otherwise, l searches 
+for the response file in the current directory and in the directory 
+specified by the J1DIR environment variable, if any. 
+
+
+
+Problem with a Leading "/" in Command Line Arguments on Non-
+Microsoft Systems
+
+     Command line arguments typically start with "/" on Microsoft 
+systems, and with "-" on other systems.  For the sake of 
+uniformity, all the programs in the J1 Software Package allow a 
+command line argument to start with EITHER "/" or "-" on any of 
+the supported platforms.  Unfortunately, allowing "/" to start a 
+command line argument on non-Microsoft systems can cause a 
+problem, because of the potential confusion with the root 
+directory designator "/".  For example, is the command line 
+argument
+
+    /rf.rsp
+
+the file rf.rsp in the root directory, or is it the argument 
+marker /r (indicating that a response file name follows) followed 
+by the file name f.rsp?  l treats it as the latter.  
+
+To specify the root directory at the beginning of a command line 
+argument, use "//".  To specify the root directory in any other 
+position within a command line argument, use "/".  For example, 
+r interprets
+
+     //rf.rsp
+
+as the rf.rsp file in the root directory; and it interprets 
+
+     /r/f.rsp
+
+as the /r command line argument specifying the f.rsp file 
+in the root directory (note here we use only a single "/" to 
+designate the root directory).
+
+This problem does not occur on Microsoft systems because they use 
+"\" rather than "/" for the root directory, and, thus, there is 
+never any confusion with the argument marker "/". 
+

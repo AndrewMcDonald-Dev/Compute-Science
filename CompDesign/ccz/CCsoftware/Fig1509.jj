@@ -1,0 +1,91 @@
+// Fig. 15.9
+PARSER_BEGIN(Fig1509)
+class Fig1509 
+{
+}
+PARSER_END(Fig1509)
+// removes escaped line breaks on the fly from StringBuffer image
+SKIP:
+     {
+   " "
+ |
+   "\n"
+ |
+   "\r"
+ |
+   "\t"
+ |
+   <"//" (~["\n", "\r"])*>  // matches one-line comment
+}
+//------------------------------
+MORE:
+{
+   "\"": IN_STRING      // matches initial quote in string
+}
+//------------------------------
+TOKEN:
+{
+   <PRINTLN: "println">
+ |
+   <PRINT: "print">
+ |
+   <READINT: "readint">
+ |
+   <UNSIGNEDINT: (["0"-"9"])+>
+ |
+   <IDENTIFIER: ["A"-"Z","a"-"z"] (["A"-"Z","a"-"z","0"-"9"])*>
+ |
+   <ASSIGN: "=">
+ |
+   <SEMICOLON: ";">
+ |
+   <LEFTPAREN: "(">
+ |
+   <RIGHTPAREN: ")">
+ |
+   <PLUS: "+">
+ |
+   <MINUS: "-">
+ |
+   <TIMES: "*">
+ |
+   <DIVIDE: "/">
+ |
+   <LEFTBRACE: "{">
+ |
+   <RIGHTBRACE: "}">
+}
+//------------------------------------
+<IN_STRING>
+MORE:
+{
+   "\\\n"    // remove backslashed newline from image
+   {image.setLength(image.length() - 2);}
+ |
+   "\\\r"    // remove backslashed return from image
+   {image.setLength(image.length() - 2);}
+ |
+   "\\\r\n"  // remove backslashed return/newline from image
+   {image.setLength(image.length() - 3);}
+ |
+   "\\\""                   // matches backslash, quote
+ |
+   "\\\\"                   // matches backslash, backslash
+ |
+   <~["\"","\n","\r"]>      // matches everything else except ", \n, \r
+}
+//------------------------------------
+<IN_STRING>
+TOKEN:
+{
+   <STRING: "\"">                // matches terminating quote
+   // set image field in token to StringBuffer image and change state
+   {matchedToken.image = image.toString();} : DEFAULT
+}
+//------------------------------------
+<*>
+TOKEN:
+{
+   <ERROR: ~[]>                  // catch-all expxression
+}
+

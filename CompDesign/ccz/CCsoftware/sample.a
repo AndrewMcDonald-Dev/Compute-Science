@@ -1,0 +1,12 @@
+;        program to convert decimal to hex
+         pc    @L0
+         sout
+         din
+         pc    @L1
+         sout
+         hout
+         pc    '\n'
+         aout
+         halt
+@L0:     dw    "Enter decimal number:\n"
+@L1:     dw    "Hex equivalent:\n"

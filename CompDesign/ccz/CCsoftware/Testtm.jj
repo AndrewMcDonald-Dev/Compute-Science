@@ -1,0 +1,58 @@
+// Testtm for testing token manager
+// JavaCC input file for token manager only
+options 
+{
+  STATIC = false;
+}
+
+PARSER_BEGIN(Testtm)
+import java.io.*;
+class Testtm 
+{
+  public static void main(String[] args) throws 
+                                             IOException
+  {
+    Token t;
+    FileInputStream inFile = 
+                           new FileInputStream(args[0]);
+
+    // create token manager
+    TesttmTokenManager tm = new TesttmTokenManager(
+                          new SimpleCharStream(inFile));
+
+    // display each token's image
+    t = tm.getNextToken();
+    while (t.kind != EOF)
+    {
+      System.out.println(tokenImage[t.kind] + " " + 
+                                               t.image);
+      t = tm.getNextToken();
+    }
+  }
+}
+
+PARSER_END(Testtm)                        
+
+// Specification of the token manager ==================
+
+SKIP:
+{
+   " " 
+ | 
+   "\n" 
+ | 
+   "\r" 
+ | 
+   "\t"
+}
+
+TOKEN:
+{
+   "println"
+ |
+   <ID: ["A"-"Z", "a"-"z"] (["A"-"Z", "a"-"z", "0"-"9"])*>
+ |
+   <UNSIGNED: (["0"-"9"])+>
+ |
+   <ERROR: ~[]>
+} 
