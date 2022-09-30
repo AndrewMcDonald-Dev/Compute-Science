@@ -1,0 +1,108 @@
+CPS526-01             Advanced Data Structures             Fall 2022
+
+
+         Programming Assignment #3: Expression Manipulations 
+                       (Due date: 10/21/2022)
+
+
+
+I. Input
+
+   All input data are from a file "in.dat". The file contains a
+sequence of infix form expressions, one per line. The character '$' 
+is an end mark. For example, the following file has four infix form 
+expressions:
+
+   1 + 2 * 3 ^ ! ( 4 == 5 ) $
+   3 * ( 6 - 4 * 5 + 1) + 2 ^ 2 ^ 3 $
+   77 > ( 2 - 1 ) + 80 / 4 $
+   ! ( 2 + 3 * 4 >= 10 % 6 ) && 20 != 30 || 45 / 5 == 3 * 3 $
+
+Each expression is a sequence of tokens (i.e., constant integers,
+operators, and end mark) separated by spaces. There is no variable.
+
+
+II. Output
+
+   Output data and related information are sent to the screen.
+Your program should do the following for each expression:
+
+   (1) printing the expression before it is manipulated;
+   (2) showing the converted postfix form expression;
+   (3) showing the expression tree;
+   (4) printing the fully parenthesized infix form expression;
+   (5) reporting the value of the expression.
+
+
+III. Operators
+
+   The following operators are considered. They are listed in the
+decreasing order of precedence.
+
+   Token            Operator            Associativity
+
+    !               logical not         right-to-left
+    ^               exponentiation      right-to-left
+    *  /  %         multiplicative      left-to-right
+    +  -            additive            left-to-right
+    <  <=  >  >=    relational          left-to-right
+    ==  !=          equality            left-to-right
+    &&              logical and         left-to-right
+    ||              logical or          left-to-right
+
+
+IV. Other Requirements
+
+   Since a large amount of information are to be displayed on the
+screen, it is mandatory for your program to provide users a prompting
+message such as
+
+          Press <Enter> to continue ...
+
+after each expression is processed, so that users have the chance to
+check the output of your program carefully.
+
+
+V. Algorithm: Infix_to_postfix conversion
+
+  Input:  An infix form expression E = t1 t2 t3 ... $,
+          which is a sequence of tokens.
+  Output: The postfix form expression of E.
+
+  Algorithm: 
+  {
+    do {
+      get the next token t;
+      case (t) {
+         operand: place t onto the output;
+                  break;
+        operator: while (stack s is not empty
+                    && stacktop(s) is not a left parenthesis)
+                    && precedence(stacktop(s)) >= precedence(t)
+                       // assuming left-to-right associativity, 
+                       // not for the exponentiation operator ^, 
+                       // which has right-to-left associativity 
+                  {
+                        pop(x,s);
+                        place x onto the output;
+                  }
+                  push(t,s);
+                  break;
+               (: push(t,s);
+                  break;
+               ): while (stacktop(s) is not a left parenthesis) {
+                      pop(x,s);
+                      place x onto the output;
+                  }
+                  pop(x,s);
+                  break;
+        end mark: while (stack s is not empty) {
+                      pop(x,s);
+                      place x onto the output;
+                  }
+                  place the end mark onto the output;
+                  break;
+      }
+    } while (t is not the end mark);
+  }
+
