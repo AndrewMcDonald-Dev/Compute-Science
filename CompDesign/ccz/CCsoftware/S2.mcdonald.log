@@ -1,0 +1,31 @@
+e Version 1.8
+Log file S2.mcdonald.log
+
+Your name:          McDonald Andrew R
+Machinecode file:   S2.e        
+Check file:         S2.chk
+Check data:         9f11 136 108 5249 ba04
+
+=================== Thu Oct 20 22:20:27 2022 ==============r
+4107
+4107
+2075
+2075
+1010
+1010
+20
+20
+10
+10
+15
+15
+
+===========================================================r
+
+Report for:         McDonald Andrew R
+Program output:     correct
+Machine code size:  136    (at limit)
+Machine inst count: 108    (at limit)
+Execution time:     5249   (at limit)
+
+================ r(95d9) terminated Thu Oct 20 22:20:27 2022

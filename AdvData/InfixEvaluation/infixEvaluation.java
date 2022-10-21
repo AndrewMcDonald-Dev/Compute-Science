@@ -70,7 +70,6 @@ class infixEvaluation {
 				return 7;
 			case "!":
 				return 8;
-
 		}
 		return -1;
 	}

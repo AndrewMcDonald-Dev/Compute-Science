@@ -1,7 +1,5 @@
 import java.util.Stack;
 
-import javax.lang.model.util.ElementScanner6;
-
 public class BinaryTree<E> {
 	private Node<E> root;
 

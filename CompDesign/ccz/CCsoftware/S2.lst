@@ -1,0 +1,181 @@
+a Assembler Version 1.7    Thu Oct 20 22:20:22 2022
+
+  LOC   MACHINE      ASSEMBLY
+hex*dec  CODE          CODE
+
+               ; from S2 compiler written by Andrew McDonald
+               ;    x = +3 + -2 + 1;
+0  *0    1085            pc        x
+1  *1    F700            pwc       3
+2  *2    0003
+3  *3    F700            pwc       -2
+4  *4    FFFE
+5  *5    F100            add 
+6  *6    F700            pwc       1
+7  *7    0001
+8  *8    F100            add 
+9  *9    F300            stav
+               ;    y = x;
+A  *10   1086            pc        y
+B  *11   0085            p         x
+C  *12   F300            stav
+               ;    z = x*(2 + y) + (((4099)));
+D  *13   1087            pc        z
+E  *14   0085            p         x
+F  *15   F700            pwc       2
+10 *16   0002
+11 *17   0086            p         y
+12 *18   F100            add 
+13 *19   FF40            mult
+14 *20   F700            pwc       4099
+15 *21   1003
+16 *22   F100            add 
+17 *23   F300            stav
+               ;    println(z + x + -2);
+18 *24   0087            p         z
+19 *25   0085            p         x
+1A *26   F100            add 
+1B *27   F700            pwc       -2
+1C *28   FFFE
+1D *29   F100            add 
+1E *30   FFFD            dout
+1F *31   100A            pc        '\n'
+20 *32   FFFB            aout
+               ;    println(4107);
+21 *33   F700            pwc       4107
+22 *34   100B
+23 *35   FFFD            dout
+24 *36   100A            pc        '\n'
+25 *37   FFFB            aout
+               ; // end of S1 test
+               ; //==========================================================
+               ; // Add support for subtraction, division, null statement, 
+               ; // compound statement, print statement, and single-line
+               ; // comments.
+               ;    println((z - (x - 50)   // comment in middle of statement
+26 *38   0087            p         z
+27 *39   0085            p         x
+28 *40   F700            pwc       50
+29 *41   0032
+2A *42   F200            sub 
+               ;         ) / 2 - x);
+2B *43   F200            sub 
+2C *44   F700            pwc       2
+2D *45   0002
+2E *46   FF50            div 
+2F *47   0085            p         x
+30 *48   F200            sub 
+31 *49   FFFD            dout
+32 *50   100A            pc        '\n'
+33 *51   FFFB            aout
+               ;    println(2075);
+34 *52   F700            pwc       2075
+35 *53   081B
+36 *54   FFFD            dout
+37 *55   100A            pc        '\n'
+38 *56   FFFB            aout
+               ;    ;                       // null statement 
+               ;    {{;                     // compound statement
+               ;       {
+               ;       x = 10;  
+39 *57   1085            pc        x
+3A *58   F700            pwc       10
+3B *59   000A
+3C *60   F300            stav
+               ;       ;
+               ;       y = 20;
+3D *61   1086            pc        y
+3E *62   F700            pwc       20
+3F *63   0014
+40 *64   F300            stav
+               ;    }};}
+               ;    {}
+               ;    print(x);
+41 *65   0085            p         x
+42 *66   FFFD            dout
+               ;    println(x);
+43 *67   0085            p         x
+44 *68   FFFD            dout
+45 *69   100A            pc        '\n'
+46 *70   FFFB            aout
+               ;    println(1010);
+47 *71   F700            pwc       1010
+48 *72   03F2
+49 *73   FFFD            dout
+4A *74   100A            pc        '\n'
+4B *75   FFFB            aout
+               ;    println(y);
+4C *76   0086            p         y
+4D *77   FFFD            dout
+4E *78   100A            pc        '\n'
+4F *79   FFFB            aout
+               ;    println(20);
+50 *80   F700            pwc       20
+51 *81   0014
+52 *82   FFFD            dout
+53 *83   100A            pc        '\n'
+54 *84   FFFB            aout
+               ;    x = 1 + (2 + (3+ 4));
+55 *85   1085            pc        x
+56 *86   F700            pwc       1
+57 *87   0001
+58 *88   F700            pwc       2
+59 *89   0002
+5A *90   F700            pwc       3
+5B *91   0003
+5C *92   F700            pwc       4
+5D *93   0004
+5E *94   F100            add 
+5F *95   F100            add 
+60 *96   F100            add 
+61 *97   F300            stav
+               ;    println(x);
+62 *98   0085            p         x
+63 *99   FFFD            dout
+64 *100  100A            pc        '\n'
+65 *101  FFFB            aout
+               ;    println(10);
+66 *102  F700            pwc       10
+67 *103  000A
+68 *104  FFFD            dout
+69 *105  100A            pc        '\n'
+6A *106  FFFB            aout
+               ;    x = 1 + 2 + 3 + 4 + 5;
+6B *107  1085            pc        x
+6C *108  F700            pwc       1
+6D *109  0001
+6E *110  F700            pwc       2
+6F *111  0002
+70 *112  F100            add 
+71 *113  F700            pwc       3
+72 *114  0003
+73 *115  F100            add 
+74 *116  F700            pwc       4
+75 *117  0004
+76 *118  F100            add 
+77 *119  F700            pwc       5
+78 *120  0005
+79 *121  F100            add 
+7A *122  F300            stav
+               ;    println(x);
+7B *123  0085            p         x
+7C *124  FFFD            dout
+7D *125  100A            pc        '\n'
+7E *126  FFFB            aout
+               ;    println(15);
+7F *127  F700            pwc       15
+80 *128  000F
+81 *129  FFFD            dout
+82 *130  100A            pc        '\n'
+83 *131  FFFB            aout
+               ; // end of S2 test
+               
+84 *132  FFFF            halt
+85 *133  0000  x:        dw        0
+86 *134  0000  y:        dw        0
+87 *135  0000  z:        dw        0
+88 *136  ========= end of S2.a =============================
+
+asm in  = S2.a
+asm out = S2.e
+asm lst = S2.lst 

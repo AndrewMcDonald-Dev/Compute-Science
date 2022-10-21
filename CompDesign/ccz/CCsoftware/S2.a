@@ -1,0 +1,146 @@
+; from S2 compiler written by Andrew McDonald
+;    x = +3 + -2 + 1;
+          pc        x
+          pwc       3
+          pwc       -2
+          add 
+          pwc       1
+          add 
+          stav
+;    y = x;
+          pc        y
+          p         x
+          stav
+;    z = x*(2 + y) + (((4099)));
+          pc        z
+          p         x
+          pwc       2
+          p         y
+          add 
+          mult
+          pwc       4099
+          add 
+          stav
+;    println(z + x + -2);
+          p         z
+          p         x
+          add 
+          pwc       -2
+          add 
+          dout
+          pc        '\n'
+          aout
+;    println(4107);
+          pwc       4107
+          dout
+          pc        '\n'
+          aout
+; // end of S1 test
+; //==========================================================
+; // Add support for subtraction, division, null statement, 
+; // compound statement, print statement, and single-line
+; // comments.
+;    println((z - (x - 50)   // comment in middle of statement
+          p         z
+          p         x
+          pwc       50
+          sub 
+;         ) / 2 - x);
+          sub 
+          pwc       2
+          div 
+          p         x
+          sub 
+          dout
+          pc        '\n'
+          aout
+;    println(2075);
+          pwc       2075
+          dout
+          pc        '\n'
+          aout
+;    ;                       // null statement 
+;    {{;                     // compound statement
+;       {
+;       x = 10;  
+          pc        x
+          pwc       10
+          stav
+;       ;
+;       y = 20;
+          pc        y
+          pwc       20
+          stav
+;    }};}
+;    {}
+;    print(x);
+          p         x
+          dout
+;    println(x);
+          p         x
+          dout
+          pc        '\n'
+          aout
+;    println(1010);
+          pwc       1010
+          dout
+          pc        '\n'
+          aout
+;    println(y);
+          p         y
+          dout
+          pc        '\n'
+          aout
+;    println(20);
+          pwc       20
+          dout
+          pc        '\n'
+          aout
+;    x = 1 + (2 + (3+ 4));
+          pc        x
+          pwc       1
+          pwc       2
+          pwc       3
+          pwc       4
+          add 
+          add 
+          add 
+          stav
+;    println(x);
+          p         x
+          dout
+          pc        '\n'
+          aout
+;    println(10);
+          pwc       10
+          dout
+          pc        '\n'
+          aout
+;    x = 1 + 2 + 3 + 4 + 5;
+          pc        x
+          pwc       1
+          pwc       2
+          add 
+          pwc       3
+          add 
+          pwc       4
+          add 
+          pwc       5
+          add 
+          stav
+;    println(x);
+          p         x
+          dout
+          pc        '\n'
+          aout
+;    println(15);
+          pwc       15
+          dout
+          pc        '\n'
+          aout
+; // end of S2 test
+
+          halt
+x:        dw        0
+y:        dw        0
+z:        dw        0
