@@ -171,28 +171,20 @@ class BinaryTree<E> {
 		return stack.pop();
 	}
 
-	// public static void printTreeGood(String s, Node<String> n, boolean isLeft) {
-	// 	if (n != null) {
-	// 		System.out.println(s + (isLeft ? " |---- " : " \\--- ") + n.data);
-	// 		printTreeGood(s + (isLeft ? " |     " : "     "), n.left, true);
-	// 		printTreeGood(s + (isLeft ? " |     " : "     "), n.right, false);
-	// 		System.out.println(s + (isLeft ? " |     " : ""));
-	// 	}
-	// }
-	public static void printTree(Node<String> root, int maxHeight) {
+	public static void printTree(Node<String> root, Node<String> firstRoot) {
 		if (root.right != null)
-			printTree(root.right, maxHeight);
-		for(int i = 0; i < (maxHeight - height(root)) * 4; i++){
+			printTree(root.right, firstRoot);
+		for(int i = 0; i < (depth(firstRoot, root)) * 4; i++){
 			System.out.print(" ");
 		}
 		System.out.print(root.data);
 		System.out.println();
         if (root.left != null)
-            printTree(root.left, maxHeight);
+            printTree(root.left, firstRoot);
 	}
 
-	public static void printTree(Node<String> root){
-		printTree(root, height(root));
+	public static void printTree(Node<String> root) {
+		printTree(root, root);
 	}
 
 	public static int height(Node<String> root) {
@@ -205,9 +197,26 @@ class BinaryTree<E> {
 		return Math.max(countLeft, countRight) + 1;
 	}
 
-	// public static void printTreeGood(Node<String> root) {
-	// 	printTreeGood("", root, false);
-	// }
+
+
+	public static int depth(Node<String> root, Node<String> key){
+		if(key == root)
+			return 0;
+
+
+		int left = -1;
+		int right = -1;	
+		if(root.left != null)
+			left = depth(root.left, key);
+		if(root.right != null)
+			right = depth(root.right, key);
+		
+		if (left != -1)
+			return left + 1;
+		if (right != -1)
+			return right +1;
+		return -1; //bad result
+	}
 
 	public static int solve(Node<String> root) {
 		if (root == null)
