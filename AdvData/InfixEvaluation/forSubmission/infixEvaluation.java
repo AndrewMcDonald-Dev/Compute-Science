@@ -28,6 +28,7 @@ class infixEvaluation {
 
 				Node<String> root = BinaryTree.construct(exp.substring(0, exp.length() - 2));
 				BinaryTree.printTree(root);
+				System.out.println();
 
 				// 5 convert to fully parenthesized version and print
 				BinaryTree.inorder(root);
@@ -170,18 +171,43 @@ class BinaryTree<E> {
 		return stack.pop();
 	}
 
-	public static void printTree(String s, Node<String> n, boolean isLeft) {
-		if (n != null) {
-			System.out.println(s + (isLeft ? " |---- " : " \\--- ") + n.data);
-			printTree(s + (isLeft ? " |     " : "     "), n.left, true);
-			printTree(s + (isLeft ? " |     " : "     "), n.right, false);
-			System.out.println(s + (isLeft ? " |     " : ""));
+	// public static void printTreeGood(String s, Node<String> n, boolean isLeft) {
+	// 	if (n != null) {
+	// 		System.out.println(s + (isLeft ? " |---- " : " \\--- ") + n.data);
+	// 		printTreeGood(s + (isLeft ? " |     " : "     "), n.left, true);
+	// 		printTreeGood(s + (isLeft ? " |     " : "     "), n.right, false);
+	// 		System.out.println(s + (isLeft ? " |     " : ""));
+	// 	}
+	// }
+	public static void printTree(Node<String> root, int maxHeight) {
+		if (root.right != null)
+			printTree(root.right, maxHeight);
+		for(int i = 0; i < (maxHeight - height(root)) * 4; i++){
+			System.out.print(" ");
 		}
+		System.out.print(root.data);
+		System.out.println();
+        if (root.left != null)
+            printTree(root.left, maxHeight);
 	}
 
-	public static void printTree(Node<String> root) {
-		printTree("", root, false);
+	public static void printTree(Node<String> root){
+		printTree(root, height(root));
 	}
+
+	public static int height(Node<String> root) {
+		int countLeft = -1;
+		int countRight = -1;
+		if(root.left  != null)
+			countLeft = height(root.left);
+		if(root.right  != null)
+			countRight = height(root.right);
+		return Math.max(countLeft, countRight) + 1;
+	}
+
+	// public static void printTreeGood(Node<String> root) {
+	// 	printTreeGood("", root, false);
+	// }
 
 	public static int solve(Node<String> root) {
 		if (root == null)
