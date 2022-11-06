@@ -22,7 +22,7 @@ class S2j
   public static void main(String[] args) throws 
                                              IOException
   {
-    System.out.println("S2j compiler written by ...");
+    System.out.println("S2j compiler written by Andrew McDonald");
 
     if (args.length != 1)
     {
