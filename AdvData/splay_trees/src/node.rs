@@ -1,3 +1,5 @@
+use std::mem;
+
 #[derive(Clone)]
 pub struct Node<V> {
     pub value: V,
@@ -15,5 +17,12 @@ impl<V> Node<V> {
     }
     pub fn same<T>(a: *const T, b: *const T) -> bool {
         a == b
+    }
+
+    pub fn pop_left(&mut self) -> Option<Box<Node<V>>> {
+        mem::replace(&mut self.left, None)
+    }
+    pub fn pop_right(&mut self) -> Option<Box<Node<V>>> {
+        mem::replace(&mut self.right, None)
     }
 }

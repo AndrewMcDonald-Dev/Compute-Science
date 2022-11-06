@@ -1,5 +1,6 @@
 use super::node::Node;
 use std::cmp::Ordering;
+use std::mem;
 
 pub struct Tree {}
 
@@ -45,34 +46,89 @@ impl Tree {
         }
     }
 
-    pub fn insert(root: &mut Option<Box<Node<i32>>>, key: i32) -> Box<Node<i32>> {
-        match root {
+    pub fn insert(root: &mut Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
+        let mut err = false;
+        let temp = match root {
             Some(r) => {
                 match key.cmp(&r.value) {
-                    Ordering::Less => r.left = Some(Self::insert(&mut r.left, key)),
-                    Ordering::Greater => r.right = Some(Self::insert(&mut r.right, key)),
-                    Ordering::Equal => (),
+                    Ordering::Less => r.left = Self::insert(&mut r.left, key),
+                    Ordering::Greater => r.right = Self::insert(&mut r.right, key),
+                    Ordering::Equal => err = true,
                 };
                 r.clone()
             }
             None => Node::new(key, None, None),
+        };
+
+        if err {
+            return None;
+        }
+        Some(temp)
+    }
+
+    pub fn delete(root: &mut Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
+        match root {
+            None => None,
+            Some(root) => match key.cmp(&root.value) {
+                Ordering::Less => {
+                    root.left = Self::delete(&mut root.left, key);
+                    Some(root.clone())
+                }
+                Ordering::Equal => {
+                    if let None = root.right {
+                        return root.left.clone();
+                    }
+                    if let None = root.left {
+                        return root.right.clone();
+                    }
+
+                    match &root.right {
+                        Some(right) => root.value = Self::min_value(&right),
+                        None => panic!("HElp"),
+                    }
+                    root.right = Self::delete(&mut root.right, root.value);
+                    Some(root.clone())
+                }
+                Ordering::Greater => {
+                    root.right = Self::delete(&mut root.right, key);
+                    Some(root.clone())
+                }
+            },
         }
     }
 
-    pub fn splay_insert(mut root: Option<Box<Node<i32>>>, key: i32) -> Box<Node<i32>> {
-        root = Self::splay(&root, key);
-        match root {
-            Some(mut root) => match key.cmp(&root.value) {
-                Ordering::Less => Node::new(key, root.left.clone(), Some(root.clone())),
-                Ordering::Equal => {
-                    root.value = key;
-                    root
-                }
-                Ordering::Greater => Node::new(key, Some(root.clone()), root.right.clone()),
-            },
-
-            None => Node::new(key, None, None),
+    pub fn min_value(root: &Box<Node<i32>>) -> i32 {
+        let mut min_v = root.value;
+        let mut root = root.clone();
+        while let Some(left) = root.left {
+            min_v = left.value;
+            root = left;
         }
+        min_v
+    }
+
+    pub fn splay_insert(mut root: Box<Node<i32>>, key: i32) -> Box<Node<i32>> {
+        root = Self::insert(&mut Some(root), key).unwrap();
+        root = Self::splay(&Some(root), key).unwrap();
+        root
+        // ? doesnt work dont know how to fix
+        // match key.cmp(&root.value) {
+        //     Ordering::Less => {
+        //         let left = root.pop_left();
+        //         let new = Node::new(key, left, None);
+        //         let prev = mem::replace(&mut root, new);
+        //         println!("{}", prev.value);
+        //         root.right = Some(prev);
+        //     }
+        //     Ordering::Equal => (),
+        //     Ordering::Greater => {
+        //         let right = root.pop_right();
+        //         let new = Node::new(key, None, right);
+        //         let prev = mem::replace(&mut root, new);
+        //         root.left = Some(prev);
+        //     }
+        // }
+        // root
     }
 
     pub fn find(root: &Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
@@ -106,7 +162,6 @@ impl Tree {
             Some(mut root2) => match key.cmp(&root2.value) {
                 Ordering::Less => match root2.left.clone() {
                     Some(mut left) => {
-                        println!("{:?}", key.cmp(&left.value));
                         match key.cmp(&left.value) {
                             Ordering::Less => {
                                 //zig zig
@@ -116,16 +171,14 @@ impl Tree {
                             Ordering::Greater => {
                                 // zig zag
                                 left.right = Self::splay(&left.right, key);
-                                // if let Some(_) = &left.right {
-                                match left.right {
-                                    Some(_) => left = Self::left_rotate(&mut left),
-                                    None => (),
-                                }
+                                if let Some(_) = &left.right {
+                                    root2.left = Some(Self::left_rotate(&mut left));
+                                };
                             }
                             Ordering::Equal => (),
                         };
 
-                        match root2.left {
+                        match &root2.left {
                             Some(_) => Some(Self::right_rotate(&mut root2)),
                             None => Some(root2), //zig
                         }
@@ -139,7 +192,7 @@ impl Tree {
                                 //zag zig
                                 right.left = Self::splay(&right.left, key);
                                 if let Some(_) = &right.left {
-                                    right = Self::right_rotate(&mut right)
+                                    root2.right = Some(Self::right_rotate(&mut right));
                                 };
                             }
                             Ordering::Equal => (),
