@@ -8,6 +8,12 @@ use std::{
 
 use crate::tree::Tree;
 
+const SPLAY: &str = "S";
+const FIND: &str = "F";
+const INSERT: &str = "I";
+const DELETE: &str = "D";
+const END: &str = "END";
+
 fn main() {
     let file = File::open("in.dat").expect("Could not open in.dat");
     let reader = BufReader::new(file).lines();
@@ -36,7 +42,7 @@ fn main() {
 
         if let Some((command, key)) = command.split_once(" ") {
             match command {
-                "S" => {
+                SPLAY => {
                     let key: i32 = match key.trim().parse() {
                         Ok(num) => num,
                         Err(_) => {
@@ -50,7 +56,7 @@ fn main() {
                         Tree::print_tree(&tree, &tree)
                     }
                 }
-                "F" => {
+                FIND => {
                     let key: i32 = match key.trim().parse() {
                         Ok(num) => num,
                         Err(_) => {
@@ -63,7 +69,7 @@ fn main() {
                         None => println!("Search is unsuccessful."),
                     }
                 }
-                "I" => {
+                INSERT => {
                     let key: i32 = match key.trim().parse() {
                         Ok(num) => num,
                         Err(_) => {
@@ -80,7 +86,7 @@ fn main() {
                         Tree::print_tree(&tree, &tree)
                     }
                 }
-                "D" => {
+                DELETE => {
                     let key: i32 = match key.trim().parse() {
                         Ok(num) => num,
                         Err(_) => {
@@ -97,7 +103,7 @@ fn main() {
                         Tree::print_tree(&tree, &tree)
                     }
                 }
-                "END" => {
+                END => {
                     println!("Thank you for using this tool!");
                     break;
                 }

@@ -1,6 +1,6 @@
 use super::node::Node;
 use std::cmp::Ordering;
-use std::mem;
+// use std::mem;
 
 pub struct Tree {}
 
@@ -13,13 +13,11 @@ impl Tree {
         let mut left = -1;
         let mut right = -1;
 
-        match root.left {
-            Some(_) => left = Self::depth(root.left.as_ref().unwrap(), &key),
-            None => (),
-        };
-        match root.right {
-            Some(_) => right = Self::depth(root.right.as_ref().unwrap(), &key),
-            None => (),
+        if let Some(_) = root.left {
+            left = Self::depth(root.left.as_ref().unwrap(), &key)
+        }
+        if let Some(_) = root.right {
+            right = Self::depth(root.right.as_ref().unwrap(), &key)
         }
 
         if left != -1 {
@@ -32,17 +30,16 @@ impl Tree {
     }
 
     pub fn print_tree(root: &Box<Node<i32>>, first_root: &Box<Node<i32>>) {
-        match root.right {
-            Some(_) => Self::print_tree(root.right.as_ref().unwrap(), first_root),
-            None => (),
+        if let Some(_) = root.right {
+            Self::print_tree(root.right.as_ref().unwrap(), first_root);
         }
+
         for _ in 0..(Self::depth(first_root, root) * 4) {
             print!(" ");
         }
-        println!("{:?}", root.value);
-        match root.left {
-            Some(_) => Self::print_tree(root.left.as_ref().unwrap(), first_root),
-            None => (),
+        println!("{}", root.value);
+        if let Some(_) = root.left {
+            Self::print_tree(root.left.as_ref().unwrap(), first_root)
         }
     }
 
@@ -139,7 +136,7 @@ impl Tree {
         match root {
             Some(root) => match key.cmp(&root.value) {
                 Ordering::Less => Self::find(&root.left, key),
-                Ordering::Equal => Some((*root).clone()),
+                Ordering::Equal => Some(root.clone()),
                 Ordering::Greater => Self::find(&root.right, key),
             },
             None => None,
@@ -163,71 +160,68 @@ impl Tree {
     pub fn splay(root: &Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
         match root.clone() {
             None => None,
-            Some(mut root2) => {
-                println!("Key: {}, Cmp: {:?}", root2.value, key.cmp(&root2.value));
-                match key.cmp(&root2.value) {
-                    Ordering::Less => match root2.left.clone() {
-                        Some(mut left) => {
-                            match key.cmp(&left.value) {
-                                Ordering::Less => {
-                                    //zig zig
-                                    left.left = Self::splay(&left.left, key);
-                                    root2.left = Some(left);
-                                    root2 = Self::right_rotate(&mut root2);
-                                }
-                                Ordering::Greater => {
-                                    // zig zag
-                                    left.right = Self::splay(&left.right, key);
-                                    root2.left = Some(left);
-                                    match root2.left {
-                                        Some(mut left) => {
-                                            root2.left = Some(Self::left_rotate(&mut left))
-                                        }
-                                        None => (),
+            Some(mut root2) => match key.cmp(&root2.value) {
+                Ordering::Less => match root2.left.clone() {
+                    Some(mut left) => {
+                        match key.cmp(&left.value) {
+                            Ordering::Less => {
+                                //zig zig
+                                left.left = Self::splay(&left.left, key);
+                                root2.left = Some(left);
+                                root2 = Self::right_rotate(&mut root2);
+                            }
+                            Ordering::Greater => {
+                                // zig zag
+                                left.right = Self::splay(&left.right, key);
+                                root2.left = Some(left);
+                                match root2.left {
+                                    Some(mut left) => {
+                                        root2.left = Some(Self::left_rotate(&mut left))
                                     }
+                                    None => (),
                                 }
-                                Ordering::Equal => (),
-                            };
+                            }
+                            Ordering::Equal => (),
+                        };
 
-                            match root2.left {
-                                Some(_) => Some(Self::right_rotate(&mut root2)),
-                                None => Some(root2), //zig
-                            }
+                        match root2.left {
+                            Some(_) => Some(Self::right_rotate(&mut root2)),
+                            None => Some(root2), //zig
                         }
-                        None => Some(root2),
-                    },
-                    Ordering::Greater => match root2.right.clone() {
-                        Some(mut right) => {
-                            match key.cmp(&right.value) {
-                                Ordering::Less => {
-                                    //zag zig
-                                    right.left = Self::splay(&right.left, key);
-                                    root2.right = Some(right);
-                                    match root2.right {
-                                        Some(mut right) => {
-                                            root2.right = Some(Self::right_rotate(&mut right))
-                                        }
-                                        None => todo!(),
+                    }
+                    None => Some(root2),
+                },
+                Ordering::Greater => match root2.right.clone() {
+                    Some(mut right) => {
+                        match key.cmp(&right.value) {
+                            Ordering::Less => {
+                                //zag zig
+                                right.left = Self::splay(&right.left, key);
+                                root2.right = Some(right);
+                                match root2.right {
+                                    Some(mut right) => {
+                                        root2.right = Some(Self::right_rotate(&mut right))
                                     }
+                                    None => todo!(),
                                 }
-                                Ordering::Greater => {
-                                    //zag zag
-                                    right.right = Self::splay(&right.right, key);
-                                    root2.right = Some(right);
-                                    root2 = Self::left_rotate(&mut root2);
-                                }
-                                Ordering::Equal => (),
-                            };
-                            match root2.right {
-                                Some(_) => Some(Self::left_rotate(&mut root2)),
-                                None => Some(root2), //zag
                             }
+                            Ordering::Greater => {
+                                //zag zag
+                                right.right = Self::splay(&right.right, key);
+                                root2.right = Some(right);
+                                root2 = Self::left_rotate(&mut root2);
+                            }
+                            Ordering::Equal => (),
+                        };
+                        match root2.right {
+                            Some(_) => Some(Self::left_rotate(&mut root2)),
+                            None => Some(root2), //zag
                         }
-                        None => Some(root2),
-                    },
-                    Ordering::Equal => Some(root2),
-                }
-            }
+                    }
+                    None => Some(root2),
+                },
+                Ordering::Equal => Some(root2),
+            },
         }
     }
 }

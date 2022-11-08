@@ -19,10 +19,10 @@ impl<V> Node<V> {
         a == b
     }
 
-    pub fn pop_left(&mut self) -> Option<Box<Node<V>>> {
+    pub fn _pop_left(&mut self) -> Option<Box<Node<V>>> {
         mem::replace(&mut self.left, None)
     }
-    pub fn pop_right(&mut self) -> Option<Box<Node<V>>> {
+    pub fn _pop_right(&mut self) -> Option<Box<Node<V>>> {
         mem::replace(&mut self.right, None)
     }
 }
