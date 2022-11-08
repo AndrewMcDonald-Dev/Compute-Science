@@ -112,23 +112,27 @@ impl Tree {
         root = Self::splay(&root, key);
         root
         // ? doesnt work dont know how to fix
-        // match key.cmp(&root.value) {
-        //     Ordering::Less => {
-        //         let left = root.pop_left();
-        //         let new = Node::new(key, left, None);
-        //         let prev = mem::replace(&mut root, new);
-        //         println!("{}", prev.value);
-        //         root.right = Some(prev);
-        //     }
-        //     Ordering::Equal => (),
-        //     Ordering::Greater => {
-        //         let right = root.pop_right();
-        //         let new = Node::new(key, None, right);
-        //         let prev = mem::replace(&mut root, new);
-        //         root.left = Some(prev);
-        //     }
+        // match root {
+        //     Some(mut root) => match key.cmp(&root.value) {
+        //         Ordering::Less => {
+        //             let left = root.pop_left();
+        //             let new = Node::new(key, left, None);
+        //             let prev = mem::replace(&mut root, new);
+        //             println!("{}", prev.value);
+        //             root.right = Some(prev);
+        //             Some(root)
+        //         }
+        //         Ordering::Equal => Some(root),
+        //         Ordering::Greater => {
+        //             let right = root.pop_right();
+        //             let new = Node::new(key, None, right);
+        //             let prev = mem::replace(&mut root, new);
+        //             root.left = Some(prev);
+        //             Some(root)
+        //         }
+        //     },
+        //     None => Some(Node::new(key, None, None)),
         // }
-        // root
     }
 
     pub fn find(root: &Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
@@ -168,19 +172,24 @@ impl Tree {
                                 Ordering::Less => {
                                     //zig zig
                                     left.left = Self::splay(&left.left, key);
+                                    root2.left = Some(left);
                                     root2 = Self::right_rotate(&mut root2);
                                 }
                                 Ordering::Greater => {
                                     // zig zag
                                     left.right = Self::splay(&left.right, key);
-                                    if let Some(_) = &left.right {
-                                        root2.left = Some(Self::left_rotate(&mut left));
-                                    };
+                                    root2.left = Some(left);
+                                    match root2.left {
+                                        Some(mut left) => {
+                                            root2.left = Some(Self::left_rotate(&mut left))
+                                        }
+                                        None => (),
+                                    }
                                 }
                                 Ordering::Equal => (),
                             };
 
-                            match &root2.left {
+                            match root2.left {
                                 Some(_) => Some(Self::right_rotate(&mut root2)),
                                 None => Some(root2), //zig
                             }
@@ -193,16 +202,21 @@ impl Tree {
                                 Ordering::Less => {
                                     //zag zig
                                     right.left = Self::splay(&right.left, key);
-                                    if let Some(_) = &right.left {
-                                        root2.right = Some(Self::right_rotate(&mut right));
-                                    };
+                                    root2.right = Some(right);
+                                    match root2.right {
+                                        Some(mut right) => {
+                                            root2.right = Some(Self::right_rotate(&mut right))
+                                        }
+                                        None => todo!(),
+                                    }
                                 }
-                                Ordering::Equal => (),
                                 Ordering::Greater => {
                                     //zag zag
                                     right.right = Self::splay(&right.right, key);
+                                    root2.right = Some(right);
                                     root2 = Self::left_rotate(&mut root2);
                                 }
+                                Ordering::Equal => (),
                             };
                             match root2.right {
                                 Some(_) => Some(Self::left_rotate(&mut root2)),

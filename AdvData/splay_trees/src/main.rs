@@ -23,7 +23,7 @@ fn main() {
 
     println!("Starting Tree:");
     println!();
-    Tree::print_tree(tree.as_ref().unwrap(), &tree.as_ref().unwrap());
+    Tree::print_tree(tree.as_ref().unwrap(), tree.as_ref().unwrap());
     println!();
 
     loop {
