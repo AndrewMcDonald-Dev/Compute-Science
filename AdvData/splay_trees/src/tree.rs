@@ -107,9 +107,9 @@ impl Tree {
         min_v
     }
 
-    pub fn splay_insert(mut root: Box<Node<i32>>, key: i32) -> Box<Node<i32>> {
-        root = Self::insert(&mut Some(root), key).unwrap();
-        root = Self::splay(&Some(root), key).unwrap();
+    pub fn splay_insert(mut root: Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
+        root = Self::insert(&mut root, key);
+        root = Self::splay(&root, key);
         root
         // ? doesnt work dont know how to fix
         // match key.cmp(&root.value) {
@@ -159,58 +159,61 @@ impl Tree {
     pub fn splay(root: &Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
         match root.clone() {
             None => None,
-            Some(mut root2) => match key.cmp(&root2.value) {
-                Ordering::Less => match root2.left.clone() {
-                    Some(mut left) => {
-                        match key.cmp(&left.value) {
-                            Ordering::Less => {
-                                //zig zig
-                                left.left = Self::splay(&left.left, key);
-                                root2 = Self::right_rotate(&mut root2);
-                            }
-                            Ordering::Greater => {
-                                // zig zag
-                                left.right = Self::splay(&left.right, key);
-                                if let Some(_) = &left.right {
-                                    root2.left = Some(Self::left_rotate(&mut left));
-                                };
-                            }
-                            Ordering::Equal => (),
-                        };
+            Some(mut root2) => {
+                println!("Key: {}, Cmp: {:?}", root2.value, key.cmp(&root2.value));
+                match key.cmp(&root2.value) {
+                    Ordering::Less => match root2.left.clone() {
+                        Some(mut left) => {
+                            match key.cmp(&left.value) {
+                                Ordering::Less => {
+                                    //zig zig
+                                    left.left = Self::splay(&left.left, key);
+                                    root2 = Self::right_rotate(&mut root2);
+                                }
+                                Ordering::Greater => {
+                                    // zig zag
+                                    left.right = Self::splay(&left.right, key);
+                                    if let Some(_) = &left.right {
+                                        root2.left = Some(Self::left_rotate(&mut left));
+                                    };
+                                }
+                                Ordering::Equal => (),
+                            };
 
-                        match &root2.left {
-                            Some(_) => Some(Self::right_rotate(&mut root2)),
-                            None => Some(root2), //zig
-                        }
-                    }
-                    None => Some(root2),
-                },
-                Ordering::Greater => match root2.right.clone() {
-                    Some(mut right) => {
-                        match key.cmp(&right.value) {
-                            Ordering::Less => {
-                                //zag zig
-                                right.left = Self::splay(&right.left, key);
-                                if let Some(_) = &right.left {
-                                    root2.right = Some(Self::right_rotate(&mut right));
-                                };
+                            match &root2.left {
+                                Some(_) => Some(Self::right_rotate(&mut root2)),
+                                None => Some(root2), //zig
                             }
-                            Ordering::Equal => (),
-                            Ordering::Greater => {
-                                //zag zag
-                                right.right = Self::splay(&right.right, key);
-                                root2 = Self::left_rotate(&mut root2);
-                            }
-                        };
-                        match root2.right {
-                            Some(_) => Some(Self::left_rotate(&mut root2)),
-                            None => Some(root2), //zag
                         }
-                    }
-                    None => Some(root2),
-                },
-                Ordering::Equal => Some(root2),
-            },
+                        None => Some(root2),
+                    },
+                    Ordering::Greater => match root2.right.clone() {
+                        Some(mut right) => {
+                            match key.cmp(&right.value) {
+                                Ordering::Less => {
+                                    //zag zig
+                                    right.left = Self::splay(&right.left, key);
+                                    if let Some(_) = &right.left {
+                                        root2.right = Some(Self::right_rotate(&mut right));
+                                    };
+                                }
+                                Ordering::Equal => (),
+                                Ordering::Greater => {
+                                    //zag zag
+                                    right.right = Self::splay(&right.right, key);
+                                    root2 = Self::left_rotate(&mut root2);
+                                }
+                            };
+                            match root2.right {
+                                Some(_) => Some(Self::left_rotate(&mut root2)),
+                                None => Some(root2), //zag
+                            }
+                        }
+                        None => Some(root2),
+                    },
+                    Ordering::Equal => Some(root2),
+                }
+            }
         }
     }
 }

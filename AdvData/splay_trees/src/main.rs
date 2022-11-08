@@ -3,7 +3,7 @@ mod tree;
 
 use std::{
     fs::File,
-    io::{stdin, BufRead, BufReader},
+    io::{stdin, BufRead, BufReader, Write},
 };
 
 use crate::tree::Tree;
@@ -21,9 +21,14 @@ fn main() {
         };
     }
 
+    println!("Starting Tree:");
+    println!();
     Tree::print_tree(tree.as_ref().unwrap(), &tree.as_ref().unwrap());
+    println!();
 
     loop {
+        print!("Enter Command: ");
+        std::io::stdout().flush().expect("Error writing message.");
         let mut command = String::new();
         stdin()
             .read_line(&mut command)
@@ -39,9 +44,9 @@ fn main() {
                             continue;
                         }
                     };
-                    let tree2 = Tree::splay(&tree, key);
+                    tree = Tree::splay(&tree, key);
                     println!("Splay is done.");
-                    if let Some(tree) = tree2 {
+                    if let Some(tree) = tree.clone() {
                         Tree::print_tree(&tree, &tree)
                     }
                 }
@@ -66,12 +71,12 @@ fn main() {
                             continue;
                         }
                     };
-                    let tree2 = Tree::insert(&mut tree, key);
-                    match tree2 {
+                    tree = Tree::splay_insert(tree, key);
+                    match tree {
                         Some(_) => println!("The key is inserted into the tree."),
                         None => println!("Duplicate Keys."),
                     };
-                    if let Some(tree) = tree2 {
+                    if let Some(tree) = tree.clone() {
                         Tree::print_tree(&tree, &tree)
                     }
                 }
@@ -105,5 +110,6 @@ fn main() {
             println!("Could not read command.");
             continue;
         }
+        println!();
     }
 }
