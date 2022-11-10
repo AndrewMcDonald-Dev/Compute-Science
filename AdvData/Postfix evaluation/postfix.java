@@ -53,7 +53,7 @@ class PostFix {
 				System.out.print("Enter the value of " + var + " > ");
 				int n = scan.nextInt();
 				scan.nextLine();
-				for (int j = 0; j < tokens.length; j++)
+				for (int j = i; j < tokens.length; j++)
 					if (tokens[j].equals(var))
 						tokens[j] = String.valueOf(n);
 			}
