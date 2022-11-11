@@ -31,13 +31,12 @@ fn main() {
 }
 
 fn assign_variables(exp: &str) -> String {
-    let tokens = exp.split_whitespace().collect::<Vec<&str>>();
-    let temp = &tokens.clone();
+    let tokens = &exp.split_whitespace().collect::<Vec<&str>>();
     let mut variable: Vec<String> = Vec::new();
     let mut assignd: Vec<u32> = Vec::new();
-    let mut result: Vec<String> = vec!["".to_string(); temp.len()];
+    let mut result: Vec<String> = vec!["".to_string(); tokens.len()];
 
-    for (i,token) in temp.iter().enumerate() {
+    for (i,token) in tokens.iter().enumerate() {
         if Regex::new("^[a-z]+$").unwrap().is_match(token) {
             if !variable.contains(&token.to_string()) {
                 print!("Enter the value of {} > ", token);
@@ -57,10 +56,7 @@ fn assign_variables(exp: &str) -> String {
                 let j = variable.iter().position(|r| r == token).unwrap();
                 result[i] = assignd[j].to_string();
             }
-        }
-    }
-    for (i, token) in temp.iter().enumerate() {
-        if result[i].eq("") {
+        } else {
             result[i] = token.to_string();
         }
     }
