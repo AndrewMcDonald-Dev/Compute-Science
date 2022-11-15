@@ -1,6 +1,6 @@
 use super::node::Node;
 use std::cmp::Ordering;
-// use std::mem;
+use std::mem;
 
 pub struct Tree {}
 
@@ -63,73 +63,70 @@ impl Tree {
         Some(temp)
     }
 
-    pub fn delete(root: &mut Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
+    pub fn delete(root: Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
         match root {
             None => None,
-            Some(root) => match key.cmp(&root.value) {
-                Ordering::Less => {
-                    root.left = Self::delete(&mut root.left, key);
-                    Some(root.clone())
-                }
-                Ordering::Equal => {
-                    if let None = root.right {
-                        return root.left.clone();
-                    }
-                    if let None = root.left {
-                        return root.right.clone();
-                    }
+            Some(mut root) => {
+                root = Self::splay(&Some(root), key).expect("No tree.");
+                match key.cmp(&root.value) {
+                    Ordering::Less => None,
+                    Ordering::Equal => match root.left {
+                        Some(mut left) => {
+                            left = Self::splay(&Some(left.clone()), Self::max_value(&left))
+                                .expect("No tree.");
+                            left.right = root.right;
+                            Some(left)
+                        }
 
-                    match &root.right {
-                        Some(right) => root.value = Self::min_value(&right),
-                        None => panic!("HElp"),
-                    }
-                    root.right = Self::delete(&mut root.right, root.value);
-                    Some(root.clone())
+                        None => root.right,
+                    },
+                    Ordering::Greater => None,
                 }
-                Ordering::Greater => {
-                    root.right = Self::delete(&mut root.right, key);
-                    Some(root.clone())
-                }
-            },
+            }
         }
     }
 
-    pub fn min_value(root: &Box<Node<i32>>) -> i32 {
-        let mut min_v = root.value;
+    pub fn max_value(root: &Box<Node<i32>>) -> i32 {
+        let mut max_v = root.value;
         let mut root = root.clone();
-        while let Some(left) = root.left {
-            min_v = left.value;
-            root = left;
+        while let Some(right) = root.right {
+            max_v = right.value;
+            root = right;
         }
-        min_v
+        max_v
     }
 
-    pub fn splay_insert(mut root: Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
-        root = Self::insert(&mut root, key);
-        root = Self::splay(&root, key);
-        root
+    pub fn splay_insert(root: Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
+        // root = Self::insert(&mut root, key);
+        // root = Self::splay(&root, key);
+        // root
         // ? doesnt work dont know how to fix
-        // match root {
-        //     Some(mut root) => match key.cmp(&root.value) {
-        //         Ordering::Less => {
-        //             let left = root.pop_left();
-        //             let new = Node::new(key, left, None);
-        //             let prev = mem::replace(&mut root, new);
-        //             println!("{}", prev.value);
-        //             root.right = Some(prev);
-        //             Some(root)
-        //         }
-        //         Ordering::Equal => Some(root),
-        //         Ordering::Greater => {
-        //             let right = root.pop_right();
-        //             let new = Node::new(key, None, right);
-        //             let prev = mem::replace(&mut root, new);
-        //             root.left = Some(prev);
-        //             Some(root)
-        //         }
-        //     },
-        //     None => Some(Node::new(key, None, None)),
-        // }
+        match root {
+            Some(mut root) => {
+                println!("root: {}", root.value);
+                root = Self::splay(&Some(root), key).expect("No tree");
+
+                match key.cmp(&root.value) {
+                    Ordering::Less => {
+                        let left = root.pop_left();
+                        let new = Node::new(key, left, None);
+                        let prev = mem::replace(&mut root, new);
+                        root.right = Some(prev);
+
+                        Some(root)
+                    }
+                    Ordering::Equal => Some(root),
+                    Ordering::Greater => {
+                        let right = root.pop_right();
+                        let new = Node::new(key, None, right);
+                        let prev = mem::replace(&mut root, new);
+                        root.left = Some(prev);
+                        Some(root)
+                    }
+                }
+            }
+            None => Some(Node::new(key, None, None)),
+        }
     }
 
     pub fn find(root: &Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
@@ -144,17 +141,23 @@ impl Tree {
     }
 
     pub fn right_rotate(root: &mut Box<Node<i32>>) -> Box<Node<i32>> {
-        let mut temp = root.left.as_ref().unwrap().clone();
-        root.left = temp.right;
-        temp.right = Some(root.clone());
-        temp
+        if let Some(_) = &root.left {
+            let mut temp = root.left.as_ref().unwrap().clone();
+            root.left = temp.right;
+            temp.right = Some(root.clone());
+            return temp;
+        }
+        root.clone()
     }
 
     pub fn left_rotate(root: &mut Box<Node<i32>>) -> Box<Node<i32>> {
-        let mut temp = root.right.as_ref().unwrap().clone();
-        root.right = temp.left;
-        temp.left = Some(root.clone());
-        temp
+        if let Some(_) = &root.right {
+            let mut temp = root.right.as_ref().unwrap().clone();
+            root.right = temp.left;
+            temp.left = Some(root.clone());
+            return temp;
+        }
+        root.clone()
     }
 
     pub fn splay(root: &Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {

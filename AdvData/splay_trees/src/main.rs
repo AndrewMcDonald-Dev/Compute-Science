@@ -101,9 +101,11 @@ fn main() {
                             continue;
                         }
                     };
-                    tree = Tree::delete(&mut tree, key);
-                    match tree {
-                        Some(_) => println!("The key is deleted from the tree."),
+                    match Tree::delete(tree.clone(), key) {
+                        Some(tree2) => {
+                            println!("The key is deleted from the tree.");
+                            tree = Some(tree2);
+                        }
                         None => println!("The key is not in the tree."),
                     }
                     if let Some(tree) = tree.clone() {
