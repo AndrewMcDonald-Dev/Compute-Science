@@ -1,6 +1,7 @@
 mod node;
 mod tree;
 
+use regex::Regex;
 use std::{
     fs::File,
     io::{stdin, BufRead, BufReader, Write},
@@ -40,7 +41,13 @@ fn main() {
             .read_line(&mut command)
             .expect("Failed to read input.");
 
-        if let Some((command, key)) = command.split_once(" ") {
+        let splits: Vec<&str> = Regex::new(" +")
+            .expect("Bad regex.")
+            .split(&command)
+            .collect();
+        if splits.len() > 1 {
+            let (command, key) = (splits[0], splits[1]);
+            // if {
             match command {
                 SPLAY => {
                     let key: i32 = match key.trim().parse() {
@@ -113,7 +120,7 @@ fn main() {
                 }
             }
         } else {
-            println!("Could not read command.");
+            println!("Could not read command. Not enough arguments");
             continue;
         }
         println!();
