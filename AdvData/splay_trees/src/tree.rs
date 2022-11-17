@@ -103,7 +103,6 @@ impl Tree {
         // ? doesnt work dont know how to fix
         match root {
             Some(mut root) => {
-                println!("root: {}", root.value);
                 root = Self::splay(&Some(root), key).expect("No tree");
 
                 match key.cmp(&root.value) {
