@@ -71,9 +71,19 @@ fn main() {
                             continue;
                         }
                     };
-                    match Tree::find(&tree, key) {
-                        Some(_) => println!("Search is successful."),
+                    tree = Tree::splay(&tree, key);
+                    match tree.clone() {
+                        Some(root) => {
+                            if root.value == key {
+                                println!("Search is successful")
+                            }else {
+                                println!("Search is unsuccessful.")
+                            }
+                        },
                         None => println!("Search is unsuccessful."),
+                    }
+                    if let Some(tree) = tree.clone() {
+                        Tree::print_tree(&tree, &tree);
                     }
                 }
                 INSERT => {
