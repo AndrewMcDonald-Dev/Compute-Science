@@ -69,7 +69,7 @@ impl Tree {
             Some(mut root) => {
                 root = Self::splay(&Some(root), key).expect("No tree.");
                 match key.cmp(&root.value) {
-                    Ordering::Less => None,
+                    Ordering::Less => Some(root),
                     Ordering::Equal => match root.left {
                         Some(mut left) => {
                             left = Self::splay(&Some(left.clone()), Self::max_value(&left))
@@ -80,7 +80,7 @@ impl Tree {
 
                         None => root.right,
                     },
-                    Ordering::Greater => None,
+                    Ordering::Greater => Some(root),
                 }
             }
         }
@@ -128,16 +128,16 @@ impl Tree {
         }
     }
 
-    pub fn find(root: &Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
-        match root {
-            Some(root) => match key.cmp(&root.value) {
-                Ordering::Less => Self::find(&root.left, key),
-                Ordering::Equal => Some(root.clone()),
-                Ordering::Greater => Self::find(&root.right, key),
-            },
-            None => None,
-        }
-    }
+    // pub fn find(root: &Option<Box<Node<i32>>>, key: i32) -> Option<Box<Node<i32>>> {
+    //     match root {
+    //         Some(root) => match key.cmp(&root.value) {
+    //             Ordering::Less => Self::find(&root.left, key),
+    //             Ordering::Equal => Some(root.clone()),
+    //             Ordering::Greater => Self::find(&root.right, key),
+    //         },
+    //         None => None,
+    //     }
+    // }
 
     pub fn right_rotate(root: &mut Box<Node<i32>>) -> Box<Node<i32>> {
         if let Some(_) = &root.left {

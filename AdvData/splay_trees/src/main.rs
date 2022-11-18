@@ -111,10 +111,10 @@ fn main() {
                             continue;
                         }
                     };
-                    match Tree::delete(tree.clone(), key) {
-                        Some(tree2) => {
+                    tree = Tree::delete(tree.clone(), key); 
+                    match tree{
+                        Some(_) => {
                             println!("The key is deleted from the tree.");
-                            tree = Some(tree2);
                         }
                         None => println!("The key is not in the tree."),
                     }
