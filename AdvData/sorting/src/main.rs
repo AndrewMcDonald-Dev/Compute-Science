@@ -245,22 +245,28 @@ fn gonnet_sort(arr: &mut [i32]) -> usize {
 fn sedgewick_sort(arr: &mut [i32]) -> usize {
     let mut count = 0;
     let len = arr.len();
-    let mut gap = 1;
     let mut i = 0;
-    while gap < (len as i32) / 3 {
-        gap = 4 * 9i32.pow(i) - 9 * 2i32.pow(i) + 1;
+    let mut increments = Vec::new();
+    while increments.last().unwrap_or(&0) < &((len as i32) / 3) {
+        increments.push(9 * 4i32.pow(i) - 9 * 2i32.pow(i) + 1);
         if i >= 2 {
-            gap += 4i32.pow(i) - 3 * 2i32.pow(i) + 1
+            increments.push(4i32.pow(i) - 3 * 2i32.pow(i) + 1)
         }
         i += 1;
     }
+    increments.sort();
+    increments.retain(|x| x < &(len as i32));
+    // println!("Increments: {:?}", increments);
+    let mut i: i32 = increments.len() as i32 - 1;
 
-    while gap > 0 {
-        for i in gap..len as i32 {
-            let temp = arr[i as usize];
-            let mut j = i;
+    while i >= 0 {
+        let gap = increments[i as usize];
+        // println!("Gap: {:?}", gap);
+        for k in gap..len as i32 {
+            let temp = arr[k as usize];
+            let mut j = k;
             count += 1;
-            while j >= gap && arr[j as usize - gap as usize] > temp {
+            while j >= gap && arr[(j - gap) as usize] > temp {
                 arr.swap(j as usize, j as usize - gap as usize);
                 count += 1;
                 j -= gap;
@@ -269,10 +275,6 @@ fn sedgewick_sort(arr: &mut [i32]) -> usize {
             arr[j as usize] = temp;
         }
         i -= 1;
-        gap = 4 * 9i32.pow(i) - 9 * 2i32.pow(i) + 1;
-        if i >= 2 {
-            gap += 4i32.pow(i) - 3 * 2i32.pow(i) + 1
-        }
     }
     count
 }
