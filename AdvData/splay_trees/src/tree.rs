@@ -5,7 +5,7 @@ use std::mem;
 pub struct Tree {}
 
 impl Tree {
-    pub fn depth(root: &Box<Node<i32>>, key: &Box<Node<i32>>) -> isize {
+    pub fn depth(root: &Node<i32>, key: &Node<i32>) -> isize {
         if Node::<i32>::same(root, key) {
             return 0;
         }
@@ -13,11 +13,11 @@ impl Tree {
         let mut left = -1;
         let mut right = -1;
 
-        if let Some(_) = root.left {
-            left = Self::depth(root.left.as_ref().unwrap(), &key)
+        if root.left.is_some() {
+            left = Self::depth(root.left.as_ref().unwrap(), key)
         }
-        if let Some(_) = root.right {
-            right = Self::depth(root.right.as_ref().unwrap(), &key)
+        if root.right.is_some() {
+            right = Self::depth(root.right.as_ref().unwrap(), key)
         }
 
         if left != -1 {
@@ -29,8 +29,8 @@ impl Tree {
         -1
     }
 
-    pub fn print_tree(root: &Box<Node<i32>>, first_root: &Box<Node<i32>>) {
-        if let Some(_) = root.right {
+    pub fn print_tree(root: &Node<i32>, first_root: &Node<i32>) {
+        if root.right.is_some() {
             Self::print_tree(root.right.as_ref().unwrap(), first_root);
         }
 
@@ -38,7 +38,7 @@ impl Tree {
             print!(" ");
         }
         println!("{}", root.value);
-        if let Some(_) = root.left {
+        if root.left.is_some() {
             Self::print_tree(root.left.as_ref().unwrap(), first_root)
         }
     }
@@ -86,12 +86,12 @@ impl Tree {
         }
     }
 
-    pub fn max_value(root: &Box<Node<i32>>) -> i32 {
+    pub fn max_value(root: &Node<i32>) -> i32 {
         let mut max_v = root.value;
         let mut root = root.clone();
         while let Some(right) = root.right {
             max_v = right.value;
-            root = right;
+            root = *right;
         }
         max_v
     }
@@ -140,7 +140,7 @@ impl Tree {
     // }
 
     pub fn right_rotate(root: &mut Box<Node<i32>>) -> Box<Node<i32>> {
-        if let Some(_) = &root.left {
+        if root.left.is_some() {
             let mut temp = root.left.as_ref().unwrap().clone();
             root.left = temp.right;
             temp.right = Some(root.clone());
@@ -150,7 +150,7 @@ impl Tree {
     }
 
     pub fn left_rotate(root: &mut Box<Node<i32>>) -> Box<Node<i32>> {
-        if let Some(_) = &root.right {
+        if root.right.is_some() {
             let mut temp = root.right.as_ref().unwrap().clone();
             root.right = temp.left;
             temp.left = Some(root.clone());
@@ -176,11 +176,8 @@ impl Tree {
                                 // zig zag
                                 left.right = Self::splay(&left.right, key);
                                 root2.left = Some(left);
-                                match root2.left {
-                                    Some(mut left) => {
-                                        root2.left = Some(Self::left_rotate(&mut left))
-                                    }
-                                    None => (),
+                                if let Some(mut left) = root2.left {
+                                    root2.left = Some(Self::left_rotate(&mut left))
                                 }
                             }
                             Ordering::Equal => (),
