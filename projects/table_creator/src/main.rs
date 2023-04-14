@@ -57,7 +57,14 @@ fn main() -> Result<(), Box<dyn Error>> {
             };
 			//Pull json data and serialize it
 			let data = pull_data(text);
-			let serialized = serde_json::to_string(&data).expect("Could not serialize data.").replace('\"', "\\\"").replace("\\\\\"", "\\\"");
+			let serialized = serde_json::to_string(&data)
+				.expect("Could not serialize data.")
+				.replace('\"', "\\\"")
+				.replace("\\\\\"", "\\\"")
+				.replace("<b>", "")
+				.replace("</b>", "")
+				.replace("<strong>", "")
+				.replace("</strong>", "");
 
 			// Combine introtext and fulltext into one
 

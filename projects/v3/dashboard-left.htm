@@ -1,0 +1,44 @@
+<html>
+<head>
+ <title> Dashboard </title> 
+ <style>
+	.side-bar{
+		display: flex;
+		flex-direction: column;
+		margin: 10px;
+	}
+	
+	.side-bar a{
+		padding: 10px;
+		border-radius: 5px;
+		margin: 10px;
+		text-align: center;
+		text-decoration: none;
+		color: black;
+	}
+	.side-bar a:hover{
+		background-color: rgb(128, 97, 19);
+	}
+	body{
+		margin: 0;
+		padding: 0;
+	}
+	.side-bar-top{
+		text-align: center;
+		color: white;
+	}
+ </style>
+</head> 
+	<body>              
+		<div class="side-bar-top">
+			<h3>Admin</h3>
+			<hr></hr>
+		</div>
+			
+		<div class="side-bar">
+			<a href="ViewEditUsers.php" target="RIGHT">View/Edit Users</a>
+            		<a href="dashboard.php" target="RIGHT">View/Edit Properties</a>
+		</div>
+        
+  	</body>
+</html>
