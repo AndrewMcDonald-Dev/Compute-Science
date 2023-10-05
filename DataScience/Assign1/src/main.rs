@@ -1,4 +1,4 @@
-use std::{fs, io::Write, ops::Add};
+use std::{fs, io::Write, ops::Add, collections::HashMap};
 extern crate num;
 
 #[derive(Debug, Clone)]
@@ -177,6 +177,24 @@ impl Car {
 
         new_cars
     }
+
+
+    fn calc_freq(cars: &Vec<Car>, attr: &str) -> HashMap<String, usize> {
+        let frequencies: HashMap<String, usize> = HashMap::new();
+
+        for car in cars.iter() {
+            match attr {
+                "make" => {
+                    if let Some(num) = frequencies.get(&car.make) {
+                        frequencies.insert(car.make, num+1);
+                    };
+                }
+                _ => panic!("Error")
+            };
+        }
+
+        frequencies
+    }
 }
 
 fn main() {
@@ -196,10 +214,13 @@ fn main() {
         records.push(record)
     }
     println!("{:?}", records[2]);
-    std::io::stdout().flush().unwrap();
 
     //Fill in missing numeric values with the mean of that column
     records = Car::clean_data(records);
+
+
+    //Calculate frequency of items in Column 'Make'
+    let frequencies: Vec<(String, usize)> = Car::calc_freq(&records, "make")
 
     println!("{:?}", records[2]);
     println!("{}", records.len())
