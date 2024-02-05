@@ -124,7 +124,7 @@ fn quick_sort(values: &mut [i32], start: Option<isize>, end: Option<isize>) -> u
                 arr.swap(store_index as usize, last_index as usize);
             }
         }
-        arr.swap(store_index as usize, pivot as usize);
+        arr.swap(store_index as usize, pivot);
         (store_index as usize, count)
     }
     let mut count = 0;

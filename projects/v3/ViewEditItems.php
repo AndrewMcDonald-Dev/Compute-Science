@@ -1,15 +1,15 @@
 <?php
-// Initialize the session
-session_start();
+    // Initialize the session
+    session_start();
 
-// Access Database
-require 'config.php';
+    // Access Database
+    require 'config.php';
 
-//$myask = "SELECT 'id', 'title', 'fulltext' FROM jos_content;";
+    //$myask = "SELECT 'id', 'title', 'fulltext' FROM jos_content;";
 
-$myask = "SELECT * FROM a_all_items ORDER BY cid ASC";
+    $myask = "SELECT * FROM a_all_items ORDER BY cid ASC";
 
-$allitems_q = mysqli_query($link, $myask);
+    $allitems_q = mysqli_query($link, $myask);
 ?>
 
 <html>
@@ -59,28 +59,61 @@ $allitems_q = mysqli_query($link, $myask);
 
 	<CENTER>
 
-		<?php
+		<?php 
 
-		// use SESSION to automatically DETECT username
+// use SESSION to automatically DETECT username
 
-		if (!empty($_SESSION["username"])) {
-			echo "<h4>Hello <font color=\"red\">";
-			echo htmlspecialchars($_SESSION["username"]);
-			echo "</font>!";
-		}
-		if (isset($_GET['msg'])) {
-			echo $_GET['msg'];
-		}
-		?>
+    if(!empty($_SESSION["username"]))
+    {
+        echo "<h4>Hello <font color=\"red\">";
+        echo htmlspecialchars($_SESSION["username"]); 
+        echo "</font>!";
+    }
+    if(isset($_GET['msg']))
+    {
+        echo $_GET['msg'];
+    }
+?>
+	<?php
+		// search through table with search bar and display results, alerts user if item is not found
+		// --------------------------------------------------------------------------------------------
+		
+		 if(isset($_POST['search']))
+		 {
+		 	$search = $_POST['search'];
+		 	$myask = "SELECT * FROM jos_content WHERE title LIKE '%$search%' OR fulltext LIKE '%$search%'";
+		 	$allitems_q = mysqli_query($link, $myask);
+		 	$count = mysqli_num_rows($allitems_q);
+		 	if($count == 0)
+		 	{
+	 			echo "<h3> No results found! </h3>";
+		 	}
+		 	else
+		 	{
+		 		echo "<h3> $count results found! </h3>";
+		 	}
+		 }
+	
 
+
+		
+
+
+
+
+	?>
+		
 		<h1 id="admin-dashboard"> View
 			or Edit Items </h1>
 
+		
 		<div class="search-bar">
-			<input type="text"
-				placeholder="Search.."><button
-				id="search-btn">Search</button>
+			<form action="ViewEditItems.php" method="post">
+				<input type="text" name="search" placeholder="Search for item...">
+				<input type="submit" id="search-btn" value="Search">
+			</form>
 		</div>
+
 		<table border="0"
 			cellpadding="5"
 			style="border-collapse: collapse; ">
@@ -93,22 +126,23 @@ $allitems_q = mysqli_query($link, $myask);
 
 				<?php
 
-				// DISPLAY cell content of each column and each row
-				//-------------------------------------------------
+// DISPLAY cell content of each column and each row
+//-------------------------------------------------
 
-				function hrefFix_two($id, $col) {
-					echo "editCelli.php?pkname=cid&id=" . $id
-						. "&column=" . $col . "&table=a_all_items";
-				}
-				while ($items_t_vals = mysqli_fetch_object($allitems_q)) {
-					$pid = $items_t_vals->cid;
-				?>
+        function hrefFix_two($id, $col)
+        {
+            echo "editCelli.php?pkname=id&id=" . $id
+            . "&column=" . $col . "&table=jos_content";
+        }
+        while($items_t_vals = mysqli_fetch_object($allitems_q))
+        { 
+          $pid = $items_t_vals->cid;
+?>
 
 				<tr
 					style="border-bottom: 1px solid">
 					<td>
-						<!--<a href=<?php //echo hrefFix_two($pid, "id"); 
-										?>>-->
+						<!--<a href=<?php //echo hrefFix_two($pid, "id"); ?>>-->
 						<?php echo $pid; ?>
 						<!--</a>-->
 					</td>
@@ -120,8 +154,8 @@ $allitems_q = mysqli_query($link, $myask);
 					</td>
 				</tr>
 				<?php
-				}
-				?>
+        }
+?>
 
 			</tbody>
 		</table>

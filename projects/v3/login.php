@@ -1,67 +1,62 @@
 <?php
- 
+
 // Include config file
-require_once "config.php";
- 
-// Define variables and initialize with empty values
-$username = $password = $message = "";
- 
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+include("session.php");
+include("config.php");
 
-        $username = trim($_POST["UserName"]);
-        $password = trim($_POST["MyPass"]);
-  
-    // Validate credentials
+if(isset($_POST['submit'])){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-        // Prepare a select statement
-        $sql = "SELECT id, username, password FROM a_users_nick WHERE username = ?";
-        
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-            
-            // Set parameters
-            $param_username = $username;
-            
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Store result
-                mysqli_stmt_store_result($stmt);
-                
-                // Check if username exists, if yes then verify password
-                if(mysqli_stmt_num_rows($stmt) == 1){                    
-                    // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $username, $h_password);
-                    if(mysqli_stmt_fetch($stmt)){
-                        if($password == $h_password){
-                            // Password is correct Display a message that it's OK
-                            $message = "Welcome Back!";
+    $sql = "SELECT * FROM a_users WHERE username = '$username' AND password = '$password'";
+    $result = mysqli_query($link, $sql);
 
-                        } else{
-                        // Display an error message if password is not valid
-                            $message = "The password you entered was not valid.";
-                        }
-                    }
-                } else{
-                        $message = "No account found with that username.";
-                    }
-                }
-                
-                mysqli_stmt_close($stmt);
-            }
-            
-        mysqli_close($link);
+    if(mysqli_num_rows($result) == 1){
+        $_SESSION['username'] = $username;
+        echo '<script>parent.window.location.reload(true);</script>';
+    }else{
+        echo "Username or Password is incorrect";
     }
-    ?>
-    
-    <html>
+}
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-<?php echo $message; ?>
+    <div class="container">
+        <div class="login-card">
+            <div class="card-top">
+                <h1>Admin Login</h1>
+            </div>
+            <div class="admin-login">
+                <form action="login.php" method="post">
+                    <p>Username</p>
+                    <input type="text" name="username" placeholder="Username">
+                    <p>Password</p>
+                    <input type="password" name="password" placeholder="Password">
+                    <button type="submit" name="submit">Login</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    
+
 </body>
 </html>
-
-
+<script>
+    function refreshFrame() {
+        window.parent.location.reload();
+    }
+   
+</script>

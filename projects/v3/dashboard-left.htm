@@ -11,13 +11,15 @@
 	.side-bar a{
 		padding: 10px;
 		border-radius: 5px;
-		margin: 10px;
+		margin: 15px;
 		text-align: center;
 		text-decoration: none;
 		color: black;
+		background-color: white;
 	}
 	.side-bar a:hover{
-		background-color: rgb(128, 97, 19);
+		background-color: black;
+		color: white;
 	}
 	body{
 		margin: 0;
@@ -26,18 +28,28 @@
 	.side-bar-top{
 		text-align: center;
 		color: white;
+		background-color: black;
 	}
  </style>
 </head> 
 	<body>              
 		<div class="side-bar-top">
-			<h3>Admin</h3>
 			<hr></hr>
+			<h3>Admin Dashboard</h3>
+			<hr></hr>
+			
 		</div>
 			
 		<div class="side-bar">
+						
+
 			<a href="ViewEditUsers.php" target="RIGHT">View/Edit Users</a>
-            		<a href="dashboard.php" target="RIGHT">View/Edit Properties</a>
+     			<a href="ViewEditItems.php" target="RIGHT">View/Edit Addresses</a>
+			<a href="dashboard.php" target="RIGHT">View/Edit Properties</a>
+			<a href="item-edit.php" target="RIGHT">Edit An Item</a>
+			<a href="upload.php" target="RIGHT">Upload File</a>
+			<a href="file-view.php" target="RIGHT">View Files</a>
+			<a href="map-admin.php" target="RIGHT">Edit Map</a>
 		</div>
         
   	</body>
