@@ -44,6 +44,29 @@ abstract class Iter<T> {
 			}
 		}
 	}
+
+	Range size_hint() {
+		return new Range(0, -1);
+	}
+
+}
+
+class Range {
+	int lower;
+	int upper;
+
+	Range(int lower, int upper) {
+		this.lower = lower;
+		this.upper = upper;
+	}
+
+	public int getLower() {
+		return lower;
+	}
+
+	public int getUpper() {
+		return upper;
+	}
 }
 
 class Take<T, I extends Iter<T>> extends Iter<T> {
@@ -79,6 +102,27 @@ class Take<T, I extends Iter<T>> extends Iter<T> {
 			}
 			return null;
 		}
+	}
+
+	Range size_hint() {
+		if (this.n == 0) {
+			return new Range(0, 0);
+		}
+
+		Range range = this.iter.size_hint();
+
+		int lower = Math.min(range.getLower(), this.n);
+
+		int upper = range.getUpper();
+		if (upper != -1) {
+			if (upper >= this.n) {
+				upper = this.n;
+			}
+		} else {
+			upper = this.n;
+		}
+
+		return new Range(lower, upper);
 	}
 }
 
