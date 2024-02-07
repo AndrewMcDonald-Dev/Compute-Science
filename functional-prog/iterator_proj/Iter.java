@@ -89,6 +89,10 @@ abstract class Iter<T> {
 		}
 	}
 
+  Chunk<T> chunk(int size) throws Exception {
+    return new Chunk<T>(this, size); 
+  }
+
 }
 
 interface ForEachFunc<T> {

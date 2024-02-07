@@ -39,5 +39,11 @@ public class main {
     //Range Example
     Range range = new Range(2, 5);
     System.out.println(MyVector.from_iter(range.into_iter()));
+
+    //Chunk example with Fibo
+    Fibo fib5 = new Fibo();
+    fib5.take(20).chunk(2).for_each((x) -> {
+      System.out.println(x);
+    });
 	}
 }
