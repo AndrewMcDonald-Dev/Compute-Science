@@ -1,12 +1,90 @@
 import java.math.BigInteger;
+import java.util.Vector;
 
 public class main {
 	public static void main(String[] args) throws Exception {
 		Fibo fib = new Fibo();
-		// BigInteger result = fib.take(4).fold(BigInteger.ZERO, (acc, x) ->
-		// acc.add(x));
+		Fibo fib2 = new Fibo();
+		Fibo fib3 = new Fibo();
+		Fibo fib4 = new Fibo();
+		BigInteger result4 = fib4.take(4).fold(BigInteger.ZERO, (acc, x) -> acc.add(x));
+		System.out.println(result4);
 		BigInteger result = fib.nth(4);
 		System.out.println(result);
+
+		Integer test = 5;
+		test = test + test;
+
+		BigInteger result2 = fib2.find((x) -> x.equals(new BigInteger("5")));
+		System.out.println(result2);
+		System.out.println(fib2.next());
+
+		int result3 = fib3.take(10).count();
+		System.out.println(result3);
+
+		// MyArrayList example
+		Vector<Integer> myNum2 = new Vector<Integer>();
+		myNum2.add(1);
+		myNum2.add(2);
+		myNum2.add(3);
+		myNum2.add(4);
+		myNum2.add(5);
+		MyVector<Integer> arr = new MyVector<Integer>(myNum2);
+		System.out.println(MyVector.from_iter(arr.into_iter().take(3)));
+		System.out.println(arr);
+	}
+}
+
+class MyVector<T> implements IntoIter<T> {
+	Vector<T> data;
+
+	MyVector(Vector<T> data) {
+		this.data = data;
+	}
+
+	public String toString() {
+		String out = this.into_iter().fold("[", (acc, x) -> acc + x.toString() + ", ");
+		return out.substring(0, out.length() - 2) + "]";
+	}
+
+	public Iter<T> into_iter() {
+		return new MyVectorIter<T>(this);
+	}
+
+	public int getLength() {
+		return data.size();
+	}
+
+	public T get(int index) {
+		return data.get(index);
+	}
+
+	public static <I, A extends Iter<I>> MyVector<I> from_iter(A iter) {
+		Vector<I> vec = new Vector<I>();
+		I x = iter.next();
+		while (x != null) {
+			vec.add(x);
+			x = iter.next();
+		}
+
+		return new MyVector<I>(vec);
+	}
+
+}
+
+class MyVectorIter<T> extends Iter<T> {
+	MyVector<T> arr;
+	int index = 0;
+
+	MyVectorIter(MyVector<T> arr) {
+		this.arr = arr;
+	}
+
+	public T next() {
+		if (index >= arr.getLength()) {
+			return null;
+		}
+		return arr.get(index++);
 	}
 }
 
@@ -17,8 +95,8 @@ abstract class Iter<T> {
 		return this.next();
 	}
 
-	T fold(T init, FoldFunc<T> func) {
-		T accumulator = init;
+	<B> B fold(B init, FoldFunc<B, T> func) {
+		B accumulator = init;
 		T x = this.next();
 		while (x != null) {
 			accumulator = func.operation(accumulator, x);
@@ -45,9 +123,143 @@ abstract class Iter<T> {
 		}
 	}
 
+	T find(FindFunc<T> func) {
+		Boolean bool;
+		T x = this.next();
+		while (x != null) {
+			bool = func.operation(x);
+			if (bool) {
+				return x;
+			}
+			x = this.next();
+		}
+		return null;
+	}
+
+	boolean all(AllAnyFunc<T> func) {
+		Boolean bool;
+		T x = this.next();
+		while (x != null) {
+			bool = func.operation(x);
+			if (!bool) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	boolean any(AllAnyFunc<T> func) {
+		Boolean bool;
+		T x = this.next();
+		while (x != null) {
+			bool = func.operation(x);
+			if (!bool) {
+				return true;
+			}
+		}
+
+		return true;
+	}
+
 	Range size_hint() {
 		return new Range(0, -1);
 	}
+
+	int count() {
+		return this.fold(0, (count, _x) -> count + 1);
+	}
+
+	void for_each(ForEachFunc<T> func) {
+		T x = this.next();
+		while (x != null) {
+			func.operation(x);
+			x = this.next();
+		}
+	}
+
+}
+
+interface ForEachFunc<T> {
+	public abstract void operation(T element);
+}
+
+interface IntoIter<T> {
+	public abstract Iter<T> into_iter();
+}
+
+// interface FromIter<T> {
+// public abstract <A extends Iter<T>> from_iter(A iter);
+// }
+
+interface AllAnyFunc<T> {
+	boolean operation(T element);
+}
+
+abstract class ExactSizeIter<T> extends Iter<T> {
+	int len() throws Exception {
+		Range range = this.size_hint();
+		if (range.getLower() != range.getUpper()) {
+			throw new Exception(
+					"This iterator failed to confine to ExactSizeIter standard. /nCheck size_hint() for proper implementation.");
+		}
+
+		return range.getLower();
+	}
+
+	boolean is_empty() throws Exception {
+		return this.len() == 0;
+	}
+}
+
+abstract class DoubleEndedIter<T> extends Iter<T> {
+	public abstract T next_back();
+
+	void advance_back_by(int n) throws Exception {
+		for (int i = 0; i < n; i++) {
+			if (this.next() == null) {
+				throw new Exception("Cannot advance_back iterator by given n.");
+			}
+		}
+	}
+
+	T nth_back(int n) throws Exception {
+		this.advance_back_by(n);
+		return this.next_back();
+	}
+
+	<B> B rfold(B init, FoldFunc<B, T> func) {
+		B accumulator = init;
+		T x = this.next_back();
+		while (x != null) {
+			accumulator = func.operation(accumulator, x);
+			x = this.next_back();
+		}
+		return accumulator;
+
+	}
+
+	T rfind(FindFunc<T> func) {
+		Boolean bool;
+		T x = this.next_back();
+		while (x != null) {
+			bool = func.operation(x);
+			if (bool) {
+				return x;
+			}
+			x = this.next_back();
+		}
+		return null;
+	}
+
+}
+
+interface FoldFindMap<T> {
+	FoldFunc<T, T> call(FindFunc<T> func);
+}
+
+interface FindFunc<T> {
+	boolean operation(T element);
 
 }
 
@@ -140,6 +352,6 @@ class Fibo extends Iter<BigInteger> {
 	}
 }
 
-interface FoldFunc<T> {
-	T operation(T acc, T x);
+interface FoldFunc<B, T> {
+	B operation(B acc, T x);
 }
