@@ -32,6 +32,10 @@ public class main {
 		MyVector<Integer> arr = new MyVector<Integer>(myNum2);
 		System.out.println(MyVector.from_iter(arr.into_iter().take(3)));
 		System.out.println(arr);
+
+    //Range Example
+    Range range = new Range(2, 5);
+    System.out.println(MyVector.from_iter(range.into_iter()));
 	}
 }
 
@@ -44,7 +48,7 @@ class MyVector<T> implements IntoIter<T> {
 
 	public String toString() {
 		String out = this.into_iter().fold("[", (acc, x) -> acc + x.toString() + ", ");
-		return out.substring(0, out.length() - 2) + "]";
+		return out.length() != 1 ? out.substring(0, out.length() - 2) + "]" : "[]";
 	}
 
 	public Iter<T> into_iter() {
@@ -188,8 +192,10 @@ interface IntoIter<T> {
 	public abstract Iter<T> into_iter();
 }
 
-// interface FromIter<T> {
-// public abstract <A extends Iter<T>> from_iter(A iter);
+// Unfurtunately static abstract methods are impossible to make in Java so the dreams of having .collect<Type>() to convert an iterator into a given type are ruined.
+// I will have to just settle to make my own static method for every class I want FromIter<T> without being able to implement. Meaning the type system will not keep me in check.
+//  interface FromIter<T> {
+//   public static abstract <A extends Iter<T>> FromIter from_iter(A iter);
 // }
 
 interface AllAnyFunc<T> {
@@ -263,7 +269,7 @@ interface FindFunc<T> {
 
 }
 
-class Range {
+class Range implements IntoIter<Integer> {
 	int lower;
 	int upper;
 
@@ -279,7 +285,35 @@ class Range {
 	public int getUpper() {
 		return upper;
 	}
+
+  public RangeIter into_iter() {
+    return new RangeIter(this); 
+  } 
+
 }
+
+class RangeIter extends Iter<Integer> {
+  Range range;
+  int size;
+  int n;
+
+  RangeIter(Range range) {
+    this.range = range;
+    this.size = range.getUpper() - range.getLower();
+    this.n = range.getLower();
+  }
+
+  public Integer next() {
+    if(size + range.getLower() < n) {
+      return null;
+    }
+
+    return n++;
+  }
+}
+
+
+
 
 class Take<T, I extends Iter<T>> extends Iter<T> {
 	I iter;
