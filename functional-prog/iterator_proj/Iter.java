@@ -97,10 +97,36 @@ abstract class Iter<T> {
     return new Chain<T>(this, iter2);
   } 
 
+  <I> Ordered cmp_by(IntoIter<I> other, CmpFunc<T, I> func) {
+    Iter<I> other2 = other.into_iter();
+    T x = this.next();
+    I y = other2.next();
+    while (x != null || y!= null){
+      Ordered ord = func.operation(x, y);
+      if (ord != Ordered.EQUAL) {
+        return ord;
+      }
+      x = this.next();
+      y = other2.next();
+    }
+
+    return Ordered.EQUAL;
+
+  }
+}
+
+enum Ordered {
+  EQUAL,
+  LESSER,
+  GREATER
 }
 
 interface ForEachFunc<T> {
 	public abstract void operation(T element);
+}
+
+interface CmpFunc<X, Y> {
+  Ordered operation(X item, Y other);
 }
 
 interface AllAnyFunc<T> {
