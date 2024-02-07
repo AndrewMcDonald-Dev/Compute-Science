@@ -42,8 +42,17 @@ public class main {
 
     //Chunk example with Fibo
     Fibo fib5 = new Fibo();
-    fib5.take(20).chunk(2).for_each((x) -> {
+    fib5.take(19).chunk(2).for_each((x) -> {
       System.out.println(x);
     });
+
+
+    //Chain example with Range;
+    Range chain_range_1 = new Range(2,5);
+    Range chain_range_2 = new Range(5,9);
+    chain_range_1.into_iter().chain(chain_range_2.into_iter()).for_each((x) -> {
+      System.out.println(x);
+    });
+
 	}
 }

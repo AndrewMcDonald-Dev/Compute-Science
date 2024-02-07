@@ -39,4 +39,7 @@ abstract class DoubleEndedIter<T> extends Iter<T> {
 		return null;
 	}
 
+  Chunk_back<T> chunk_back(int size) throw Exception {
+    return new Chunk_back<T>(size);
+  }
 }

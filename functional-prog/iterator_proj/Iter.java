@@ -93,6 +93,10 @@ abstract class Iter<T> {
     return new Chunk<T>(this, size); 
   }
 
+  Chain<T> chain(Iter<T> iter2) {
+    return new Chain<T>(this, iter2);
+  } 
+
 }
 
 interface ForEachFunc<T> {

@@ -1,5 +1,5 @@
 
-class RangeIter extends Iter<Integer> {
+class RangeIter extends ExactSizeIter<Integer> {
   Range range;
   int size;
   int n;
@@ -16,5 +16,9 @@ class RangeIter extends Iter<Integer> {
     }
 
     return n++;
+  }
+
+  Range size_hint() {
+    return new Range(this.size, this.size);
   }
 }
