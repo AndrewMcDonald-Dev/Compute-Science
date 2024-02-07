@@ -3,24 +3,27 @@ import java.util.Vector;
 
 public class main {
 	public static void main(String[] args) throws Exception {
+
+    // nth test on Fibo 
 		Fibo fib = new Fibo();
-		Fibo fib2 = new Fibo();
-		Fibo fib3 = new Fibo();
-		Fibo fib4 = new Fibo();
-		BigInteger result4 = fib4.take(4).fold(BigInteger.ZERO, (acc, x) -> acc.add(x));
-		System.out.println(result4);
 		BigInteger result = fib.nth(4);
 		System.out.println(result);
 
-		Integer test = 5;
-		test = test + test;
-
+    // find test on Fibo
+		Fibo fib2 = new Fibo();
 		BigInteger result2 = fib2.find((x) -> x.equals(new BigInteger("5")));
 		System.out.println(result2);
 		System.out.println(fib2.next());
 
+    // take and count test on Fibo
+		Fibo fib3 = new Fibo();
 		int result3 = fib3.take(10).count();
 		System.out.println(result3);
+
+    // take and fold test on Fibo
+		Fibo fib4 = new Fibo();
+		BigInteger result4 = fib4.take(4).fold(BigInteger.ZERO, (acc, x) -> acc.add(x));
+		System.out.println(result4);
 
 		// MyArrayList example
 		Vector<Integer> myNum2 = new Vector<Integer>();
