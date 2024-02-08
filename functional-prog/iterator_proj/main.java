@@ -54,5 +54,25 @@ public class main {
       System.out.println(x);
     });
 
+
+    //cmp_by example with Range
+    Range cmp_range_1 = new Range(2,5);
+    Range cmp_range_2 = new Range(5,9);
+    cmp_range_1.into_iter().cmp_by(cmp_range_2, (x, y) -> {
+      int ord  = x.compareTo(y);
+      if (ord == 0) {
+        return Ordered.EQUAL;
+      } else if (ord < 0) {
+        return Ordered.LESSER;
+      }
+
+      return Ordered.GREATER;
+
+    });
+
+
+    //Big fibo
+    Fibo fib6 = new Fibo();
+    System.out.println(fib6.nth(10));
 	}
 }
