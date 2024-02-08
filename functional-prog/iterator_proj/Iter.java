@@ -113,6 +113,20 @@ abstract class Iter<T> {
     return Ordered.EQUAL;
 
   }
+
+  <I extends Comparable<T>> Ordered cmp(IntoIter<I> other) {
+    return this.cmp_by(other, (x, y) -> {
+      int ord  = y.compareTo(x);
+      if (ord == 0) {
+        return Ordered.EQUAL;
+      } else if (ord < 0) {
+        return Ordered.GREATER;
+      }
+
+      return Ordered.LESSER;
+
+    });
+  }
 }
 
 enum Ordered {

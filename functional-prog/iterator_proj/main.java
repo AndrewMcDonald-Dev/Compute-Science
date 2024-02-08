@@ -58,7 +58,7 @@ public class main {
     //cmp_by example with Range
     Range cmp_range_1 = new Range(2,5);
     Range cmp_range_2 = new Range(5,9);
-    cmp_range_1.into_iter().cmp_by(cmp_range_2, (x, y) -> {
+    System.out.println(cmp_range_2.into_iter().cmp_by(cmp_range_1, (x, y) -> {
       int ord  = x.compareTo(y);
       if (ord == 0) {
         return Ordered.EQUAL;
@@ -68,11 +68,11 @@ public class main {
 
       return Ordered.GREATER;
 
-    });
+    }));
 
-
-    //Big fibo
-    Fibo fib6 = new Fibo();
-    System.out.println(fib6.nth(10));
+    //cmp example with Range
+    Range cmp_range_3 = new Range(2,5);
+    Range cmp_range_4 = new Range(5,9);
+    System.out.println(cmp_range_1.into_iter().cmp(cmp_range_2));
 	}
 }
