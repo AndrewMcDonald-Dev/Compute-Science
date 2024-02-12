@@ -8,6 +8,7 @@ public class main {
 		Fibo fib = new Fibo();
 		BigInteger result = fib.nth(4);
 		System.out.println(result);
+    
 
     // find test on Fibo
 		Fibo fib2 = new Fibo();
@@ -71,8 +72,25 @@ public class main {
     }));
 
     //cmp example with Range
-    Range cmp_range_3 = new Range(2,5);
-    Range cmp_range_4 = new Range(5,9);
     System.out.println(cmp_range_1.into_iter().cmp(cmp_range_2));
+    System.out.println(cmp_range_1.into_iter().cmp(cmp_range_1));
+
+
+    //Enumerate example with MyVector
+    arr.into_iter().enumerate().for_each((x) -> {
+      System.out.println("(" + x.get0() +"," + x.get1() + ")");
+    });
+
+    //Comparison Operator functions testing
+    System.out.println(cmp_range_1.into_iter().eq(cmp_range_1));
+    System.out.println(cmp_range_1.into_iter().eq(cmp_range_2));
+    System.out.println(cmp_range_1.into_iter().lt(cmp_range_2));
+    System.out.println(cmp_range_1.into_iter().gt(cmp_range_2));
+    System.out.println(cmp_range_1.into_iter().le(cmp_range_2));
+    System.out.println(cmp_range_1.into_iter().ge(cmp_range_2));
+    System.out.println(cmp_range_1.into_iter().ne(cmp_range_2));
+    System.out.println(cmp_range_1.into_iter().ne(cmp_range_1));
+    
+
 	}
 }

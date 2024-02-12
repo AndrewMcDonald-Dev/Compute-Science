@@ -127,6 +127,38 @@ abstract class Iter<T> {
 
     });
   }
+
+  Enumerate<T> enumerate() {
+    return new Enumerate<T>(this);
+  }
+
+  <I> boolean eq_by(IntoIter<I> other, CmpFunc<T, I> func) {
+    return this.cmp_by(other, func) == Ordered.EQUAL;
+  }
+
+  <I extends Comparable<T>> Boolean eq(IntoIter<I> other) {
+    return this.cmp(other) == Ordered.EQUAL;
+  }
+
+  <I extends Comparable<T>> Boolean lt(IntoIter<I> other) {
+    return this.cmp(other) == Ordered.LESSER;
+  }
+
+  <I extends Comparable<T>> Boolean gt(IntoIter<I> other) {
+    return this.cmp(other) == Ordered.GREATER;
+  }
+
+  <I extends Comparable<T>> Boolean le(IntoIter<I> other) {
+    return !this.gt(other);
+  }
+
+  <I extends Comparable<T>> Boolean ge(IntoIter<I> other) {
+    return !this.lt(other);  
+  }
+
+  <I extends Comparable<T>> Boolean ne(IntoIter<I> other) {
+    return !this.eq(other);  
+  }
 }
 
 enum Ordered {
