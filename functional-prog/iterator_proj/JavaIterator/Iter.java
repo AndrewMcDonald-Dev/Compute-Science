@@ -195,6 +195,10 @@ public abstract class Iter<T> {
   Inspect<T> inspect(InspectFunc<T> predicate) {
     return new Inspect<T>(this, predicate);
   }
+
+  Intersperse<T> intersperse(T separator) {
+    return new Intersperse<T>(this, separator);
+  } 
 }
 
 interface FindMapFunc<B, T> {

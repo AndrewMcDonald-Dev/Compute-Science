@@ -148,5 +148,10 @@ public class main {
       .filter((x) -> x.mod(BigInteger.valueOf(2)).equals(BigInteger.ZERO))
       .inspect((x) -> {System.out.println("Element made it through " + x);})
       .count();
+
+    //Intersperse example with MyVector
+    myString_vec.into_iter().intersperse("Sep").for_each((x) -> {
+      System.out.println(x);
+    });
   }
 }
