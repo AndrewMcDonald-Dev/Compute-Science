@@ -163,8 +163,27 @@ public abstract class Iter<T> {
   Filter<T> filter(FindFunc<T> predicate) {
     return new Filter<T>(this, predicate);
   }
+
+  <B> B find_map(FindMapFunc<B, T> predicate) {
+    T x = this.next();
+    B item = null;
+    while (true) {
+      if(x == null){
+        return null;
+      }
+      item = predicate.operation(x);
+      if(item != null) {
+        break;
+      }
+      x = this.next();
+    }
+    return item;
+  }
 }
 
+interface FindMapFunc<B, T> {
+  B operation(T element);
+}
 
 interface ForEachFunc<T> {
 	public abstract void operation(T element);

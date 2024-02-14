@@ -99,7 +99,22 @@ public class main {
     cmp_range_1.into_iter().filter((x) -> x % 2 == 0).for_each((x) -> {
       System.out.println(x);
     });
-    
 
-	}
+    //Find map example with MyVector
+    Vector<String> string_vec = new Vector<String>();
+    string_vec.add("test");
+    string_vec.add("1");
+    string_vec.add("14");
+    string_vec.add("test");
+    MyVector<String> myString_vec = new MyVector<String>(string_vec);
+    Integer temp = myString_vec.into_iter().find_map((x) -> {
+      try {
+        return Integer.parseInt(x);
+      } catch (NumberFormatException _e) {
+        return null;
+      }
+    });
+
+    System.out.println(temp);
+  }
 }
