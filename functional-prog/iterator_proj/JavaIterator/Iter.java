@@ -179,6 +179,14 @@ public abstract class Iter<T> {
     }
     return item;
   }
+
+  <B> FilterMap<B, T> filter_map(FindMapFunc<B, T> predicate) {
+    return new FilterMap<B, T>(this, predicate);
+  }
+
+  Fuse<T> fuse() {
+    return new Fuse<T>(this);
+  }
 }
 
 interface FindMapFunc<B, T> {

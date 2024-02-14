@@ -107,6 +107,7 @@ public class main {
     string_vec.add("14");
     string_vec.add("test");
     MyVector<String> myString_vec = new MyVector<String>(string_vec);
+    //Have to strongly type to help java figure it out.
     Integer temp = myString_vec.into_iter().find_map((x) -> {
       try {
         return Integer.parseInt(x);
@@ -114,7 +115,26 @@ public class main {
         return null;
       }
     });
-
     System.out.println(temp);
+
+    //Filter map example with MyVector
+    System.out.println(myString_vec.into_iter().filter_map((x) -> {
+      try {
+        return Integer.parseInt(x);
+      } catch (NumberFormatException _e) {
+        return null;
+      }
+    }).fold(0, (acc, x) -> acc + x));
+    
+    //Fuse example with MyVector
+    string_vec.add(null);
+    string_vec.add("Not printable");
+    Iter<String> myStringIter = myString_vec.into_iter().fuse();
+    System.out.println(myStringIter.next());
+    System.out.println(myStringIter.next());
+    System.out.println(myStringIter.next());
+    System.out.println(myStringIter.next());
+    System.out.println(myStringIter.next());
+    System.out.println(myStringIter.next());
   }
 }
