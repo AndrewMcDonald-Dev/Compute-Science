@@ -1,3 +1,5 @@
+package JavaIterator;
+
 import java.math.BigInteger;
 import java.util.Vector;
 
@@ -90,6 +92,13 @@ public class main {
     System.out.println(cmp_range_1.into_iter().ge(cmp_range_2));
     System.out.println(cmp_range_1.into_iter().ne(cmp_range_2));
     System.out.println(cmp_range_1.into_iter().ne(cmp_range_1));
+
+
+    //Filter example with Range
+    System.out.println(cmp_range_1.into_iter().filter((x) -> x % 2 == 0).count());
+    cmp_range_1.into_iter().filter((x) -> x % 2 == 0).for_each((x) -> {
+      System.out.println(x);
+    });
     
 
 	}

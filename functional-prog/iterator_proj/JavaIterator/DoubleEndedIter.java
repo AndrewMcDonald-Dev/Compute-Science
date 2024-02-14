@@ -1,5 +1,5 @@
-
-abstract class DoubleEndedIter<T> extends Iter<T> {
+package JavaIterator;
+public abstract class DoubleEndedIter<T> extends Iter<T> {
 	public abstract T next_back();
 
 	void advance_back_by(int n) throws Exception {
@@ -39,7 +39,7 @@ abstract class DoubleEndedIter<T> extends Iter<T> {
 		return null;
 	}
 
-  Chunk_back<T> chunk_back(int size) throw Exception {
-    return new Chunk_back<T>(size);
+  Chunk_back<T> chunk_back(int size) throws Exception {
+    return new Chunk_back<T>(this, size);
   }
 }

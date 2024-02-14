@@ -1,5 +1,6 @@
+package JavaIterator;
 
-class Take<T, I extends Iter<T>> extends Iter<T> {
+public class Take<T, I extends Iter<T>> extends Iter<T> {
 	I iter;
 	int n;
 

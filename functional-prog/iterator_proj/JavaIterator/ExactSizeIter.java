@@ -1,5 +1,5 @@
-
-abstract class ExactSizeIter<T> extends Iter<T> {
+package JavaIterator;
+public abstract class ExactSizeIter<T> extends Iter<T> {
 	int len() throws Exception {
 		Range range = this.size_hint();
 		if (range.getLower() != range.getUpper()) {

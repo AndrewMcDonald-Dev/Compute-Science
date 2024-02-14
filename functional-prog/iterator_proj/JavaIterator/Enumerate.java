@@ -1,4 +1,5 @@
-class Enumerate<T> extends Iter<Tuple<Integer, T>> {
+package JavaIterator;
+public class Enumerate<T> extends Iter<Tuple<Integer, T>> {
   Iter<T> iter;
   int count = 0;
 
@@ -13,7 +14,7 @@ class Enumerate<T> extends Iter<Tuple<Integer, T>> {
     }
     Integer i = this.count;
     this.count++;
-    return new Tuple(i, x);
+    return new Tuple<Integer, T>(i, x);
   }
 
   Range size_hint() {
@@ -42,20 +43,3 @@ class Enumerate<T> extends Iter<Tuple<Integer, T>> {
 
 }
 
-class Tuple<T, K> {
-  T item1;
-  K item2;
-
-  Tuple(T item1, K item2){
-    this.item1 = item1;
-    this.item2 = item2;
-  }
-
-  T get0() {
-    return this.item1;
-  }
-
-  K get1() {
-    return this.item2;
-  }
-}

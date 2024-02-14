@@ -1,4 +1,5 @@
-class Chain<T> extends Iter<T> {
+package JavaIterator;
+public class Chain<T> extends Iter<T> {
   Iter<T> a;
   Iter<T> b;
   boolean swap = false;

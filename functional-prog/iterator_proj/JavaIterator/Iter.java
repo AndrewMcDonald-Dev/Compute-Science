@@ -1,5 +1,5 @@
-
-abstract class Iter<T> {
+package JavaIterator;
+public abstract class Iter<T> {
 	public abstract T next();
 
 	T getNext() {
@@ -159,13 +159,12 @@ abstract class Iter<T> {
   <I extends Comparable<T>> Boolean ne(IntoIter<I> other) {
     return !this.eq(other);  
   }
+
+  Filter<T> filter(FindFunc<T> predicate) {
+    return new Filter<T>(this, predicate);
+  }
 }
 
-enum Ordered {
-  EQUAL,
-  LESSER,
-  GREATER
-}
 
 interface ForEachFunc<T> {
 	public abstract void operation(T element);
@@ -187,9 +186,6 @@ interface FoldFunc<B, T> {
 	B operation(B acc, T x);
 }
 
-interface IntoIter<T> {
-	public abstract Iter<T> into_iter();
-}
 // Unfurtunately static abstract methods are impossible to make in Java so the dreams of having .collect<Type>() to convert an iterator into a given type are ruined.
 // I will have to just settle to make my own static method for every class I want FromIter<T> without being able to implement. Meaning the type system will not keep me in check.
 //  interface FromIter<T> {

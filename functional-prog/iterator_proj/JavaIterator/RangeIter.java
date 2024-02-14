@@ -1,5 +1,6 @@
+package JavaIterator;
 
-class RangeIter extends ExactSizeIter<Integer> {
+public class RangeIter extends ExactSizeIter<Integer> {
   Range range;
   int size;
   int n;

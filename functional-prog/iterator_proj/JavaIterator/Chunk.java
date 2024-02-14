@@ -1,5 +1,6 @@
+package JavaIterator;
 import java.util.Vector;
-class Chunk<T> extends Iter<Vector<T>> {
+public class Chunk<T> extends Iter<Vector<T>> {
   Iter<T> iter;
   int size_of_chunk;
 

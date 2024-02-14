@@ -1,4 +1,5 @@
-class MyVectorIter<T> extends Iter<T> {
+package JavaIterator;
+public class MyVectorIter<T> extends Iter<T> {
 	MyVector<T> arr;
 	int index = 0;
 

@@ -1,5 +1,6 @@
+package JavaIterator;
 
-class Range implements IntoIter<Integer> {
+public class Range implements IntoIter<Integer> {
 	int lower;
 	int upper;
 

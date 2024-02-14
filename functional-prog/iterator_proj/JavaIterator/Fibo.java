@@ -1,6 +1,8 @@
+ package JavaIterator;
+
 
 import java.math.BigInteger;
-class Fibo extends Iter<BigInteger> {
+public class Fibo extends Iter<BigInteger> {
 	BigInteger cur = BigInteger.ZERO;
 	BigInteger next = BigInteger.ONE;
 
