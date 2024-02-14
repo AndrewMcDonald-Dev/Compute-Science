@@ -136,5 +136,8 @@ public class main {
     System.out.println(myStringIter.next());
     System.out.println(myStringIter.next());
     System.out.println(myStringIter.next());
+
+    //Cycle example with Range
+    System.out.println(cmp_range_1.into_iter().cycle().nth(100));
   }
 }

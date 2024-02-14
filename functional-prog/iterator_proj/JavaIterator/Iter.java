@@ -187,6 +187,10 @@ public abstract class Iter<T> {
   Fuse<T> fuse() {
     return new Fuse<T>(this);
   }
+
+  Cycle<T> cycle() {
+    return new Cycle<T>(this);
+  }
 }
 
 interface FindMapFunc<B, T> {
