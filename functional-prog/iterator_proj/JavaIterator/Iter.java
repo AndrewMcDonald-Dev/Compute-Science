@@ -191,6 +191,10 @@ public abstract class Iter<T> {
   Cycle<T> cycle() {
     return new Cycle<T>(this);
   }
+
+  Inspect<T> inspect(InspectFunc<T> predicate) {
+    return new Inspect<T>(this, predicate);
+  }
 }
 
 interface FindMapFunc<B, T> {

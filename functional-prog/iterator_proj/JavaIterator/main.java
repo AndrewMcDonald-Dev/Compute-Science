@@ -138,6 +138,15 @@ public class main {
     System.out.println(myStringIter.next());
 
     //Cycle example with Range
-    System.out.println(cmp_range_1.into_iter().cycle().nth(100));
+    System.out.println(cmp_range_1.into_iter().cycle().nth(99));
+
+    //Inspect example with Fibo
+    Fibo fib6 = new Fibo();
+    fib6
+      .take(5)
+      .inspect((x) -> {System.out.println("About to filter " + x);})
+      .filter((x) -> x.mod(BigInteger.valueOf(2)).equals(BigInteger.ZERO))
+      .inspect((x) -> {System.out.println("Element made it through " + x);})
+      .count();
   }
 }
