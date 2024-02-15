@@ -96,10 +96,8 @@ public class main {
 
     //Filter example with Range
     System.out.println(cmp_range_1.into_iter().filter((x) -> x % 2 == 0).count());
-    cmp_range_1.into_iter().filter((x) -> x % 2 == 0).for_each((x) -> {
-      System.out.println(x);
-    });
-    
+    System.out.println(MyVector.from_iter(cmp_range_1.into_iter().filter((x) -> x % 2 == 0)));
+
 
 	}
 }
