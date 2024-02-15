@@ -149,8 +149,23 @@ public class main {
 				.count();
 
 		// Intersperse example with MyVector
-		myString_vec.into_iter().intersperse("Sep").for_each((x) -> {
+		myString_vec.into_iter().fuse().intersperse("Sep").for_each((x) -> {
 			System.out.println(x);
 		});
+
+    //Intersperse_with example with 2 MyVector
+    Iter<String> myTempIter = myString_vec.into_iter();
+		myString_vec.into_iter().fuse().intersperse_with(() -> myTempIter.next()).for_each((x) -> {
+			System.out.println(x);
+		});
+
+    //Last example with range
+    System.out.println(cmp_range_1.into_iter().last());
+    //Last example with MyVector
+    System.out.println(myString_vec.into_iter().last());
+
+    //Peekable examples with Fib
+
+    
 	}
 }

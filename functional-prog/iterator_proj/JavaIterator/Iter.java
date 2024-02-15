@@ -200,6 +200,18 @@ public abstract class Iter<T> {
 	Intersperse<T> intersperse(T separator) {
 		return new Intersperse<T>(this, separator);
 	}
+
+	IntersperseWith<T> intersperse_with(IntersperseFunc<T> separator) {
+		return new IntersperseWith<T>(this, separator);
+	}
+
+  T last() {
+    return this.fold(null, (_acc, x) -> x);
+  }
+
+  Peekable<T> peekable() {
+    return new Peekable<T>(this);
+  }
 }
 
 interface FindMapFunc<B, T> {

@@ -1,10 +1,10 @@
 package JavaIterator;
-class Intersperse<T> extends Iter<T> {
+class IntersperseWith<T> extends Iter<T> {
   Peekable<T> iter;
-  T separator;
   boolean needsSep;
+  IntersperseFunc<T> separator;
 
-  Intersperse(Iter<T> iter, T separator) {
+  IntersperseWith(Iter<T> iter, IntersperseFunc<T> separator) {
     this.iter = iter.peekable();
     this.separator = separator;
     this.needsSep = false;
@@ -13,10 +13,14 @@ class Intersperse<T> extends Iter<T> {
   public T next() {
     if (this.needsSep && this.iter.peek() != null) {
       this.needsSep = false;
-      return separator;
+      return separator.operation();
     } else {
       this.needsSep = true;
       return this.iter.next();
     }
   }
 }
+
+interface IntersperseFunc<T> {
+  T operation();
+} 
