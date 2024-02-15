@@ -1,4 +1,5 @@
 package JavaIterator;
+
 public abstract class Iter<T> {
 	public abstract T next();
 
@@ -89,89 +90,128 @@ public abstract class Iter<T> {
 		}
 	}
 
-  Chunk<T> chunk(int size) throws Exception {
-    return new Chunk<T>(this, size); 
-  }
+	Chunk<T> chunk(int size) throws Exception {
+		return new Chunk<T>(this, size);
+	}
 
-  Chain<T> chain(Iter<T> iter2) {
-    return new Chain<T>(this, iter2);
-  } 
+	Chain<T> chain(Iter<T> iter2) {
+		return new Chain<T>(this, iter2);
+	}
 
-  <I> Ordered cmp_by(IntoIter<I> other, CmpFunc<T, I> func) {
-    Iter<I> other2 = other.into_iter();
-    T x = this.next();
-    I y = other2.next();
-    while (x != null || y!= null){
-      Ordered ord = func.operation(x, y);
-      if (ord != Ordered.EQUAL) {
-        return ord;
-      }
-      x = this.next();
-      y = other2.next();
-    }
+	<I> Ordered cmp_by(IntoIter<I> other, CmpFunc<T, I> func) {
+		Iter<I> other2 = other.into_iter();
+		T x = this.next();
+		I y = other2.next();
+		while (x != null || y != null) {
+			Ordered ord = func.operation(x, y);
+			if (ord != Ordered.EQUAL) {
+				return ord;
+			}
+			x = this.next();
+			y = other2.next();
+		}
 
-    return Ordered.EQUAL;
+		return Ordered.EQUAL;
 
-  }
+	}
 
-  <I extends Comparable<T>> Ordered cmp(IntoIter<I> other) {
-    return this.cmp_by(other, (x, y) -> {
-      int ord  = y.compareTo(x);
-      if (ord == 0) {
-        return Ordered.EQUAL;
-      } else if (ord < 0) {
-        return Ordered.GREATER;
-      }
+	<I extends Comparable<T>> Ordered cmp(IntoIter<I> other) {
+		return this.cmp_by(other, (x, y) -> {
+			int ord = y.compareTo(x);
+			if (ord == 0) {
+				return Ordered.EQUAL;
+			} else if (ord < 0) {
+				return Ordered.GREATER;
+			}
 
-      return Ordered.LESSER;
+			return Ordered.LESSER;
 
-    });
-  }
+		});
+	}
 
-  Enumerate<T> enumerate() {
-    return new Enumerate<T>(this);
-  }
+	Enumerate<T> enumerate() {
+		return new Enumerate<T>(this);
+	}
 
-  <I> boolean eq_by(IntoIter<I> other, CmpFunc<T, I> func) {
-    return this.cmp_by(other, func) == Ordered.EQUAL;
-  }
+	<I> boolean eq_by(IntoIter<I> other, CmpFunc<T, I> func) {
+		return this.cmp_by(other, func) == Ordered.EQUAL;
+	}
 
-  <I extends Comparable<T>> Boolean eq(IntoIter<I> other) {
-    return this.cmp(other) == Ordered.EQUAL;
-  }
+	<I extends Comparable<T>> Boolean eq(IntoIter<I> other) {
+		return this.cmp(other) == Ordered.EQUAL;
+	}
 
-  <I extends Comparable<T>> Boolean lt(IntoIter<I> other) {
-    return this.cmp(other) == Ordered.LESSER;
-  }
+	<I extends Comparable<T>> Boolean lt(IntoIter<I> other) {
+		return this.cmp(other) == Ordered.LESSER;
+	}
 
-  <I extends Comparable<T>> Boolean gt(IntoIter<I> other) {
-    return this.cmp(other) == Ordered.GREATER;
-  }
+	<I extends Comparable<T>> Boolean gt(IntoIter<I> other) {
+		return this.cmp(other) == Ordered.GREATER;
+	}
 
-  <I extends Comparable<T>> Boolean le(IntoIter<I> other) {
-    return !this.gt(other);
-  }
+	<I extends Comparable<T>> Boolean le(IntoIter<I> other) {
+		return !this.gt(other);
+	}
 
-  <I extends Comparable<T>> Boolean ge(IntoIter<I> other) {
-    return !this.lt(other);  
-  }
+	<I extends Comparable<T>> Boolean ge(IntoIter<I> other) {
+		return !this.lt(other);
+	}
 
-  <I extends Comparable<T>> Boolean ne(IntoIter<I> other) {
-    return !this.eq(other);  
-  }
+	<I extends Comparable<T>> Boolean ne(IntoIter<I> other) {
+		return !this.eq(other);
+	}
 
-  Filter<T> filter(FindFunc<T> predicate) {
-    return new Filter<T>(this, predicate);
-  }
+	Filter<T> filter(FindFunc<T> predicate) {
+		return new Filter<T>(this, predicate);
+	}
+
+	<B> B find_map(FindMapFunc<B, T> predicate) {
+		T x = this.next();
+		B item = null;
+		while (true) {
+			if (x == null) {
+				return null;
+			}
+			item = predicate.operation(x);
+			if (item != null) {
+				break;
+			}
+			x = this.next();
+		}
+		return item;
+	}
+
+	<B> FilterMap<B, T> filter_map(FindMapFunc<B, T> predicate) {
+		return new FilterMap<B, T>(this, predicate);
+	}
+
+	Fuse<T> fuse() {
+		return new Fuse<T>(this);
+	}
+
+	Cycle<T> cycle() {
+		return new Cycle<T>(this);
+	}
+
+	Inspect<T> inspect(InspectFunc<T> predicate) {
+		return new Inspect<T>(this, predicate);
+	}
+
+	Intersperse<T> intersperse(T separator) {
+		return new Intersperse<T>(this, separator);
+	}
 }
 
+interface FindMapFunc<B, T> {
+	B operation(T element);
+}
 
 interface ForEachFunc<T> {
 	public abstract void operation(T element);
 }
 
 interface CmpFunc<X, Y> {
-  Ordered operation(X item, Y other);
+	Ordered operation(X item, Y other);
 }
 
 interface AllAnyFunc<T> {
@@ -182,12 +222,17 @@ interface FindFunc<T> {
 	boolean operation(T element);
 
 }
+
 interface FoldFunc<B, T> {
 	B operation(B acc, T x);
 }
 
-// Unfurtunately static abstract methods are impossible to make in Java so the dreams of having .collect<Type>() to convert an iterator into a given type are ruined.
-// I will have to just settle to make my own static method for every class I want FromIter<T> without being able to implement. Meaning the type system will not keep me in check.
-//  interface FromIter<T> {
-//   public static abstract <A extends Iter<T>> FromIter from_iter(A iter);
+// Unfurtunately static abstract methods are impossible to make in Java so the
+// dreams of having .collect<Type>() to convert an iterator into a given type
+// are ruined.
+// I will have to just settle to make my own static method for every class I
+// want FromIter<T> without being able to implement. Meaning the type system
+// will not keep me in check.
+// interface FromIter<T> {
+// public static abstract <A extends Iter<T>> FromIter from_iter(A iter);
 // }
