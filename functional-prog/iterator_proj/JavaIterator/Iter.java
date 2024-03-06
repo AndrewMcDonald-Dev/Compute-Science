@@ -245,6 +245,11 @@ public abstract class Iter<T> {
       return start;
     }
   }
+
+  T reduce(FoldFunc<T, T> f) {
+    T first = this.next();
+    return this.fold(first, f);
+  }
 }
 
 interface PositionFunc<T> {

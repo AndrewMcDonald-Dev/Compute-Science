@@ -196,6 +196,19 @@ public class main {
         .into_iter()
         .position((x) -> x == -1)
     );
+
+
+    //Reduce example with Range
+    Range reduce_range = new Range(0,100);
+    System.out.println(
+      reduce_range
+        .into_iter()
+        .reduce((acc, x) -> acc + x) +
+      " = " +
+      reduce_range
+        .into_iter()
+        .fold(0, (acc, x) -> acc + x)
+    );
     
 	}
 }
