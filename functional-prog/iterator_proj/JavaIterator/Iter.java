@@ -230,6 +230,25 @@ public abstract class Iter<T> {
 
     return new Tuple<Vector<T>, Vector<T>>(accept, deny);
   }
+
+  Integer position(PositionFunc<T> f) {
+    int start = 0;
+    T x = this.next();
+    while(x != null && !f.operation(x)) {
+      x = this.next();
+      start++;
+    } 
+
+    if (x == null) {
+      return null;
+    } else {
+      return start;
+    }
+  }
+}
+
+interface PositionFunc<T> {
+  boolean operation(T element);
 }
 
 interface PartitionFunc<T> {

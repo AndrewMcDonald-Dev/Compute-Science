@@ -183,6 +183,19 @@ public class main {
       .partition((x) -> x % 2 == 0)
       .get0()
     );
+
+    //Position example with Range
+    Range position_range = new Range(0, 100);
+    System.out.println(
+      position_range
+        .into_iter()
+        .position((x) -> x == 50)
+    );
+    System.out.println(
+      position_range
+        .into_iter()
+        .position((x) -> x == -1)
+    );
     
 	}
 }
