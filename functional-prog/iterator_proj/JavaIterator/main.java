@@ -165,7 +165,24 @@ public class main {
     System.out.println(myString_vec.into_iter().last());
 
     //Peekable examples with Fib
+    Fibo fib7 = new Fibo();
+    Peekable fib7_p = fib7.peekable();
+    fib7_p.next();
+    fib7_p.next();
+    fib7_p.next();
+    System.out.println(fib7_p
+      .peek());
+    System.out.println(fib7_p
+      .next());
 
+
+    //Partition examples with Range
+    Range partition_range = new Range(2,100);
+    System.out.println(partition_range
+      .into_iter()
+      .partition((x) -> x % 2 == 0)
+      .get0()
+    );
     
 	}
 }

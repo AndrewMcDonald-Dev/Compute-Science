@@ -1,4 +1,5 @@
 package JavaIterator;
+import java.util.Vector;
 
 public abstract class Iter<T> {
 	public abstract T next();
@@ -212,6 +213,27 @@ public abstract class Iter<T> {
   Peekable<T> peekable() {
     return new Peekable<T>(this);
   }
+
+  Tuple<Vector<T>, Vector<T>> partition(PartitionFunc<T> f) {
+    Vector<T> accept = new Vector<T>(); 
+    Vector<T> deny = new Vector<T>(); 
+
+    T x = this.next();
+    while(x != null) {
+      if (f.operation(x)) {
+        accept.add(x);
+      } else {
+        deny.add(x);
+      }
+      x = this.next();
+    }
+
+    return new Tuple<Vector<T>, Vector<T>>(accept, deny);
+  }
+}
+
+interface PartitionFunc<T> {
+  boolean operation(T element);
 }
 
 interface FindMapFunc<B, T> {

@@ -7,6 +7,10 @@ public class MyVector<T> implements IntoIter<T> {
 		this.data = data;
 	}
 
+  public void add(T data) {
+    this.data.add(data);
+  }
+
 	public String toString() {
 		String out = this.into_iter().fold("[", (acc, x) -> acc + x.toString() + ", ");
 		return out.length() != 1 ? out.substring(0, out.length() - 2) + "]" : "[]";
