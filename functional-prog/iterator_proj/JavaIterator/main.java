@@ -209,6 +209,16 @@ public class main {
         .into_iter()
         .fold(0, (acc, x) -> acc + x)
     );
+
+
+    //Skip example with range
+    Range skip_range = new Range(0, 100);
+    System.out.println(
+      skip_range
+        .into_iter()
+        .skip(50)
+        .next()
+    );
     
 	}
 }

@@ -21,7 +21,7 @@ public class Enumerate<T> extends Iter<Tuple<Integer, T>> {
     return this.iter.size_hint();
   }
 
-  Tuple<Integer, T> nth(int n) throws Exception {
+  Tuple<Integer, T> nth(int n) {
     T x = this.iter.nth(n);
     if(x == null){
       return null;
@@ -36,7 +36,7 @@ public class Enumerate<T> extends Iter<Tuple<Integer, T>> {
     return this.iter.count();
   }
 
-  void advance_by(int n) throws Exception {
+  void advance_by(int n) {
     this.count += n;
     this.iter.advance_by(n);
   }

@@ -23,15 +23,15 @@ public abstract class Iter<T> {
 		return new Take<T, Iter<T>>(this, n);
 	}
 
-	T nth(int n) throws Exception {
+	T nth(int n) {
 		this.advance_by(n);
 		return this.next();
 	}
 
-	void advance_by(int n) throws Exception {
+	void advance_by(int n) {
 		for (int i = 0; i < n; i++) {
 			if (this.next() == null) {
-				throw new Exception("Cannot advance iterator by given n.");
+        return;
 			}
 		}
 	}
@@ -249,6 +249,10 @@ public abstract class Iter<T> {
   T reduce(FoldFunc<T, T> f) {
     T first = this.next();
     return this.fold(first, f);
+  }
+
+  Skip<T> skip(int n) {
+    return new Skip<T>(this, n);
   }
 }
 

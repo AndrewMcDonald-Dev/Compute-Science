@@ -21,7 +21,7 @@ public class Take<T, I extends Iter<T>> extends Iter<T> {
 		}
 	}
 
-	T nth(int n) throws Exception {
+	T nth(int n) {
 		if (this.n > n) {
 			this.n -= n + 1;
 

@@ -26,7 +26,7 @@ class Peekable<T> extends Iter<T> {
     }
   }
 
-  T nth(int n) throws Exception {
+  T nth(int n) {
     if (this.peeked != null) {
       return this.iter.nth(n - 1);
     } else {
