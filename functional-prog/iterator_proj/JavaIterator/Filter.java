@@ -1,5 +1,7 @@
 package JavaIterator;
 
+import java.util.Optional;
+
 public class Filter<T> extends Iter<T> {
   Iter<T> iter;
   FindFunc<T> predicate;
@@ -9,7 +11,7 @@ public class Filter<T> extends Iter<T> {
     this.predicate = predicate;
   }
 
-  public T next() {
+  public Optional<T> next() {
     return this.iter.find(this.predicate);
   }
 }

@@ -1,18 +1,19 @@
 package JavaIterator;
 import java.util.Vector;
+import java.util.Optional;
 
 public abstract class Iter<T> {
-	public abstract T next();
+	public abstract Optional<T> next();
 
-	T getNext() {
+	Optional<T> getNext() {
 		return this.next();
 	}
 
 	<B> B fold(B init, FoldFunc<B, T> func) {
 		B accumulator = init;
-		T x = this.next();
-		while (x != null) {
-			accumulator = func.operation(accumulator, x);
+		Optional<T> x = this.next();
+		while (x.isPresent()){
+			accumulator = func.operation(accumulator, x.get());
 			x = this.next();
 		}
 		return accumulator;
@@ -23,37 +24,37 @@ public abstract class Iter<T> {
 		return new Take<T, Iter<T>>(this, n);
 	}
 
-	T nth(int n) {
+	Optional<T> nth(int n) {
 		this.advance_by(n);
 		return this.next();
 	}
 
 	void advance_by(int n) {
 		for (int i = 0; i < n; i++) {
-			if (this.next() == null) {
+			if (!this.next().isPresent()) {
         return;
 			}
 		}
 	}
 
-	T find(FindFunc<T> func) {
+	Optional<T> find(FindFunc<T> func) {
 		Boolean bool;
-		T x = this.next();
-		while (x != null) {
-			bool = func.operation(x);
+		Optional<T> x = this.next();
+		while (x.isPresent()) {
+			bool = func.operation(x.get());
 			if (bool) {
 				return x;
 			}
 			x = this.next();
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	boolean all(AllAnyFunc<T> func) {
 		Boolean bool;
-		T x = this.next();
-		while (x != null) {
-			bool = func.operation(x);
+		Optional<T> x = this.next();
+		while (x.isPresent()) {
+			bool = func.operation(x.get());
 			if (!bool) {
 				return false;
 			}
@@ -64,9 +65,9 @@ public abstract class Iter<T> {
 
 	boolean any(AllAnyFunc<T> func) {
 		Boolean bool;
-		T x = this.next();
-		while (x != null) {
-			bool = func.operation(x);
+		Optional<T> x = this.next();
+		while (x.isPresent()) {
+			bool = func.operation(x.get());
 			if (!bool) {
 				return true;
 			}
@@ -75,18 +76,14 @@ public abstract class Iter<T> {
 		return true;
 	}
 
-	Range size_hint() {
-		return new Range(0, -1);
-	}
-
 	int count() {
 		return this.fold(0, (count, _x) -> count + 1);
 	}
 
 	void for_each(ForEachFunc<T> func) {
-		T x = this.next();
-		while (x != null) {
-			func.operation(x);
+		Optional<T> x = this.next();
+		while (x.isPresent()) {
+			func.operation(x.get());
 			x = this.next();
 		}
 	}
@@ -101,10 +98,10 @@ public abstract class Iter<T> {
 
 	<I> Ordered cmp_by(IntoIter<I> other, CmpFunc<T, I> func) {
 		Iter<I> other2 = other.into_iter();
-		T x = this.next();
-		I y = other2.next();
-		while (x != null || y != null) {
-			Ordered ord = func.operation(x, y);
+		Optional<T> x = this.next();
+		Optional<I> y = other2.next();
+		while (x.isPresent() || y.isPresent()) {
+			Ordered ord = func.operation(x.orElse(null), y.orElse(null));
 			if (ord != Ordered.EQUAL) {
 				return ord;
 			}
@@ -166,15 +163,15 @@ public abstract class Iter<T> {
 		return new Filter<T>(this, predicate);
 	}
 
-	<B> B find_map(FindMapFunc<B, T> predicate) {
-		T x = this.next();
-		B item = null;
+	<B> Optional<B> find_map(FindMapFunc<B, T> predicate) {
+		Optional<T> x = this.next();
+		Optional<B> item = Optional.empty();
 		while (true) {
-			if (x == null) {
-				return null;
+			if (!x.isPresent()) {
+				return item;
 			}
-			item = predicate.operation(x);
-			if (item != null) {
+			item = predicate.operation(x.get());
+			if (item.isPresent()) {
 				break;
 			}
 			x = this.next();
@@ -206,8 +203,8 @@ public abstract class Iter<T> {
 		return new IntersperseWith<T>(this, separator);
 	}
 
-  T last() {
-    return this.fold(null, (_acc, x) -> x);
+  Optional<T> last() {
+    return this.fold(Optional.empty(), (_acc, x) -> Optional.of(x));
   }
 
   Peekable<T> peekable() {
@@ -218,12 +215,12 @@ public abstract class Iter<T> {
     Vector<T> accept = new Vector<T>(); 
     Vector<T> deny = new Vector<T>(); 
 
-    T x = this.next();
-    while(x != null) {
-      if (f.operation(x)) {
-        accept.add(x);
+    Optional<T> x = this.next();
+    while(x.isPresent()) {
+      if (f.operation(x.get())) {
+        accept.add(x.get());
       } else {
-        deny.add(x);
+        deny.add(x.get());
       }
       x = this.next();
     }
@@ -233,13 +230,13 @@ public abstract class Iter<T> {
 
   Integer position(PositionFunc<T> f) {
     int start = 0;
-    T x = this.next();
-    while(x != null && !f.operation(x)) {
+    Optional<T> x = this.next();
+    while(x.isPresent() && !f.operation(x.get())) {
       x = this.next();
       start++;
     } 
 
-    if (x == null) {
+    if (!x.isPresent()) {
       return null;
     } else {
       return start;
@@ -247,8 +244,8 @@ public abstract class Iter<T> {
   }
 
   T reduce(FoldFunc<T, T> f) {
-    T first = this.next();
-    return this.fold(first, f);
+    Optional<T> first = this.next();
+    return this.fold(first.get(), f);
   }
 
   Skip<T> skip(int n) {
@@ -265,7 +262,7 @@ interface PartitionFunc<T> {
 }
 
 interface FindMapFunc<B, T> {
-	B operation(T element);
+	Optional<B> operation(T element);
 }
 
 interface ForEachFunc<T> {

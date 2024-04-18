@@ -1,4 +1,7 @@
 package JavaIterator;
+
+import java.util.Optional;
+
 public class Chain<T> extends Iter<T> {
   Iter<T> a;
   Iter<T> b;
@@ -8,17 +11,15 @@ public class Chain<T> extends Iter<T> {
     this.b = b;
   }
 
-  public T next() {
+  public Optional<T> next() {
     if (!swap) {
-      T x = this.a.next();
-      if (x == null) {
+      Optional<T> x = this.a.next();
+      if (!x.isPresent()) {
         this.swap = true;
       } else {
         return x;
       }
     }
-
-    T x2 = this.b.next();
-    return x2;
+    return this.b.next();
   }
 }

@@ -2,20 +2,21 @@ package JavaIterator;
 
 import java.math.BigInteger;
 import java.util.Vector;
+import java.util.Optional;
 
 public class main {
 	public static void main(String[] args) throws Exception {
 
 		// nth test on Fibo
 		Fibo fib = new Fibo();
-		BigInteger result = fib.nth(4);
+		BigInteger result = fib.nth(4).get();
 		System.out.println(result);
 
 		// find test on Fibo
 		Fibo fib2 = new Fibo();
-		BigInteger result2 = fib2.find((x) -> x.equals(new BigInteger("5")));
+		BigInteger result2 = fib2.find((x) -> x.equals(new BigInteger("5"))).get();
 		System.out.println(result2);
-		System.out.println(fib2.next());
+		System.out.println(fib2.next().get());
 
 		// take and count test on Fibo
 		Fibo fib3 = new Fibo();
@@ -103,21 +104,21 @@ public class main {
 		string_vec.add("test");
 		MyVector<String> myString_vec = new MyVector<String>(string_vec);
 		// Have to strongly type to help java figure it out.
-		Integer temp = myString_vec.into_iter().find_map((x) -> {
+		Optional<Integer> temp = myString_vec.into_iter().find_map((x) -> {
 			try {
-				return Integer.parseInt(x);
+				return Optional.of(Integer.parseInt(x));
 			} catch (NumberFormatException _e) {
-				return null;
+				return Optional.empty();
 			}
 		});
-		System.out.println(temp);
+		System.out.println(temp.get());
 
 		// Filter map example with MyVector
 		System.out.println(myString_vec.into_iter().filter_map((x) -> {
 			try {
-				return Integer.parseInt(x);
+				return Optional.of(Integer.parseInt(x));
 			} catch (NumberFormatException _e) {
-				return null;
+				return Optional.empty();
 			}
 		}).fold(0, (acc, x) -> acc + x));
 
@@ -155,7 +156,7 @@ public class main {
 
     //Intersperse_with example with 2 MyVector
     Iter<String> myTempIter = myString_vec.into_iter();
-		myString_vec.into_iter().fuse().intersperse_with(() -> myTempIter.next()).for_each((x) -> {
+		myString_vec.into_iter().fuse().intersperse_with(() -> myTempIter.next().get()).for_each((x) -> {
 			System.out.println(x);
 		});
 

@@ -1,5 +1,7 @@
 package JavaIterator;
 
+import java.util.Optional;
+
 public class Skip<T> extends Iter<T> {
   Iter<T> iter;
   int n;
@@ -9,7 +11,7 @@ public class Skip<T> extends Iter<T> {
     this.n = n;
   } 
 
-  public T next() {
+  public Optional<T> next() {
       if (this.n > 0) {
         int new_n = this.n;
         this.n = 0;
@@ -19,7 +21,7 @@ public class Skip<T> extends Iter<T> {
       }
   }
 
-  T nth(int n) {
+  Optional<T> nth(int n) {
     if (this.n > 0) {
       int new_n = this.n;
       this.n = 0;
@@ -32,14 +34,14 @@ public class Skip<T> extends Iter<T> {
 
   int count() {
     if (this.n > 0) {
-      if (this.iter.nth(this.n - 1) == null) {
+      if (!this.iter.nth(this.n - 1).isPresent()) {
         return 0;
       }
     }
     return this.iter.count();
   }
 
-  T last() {
+  Optional<T> last() {
     if (this.n > 0) {
       this.iter.nth(this.n - 1);
     }
@@ -49,7 +51,7 @@ public class Skip<T> extends Iter<T> {
   
 	<B> B fold(B init, FoldFunc<B, T> func) {
     if (this.n > 0) {
-      if (this.iter.nth(this.n - 1) == null) {
+      if (!this.iter.nth(this.n - 1).isPresent()) {
         return init;
       }
     }

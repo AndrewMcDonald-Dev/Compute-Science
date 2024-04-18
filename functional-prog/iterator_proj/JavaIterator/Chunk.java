@@ -1,4 +1,5 @@
 package JavaIterator;
+import java.util.Optional;
 import java.util.Vector;
 public class Chunk<T> extends Iter<Vector<T>> {
   Iter<T> iter;
@@ -13,20 +14,20 @@ public class Chunk<T> extends Iter<Vector<T>> {
 
   }
 
-  public Vector<T> next() {
+  public Optional<Vector<T>> next() {
     Vector<T> vec = new Vector<T>();
     int local_size = size_of_chunk;
     while(local_size-- != 0) {
-      T x = this.iter.next();
-      if (x != null) {
-        vec.add(x);
+      Optional<T> x = this.iter.next();
+      if (x.isPresent()) {
+        vec.add(x.get());
       }
     }
 
     if (vec.isEmpty()) {
-      return null;
+      return Optional.empty();
     }
-    return vec;
+    return Optional.of(vec);
   }
 
   

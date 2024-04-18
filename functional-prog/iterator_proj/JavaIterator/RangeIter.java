@@ -1,6 +1,8 @@
 package JavaIterator;
 
-public class RangeIter extends ExactSizeIter<Integer> {
+import java.util.Optional;
+
+public class RangeIter extends Iter<Integer> {
   Range range;
   int size;
   int n;
@@ -11,15 +13,11 @@ public class RangeIter extends ExactSizeIter<Integer> {
     this.n = range.getLower();
   }
 
-  public Integer next() {
+  public Optional<Integer> next() {
     if(size + range.getLower() < n) {
-      return null;
+      return Optional.empty();
     }
 
-    return n++;
-  }
-
-  Range size_hint() {
-    return new Range(this.size, this.size);
+    return Optional.of(n++);
   }
 }

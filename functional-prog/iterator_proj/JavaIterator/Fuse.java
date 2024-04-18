@@ -1,4 +1,7 @@
 package JavaIterator;
+
+import java.util.Optional;
+
 class Fuse<T> extends Iter<T> {
   Iter<T> iter;
   boolean nulled;
@@ -7,14 +10,14 @@ class Fuse<T> extends Iter<T> {
     this.iter = iter;
   }
 
-  public T next() {
+  public Optional<T> next() {
     if (nulled) {
-      return null;
+      return Optional.empty();
     }
-    T x = this.iter.next();
-    if (x == null) {
+    Optional<T> x = this.iter.next();
+    if (!x.isPresent()) {
       nulled = true;
-      return null;
+      return Optional.empty();
     }
     return x;
   }

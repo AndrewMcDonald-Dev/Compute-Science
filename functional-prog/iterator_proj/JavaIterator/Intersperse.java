@@ -1,4 +1,7 @@
 package JavaIterator;
+
+import java.util.Optional;
+
 class Intersperse<T> extends Iter<T> {
   Peekable<T> iter;
   T separator;
@@ -10,10 +13,10 @@ class Intersperse<T> extends Iter<T> {
     this.needsSep = false;
   }
 
-  public T next() {
-    if (this.needsSep && this.iter.peek() != null) {
+  public Optional<T> next() {
+    if (this.needsSep && this.iter.peek().isPresent()) {
       this.needsSep = false;
-      return separator;
+      return Optional.of(separator);
     } else {
       this.needsSep = true;
       return this.iter.next();

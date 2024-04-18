@@ -1,4 +1,7 @@
 package JavaIterator;
+
+import java.util.Optional;
+
 class Cycle<T> extends Iter<T> {
   Iter<T> iter;
   MyVector<T> cycled;
@@ -8,9 +11,9 @@ class Cycle<T> extends Iter<T> {
     this.iter = this.cycled.into_iter();
   }
 
-  public T next() {
-    T x = this.iter.next();
-    if (x != null) {
+  public Optional<T> next() {
+    Optional<T> x = this.iter.next();
+    if (x.isPresent()) {
       return x;
     }
 

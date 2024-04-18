@@ -1,4 +1,7 @@
 package JavaIterator;
+
+import java.util.Optional;
+
 class FilterMap<B, T> extends Iter<B>{
   Iter<T> iter;
   FindMapFunc<B,T> predicate;
@@ -8,7 +11,7 @@ class FilterMap<B, T> extends Iter<B>{
     this.predicate = predicate;
   }
 
-  public B next() {
+  public Optional<B> next() {
     return this.iter.find_map(predicate);
   }
 

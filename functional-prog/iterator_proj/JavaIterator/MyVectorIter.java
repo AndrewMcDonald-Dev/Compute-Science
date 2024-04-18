@@ -1,4 +1,7 @@
 package JavaIterator;
+
+import java.util.Optional;
+
 public class MyVectorIter<T> extends Iter<T> {
 	MyVector<T> arr;
 	int index = 0;
@@ -7,11 +10,11 @@ public class MyVectorIter<T> extends Iter<T> {
 		this.arr = arr;
 	}
 
-	public T next() {
+	public Optional<T> next() {
 		if (index >= arr.getLength()) {
-			return null;
+			return Optional.empty();
 		}
-		return arr.get(index++);
+		return Optional.ofNullable(arr.get(index++));
 	}
 }
 

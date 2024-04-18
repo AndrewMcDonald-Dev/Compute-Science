@@ -1,4 +1,8 @@
 package JavaIterator;
+
+import java.util.Optional;
+
+
 class Inspect<T> extends Iter<T> {
   Iter<T> iter;
   InspectFunc<T> predicate;
@@ -8,9 +12,9 @@ class Inspect<T> extends Iter<T> {
     this.predicate = predicate;
   }
 
-  public T next() {
-    T x = this.iter.next();
-    predicate.operation(x);
+  public Optional<T> next() {
+    Optional<T> x = this.iter.next();
+    predicate.operation(x.orElse(null));
     return x;
   }
 

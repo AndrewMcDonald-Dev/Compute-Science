@@ -1,4 +1,5 @@
 package JavaIterator;
+import java.util.Optional;
 import java.util.Vector;
 public class MyVector<T> implements IntoIter<T> {
 	Vector<T> data;
@@ -30,9 +31,9 @@ public class MyVector<T> implements IntoIter<T> {
 
 	public static <I, A extends Iter<I>> MyVector<I> from_iter(A iter) {
 		Vector<I> vec = new Vector<I>();
-		I x = iter.next();
-		while (x != null) {
-			vec.add(x);
+		Optional<I> x = iter.next();
+		while (x.isPresent()) {
+			vec.add(x.get());
 			x = iter.next();
 		}
 

@@ -1,5 +1,7 @@
 package JavaIterator;
 
+import java.util.Optional;
+
 public class Take<T, I extends Iter<T>> extends Iter<T> {
 	I iter;
 	int n;
@@ -12,16 +14,16 @@ public class Take<T, I extends Iter<T>> extends Iter<T> {
 		this.n = n;
 	}
 
-	public T next() {
+	public Optional<T> next() {
 		if (this.n != 0) {
 			this.n -= 1;
 			return this.iter.next();
 		} else {
-			return null;
+			return Optional.empty();
 		}
 	}
 
-	T nth(int n) {
+	Optional<T> nth(int n) {
 		if (this.n > n) {
 			this.n -= n + 1;
 
@@ -31,29 +33,8 @@ public class Take<T, I extends Iter<T>> extends Iter<T> {
 				this.iter.nth(this.n - 1);
 				this.n = 0;
 			}
-			return null;
+			return Optional.empty();
 		}
-	}
-
-	Range size_hint() {
-		if (this.n == 0) {
-			return new Range(0, 0);
-		}
-
-		Range range = this.iter.size_hint();
-
-		int lower = Math.min(range.getLower(), this.n);
-
-		int upper = range.getUpper();
-		if (upper != -1) {
-			if (upper >= this.n) {
-				upper = this.n;
-			}
-		} else {
-			upper = this.n;
-		}
-
-		return new Range(lower, upper);
 	}
 }
 

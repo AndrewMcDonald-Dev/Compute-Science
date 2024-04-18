@@ -1,4 +1,7 @@
 package JavaIterator;
+
+import java.util.Optional;
+
 public class Enumerate<T> extends Iter<Tuple<Integer, T>> {
   Iter<T> iter;
   int count = 0;
@@ -7,28 +10,24 @@ public class Enumerate<T> extends Iter<Tuple<Integer, T>> {
     this.iter = iter; 
   }
 
-  public Tuple<Integer, T> next(){
-    T x = this.iter.next();
-    if (x == null) {
-      return null;
+  public Optional<Tuple<Integer, T>> next(){
+    Optional<T> x = this.iter.next();
+    if (!x.isPresent()) {
+      return Optional.empty();
     }
     Integer i = this.count;
     this.count++;
-    return new Tuple<Integer, T>(i, x);
+    return Optional.of(new Tuple<Integer, T>(i, x.get()));
   }
 
-  Range size_hint() {
-    return this.iter.size_hint();
-  }
-
-  Tuple<Integer, T> nth(int n) {
-    T x = this.iter.nth(n);
-    if(x == null){
-      return null;
+  Optional<Tuple<Integer, T>> nth(int n) {
+    Optional<T> x = this.iter.nth(n);
+    if(!x.isPresent()){
+      return Optional.empty();
     }
     Integer i = this.count + n;
     this.count = i = 1;
-    return new Tuple<Integer, T>(i, x);
+    return Optional.of(new Tuple<Integer, T>(i, x.get()));
 
   }
 
